@@ -1,0 +1,38 @@
+guide de configuration...
+...................................................................................
+1 - installation : 
+    Copy et Lance le cmd suivant..
+        CMD : 
+            npm install i18next react-i18next i18next-browser-languagedetector  
+
+....................................................................................
+
+2 - i18n CONFIG :
+    copy le dossier i18n dans ton projet 
+    path :
+        scr/i18n
+
+........................................................................................
+
+3 - COMPOSANT UI DE TRADUCTION :
+    copy le Composant LanguageSwitcher.tsx dans le dossier Components de ton projet.
+    path : 
+        ./Components/LanguageSwitcher.tsx
+
+.........................................................................................
+
+4 - CONFIG FINAL : 
+    IMPORTE le dossier i18n dans ton fichier main.tsx
+    path : 
+        import './i18n'
+
+..............................................................................................
+
+5 - TEST :
+    Pour tester le TRADUCTION, inport le Composant LanguageSwitcher dans le fichier desire.
+    example : 
+        import LanguageSwitcher from "@/components/LanguageSwitcher";
+
+...................................................................................................
+La guide n'es pas complet donc..!
+Pour plus d'info ou soucis contacter le 678128857 sur whatsApp ou ATTENDEZ la prochaine mise a jour, je suis deja fatiguer de saisir.

@@ -1,0 +1,20 @@
+{
+    "home": "Home",
+    "about": "À propos",
+    "contact": "Contact",
+    "welcome": "Bienvenue",
+    "close":"Fermer",
+    "return": "Retour",
+    "search": "Rechercher",
+    "locales":{
+        "en":{
+            "placeholder": "EN",
+            "label":"Englais"
+            
+        },
+        "fr": {
+            "placeholder": "FR",
+            "label":"Francais"
+        }
+    }
+}
