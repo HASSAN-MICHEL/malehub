@@ -1,11 +1,11 @@
 import { Check, Clock, Users, ArrowRight } from 'lucide-react'
 
 const benefits = [
-  'CV & personal branding',
-  'Interview preparation',
-  'Access to opportunities',
-  'Network building',
-  'Expert coaching',
+  'Optimisation CV & Personal Branding',
+  'Préparation aux entretiens',
+  'Accès aux opportunités',
+  'Développement du réseau',
+  'Coaching expert personnalisé',
 ]
 
 export function JobsWeekSection() {
@@ -21,12 +21,12 @@ export function JobsWeekSection() {
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
               style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}
             >
-              Featured Program
+              Programme Vedette
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>Jobs Week</h2>
-            <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>Become a job-ready candidate in 5 days</p>
+            <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>Prêt pour l'emploi en 5 jours</p>
             <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-              An intensive 5-day program designed to transform your professional profile and open doors to new opportunities.
+              Un programme intensif de 5 jours conçu pour transformer votre profil professionnel et vous ouvrir les portes de nouvelles opportunités de carrière.
             </p>
             <ul className="mt-8 space-y-4">
               {benefits.map((benefit) => (
@@ -40,13 +40,13 @@ export function JobsWeekSection() {
             </ul>
             <div className="mt-10">
               <a
-                href="https://wa.me/237600000000?text=Bonjour, je souhaite m'inscrire à Jobs Week"
+                href="https://wa.me/237678111022?text=Bonjour, je souhaite m'inscrire à Jobs Week"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
               >
-                Reserve via WhatsApp <ArrowRight className="h-5 w-5" />
+                Réserver via WhatsApp <ArrowRight className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -55,30 +55,30 @@ export function JobsWeekSection() {
             <div className="rounded-2xl p-8 lg:p-10 relative overflow-hidden border" style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
               <div className="absolute top-0 right-0">
                 <div className="text-xs font-bold px-4 py-2 rounded-bl-xl" style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                  LIMITED
+                  LIMITÉ
                 </div>
               </div>
               <div className="mb-8">
-                <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Programme complet</span>
+                <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Tarif du programme complet</span>
                 <div className="mt-2 flex items-baseline gap-2">
-                  <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>30,000</span>
+                  <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>30 000</span>
                   <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>FCFA</span>
                 </div>
               </div>
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
                   <Users className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>10 spots only</span>
+                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>Seulement 10 places</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
                   <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span style={{ color: 'var(--muted-foreground)' }}>5 days intensive program</span>
+                  <span style={{ color: 'var(--muted-foreground)' }}>5 jours intensifs</span>
                 </div>
               </div>
               <div className="space-y-3">
-                <span className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>Included:</span>
+                <span className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>Inclus dans le pack :</span>
                 <ul className="space-y-2">
-                  {['CV optimization', 'Mock interviews', 'LinkedIn profile', 'Job matching', 'Certificate'].map((item) => (
+                  {['Optimisation CV', 'Entretiens blancs', 'Profil LinkedIn', 'Matching emploi', 'Certificat'].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
                       <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} />
                       {item}
@@ -87,13 +87,13 @@ export function JobsWeekSection() {
                 </ul>
               </div>
               <a
-                href="https://wa.me/237600000000?text=Bonjour, je souhaite m'inscrire à Jobs Week (30,000 FCFA)"
+                href="https://wa.me/237678111022?text=Bonjour, je souhaite m'inscrire à Jobs Week (30,000 FCFA)"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full mt-8 flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
               >
-                Réserver ma place
+                Réserver ma place maintenant
               </a>
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 border rounded-2xl -z-10" style={{ borderColor: 'color-mix(in oklch, var(--primary) 20%, transparent)' }} />

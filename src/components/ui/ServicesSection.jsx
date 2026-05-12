@@ -5,7 +5,7 @@ const services = [
   {
     icon: Lightbulb,
     title: 'Incubateur',
-    description: 'Structure, develop and launch your project with mentorship and access to our investor network.',
+    description: 'Structurez, développez et lancez votre projet avec un mentorat sur mesure et un accès privilégié à notre réseau d’investisseurs.',
     href: '/incubator',
     features: ["Mentorat expert", "Réseau d'investisseurs", 'Demo Day'],
     primary: true,
@@ -13,7 +13,7 @@ const services = [
   {
     icon: Briefcase,
     title: 'Coworking',
-    description: 'Modern professional workspace with high-speed WiFi, meeting rooms, and all amenities for productive work.',
+    description: 'Un espace de travail moderne et professionnel avec WiFi haut débit, salles de réunion et tout le confort nécessaire pour booster votre productivité.',
     href: '/coworking',
     features: ['WiFi illimité', 'Salles de réunion', 'Espace sécurisé'],
     primary: false,
@@ -21,7 +21,7 @@ const services = [
   {
     icon: GraduationCap,
     title: 'Formations',
-    description: 'Professional training programs to develop your skills and become job-ready in record time.',
+    description: 'Des programmes de formation intensive pour développer vos compétences techniques et devenir opérationnel sur le marché en un temps record.',
     href: '/training',
     features: ['Jobs Week', 'Certifications', 'Workshops'],
     primary: false,
@@ -40,10 +40,10 @@ export function ServicesSection() {
             Nos Services
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-            Pour tous vos besoins<span style={{ color: 'var(--primary)' }}>succeed</span>
+            Tout ce dont vous avez besoin pour <span style={{ color: 'var(--primary)' }}>réussir</span>
           </h2>
           <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-            Three pillars to support your professional journey, from workspace to business growth.
+            Trois piliers conçus pour accompagner votre parcours professionnel, de l'espace de travail à la croissance de votre entreprise.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export function ServicesSection() {
               {service.primary && (
                 <div className="absolute top-0 right-0">
                   <div className="text-xs font-bold px-3 py-1 rounded-bl-lg" style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                    FEATURED
+                    À LA UNE
                   </div>
                 </div>
               )}
@@ -91,7 +91,7 @@ export function ServicesSection() {
                 </ul>
                 <Link
                   to={service.href}
-                  className="inline-flex items-center gap-2 font-medium transition-all"
+                  className="inline-flex items-center gap-2 font-medium transition-all hover:gap-3"
                   style={{ color: 'var(--primary)' }}
                 >
                   En savoir plus <ArrowRight className="h-4 w-4" />

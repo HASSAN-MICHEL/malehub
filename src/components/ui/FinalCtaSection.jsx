@@ -24,7 +24,7 @@ export function FinalCtaSection() {
 
           <div className="mt-10">
             <a
-              href="https://wa.me/237600000000?text=Bonjour, je souhaite en savoir plus sur Malea Hub"
+              href="https://wa.me/237678111022?text=Bonjour, je souhaite en savoir plus sur Malea Hub"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-10 py-5 rounded-lg text-lg font-semibold transition-opacity hover:opacity-90"

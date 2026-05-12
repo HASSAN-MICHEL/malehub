@@ -13,11 +13,11 @@ export default function HomePage() {
       <HeroSection />
       <AboutSection />
       <IncubatorCtaSection />
-      <InvestorCtaSection />
+      
       <ServicesSection />
       <JobsWeekSection />
       <WhyChooseSection />
-      <FinalCtaSection />
+      
     </>
   )
 }

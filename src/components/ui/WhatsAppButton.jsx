@@ -23,7 +23,7 @@ export function WhatsAppButton() {
       <span className="absolute inline-flex h-14 w-14 animate-ping rounded-full bg-green-500 opacity-75"></span>
       
       <a
-        href="https://wa.me/237692958135?text=Bonjour, je souhaite en savoir plus sur Malea Hub"
+        href="https://wa.me/237678111022?text=Bonjour, je souhaite en savoir plus sur Malea Hub"
         target="_blank"
         rel="noopener noreferrer"
         className="relative flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 hover:rotate-6 active:scale-95"

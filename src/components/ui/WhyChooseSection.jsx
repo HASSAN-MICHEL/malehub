@@ -1,12 +1,36 @@
 import { MapPin, Wifi, Zap, Shield, Users, Building } from 'lucide-react'
 
 const features = [
-  { icon: Building, title: 'Modern professional environment', description: 'State-of-the-art workspace designed for productivity and comfort.' },
-  { icon: MapPin, title: 'Strategic location', description: 'Located in Bonapriso, the business heart of Douala.' },
-  { icon: Users, title: 'Strong network', description: 'Connect with entrepreneurs, investors, and professionals.' },
-  { icon: Wifi, title: 'High-speed unlimited WiFi', description: 'Fiber optic connection for seamless work experience.' },
-  { icon: Zap, title: 'Generator backup', description: 'Uninterrupted power supply for continuous productivity.' },
-  { icon: Shield, title: 'Secure space', description: '24/7 security and controlled access for peace of mind.' },
+  { 
+    icon: Building, 
+    title: 'Cadre professionnel moderne', 
+    description: 'Un espace de travail à la pointe de la technologie, conçu pour la productivité et le confort.' 
+  },
+  { 
+    icon: MapPin, 
+    title: 'Emplacement stratégique', 
+    description: 'Situé à Bonapriso, au cœur battant des affaires à Douala.' 
+  },
+  { 
+    icon: Users, 
+    title: 'Réseau solide', 
+    description: 'Connectez-vous avec des entrepreneurs, des investisseurs et des experts.' 
+  },
+  { 
+    icon: Wifi, 
+    title: 'WiFi haut débit illimité', 
+    description: 'Une connexion par fibre optique pour une expérience de travail sans interruption.' 
+  },
+  { 
+    icon: Zap, 
+    title: 'Groupe électrogène', 
+    description: 'Une alimentation électrique continue pour garantir votre productivité en tout temps.' 
+  },
+  { 
+    icon: Shield, 
+    title: 'Espace sécurisé', 
+    description: 'Sécurité 24h/24 et accès contrôlé pour une totale tranquillité d’esprit.' 
+  },
 ]
 
 export function WhyChooseSection() {
@@ -21,10 +45,10 @@ export function WhyChooseSection() {
             Nos Avantages
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-            Why choose <span style={{ color: 'var(--primary)' }}>Malea Hub</span>?
+            Pourquoi choisir <span style={{ color: 'var(--primary)' }}>Malea Hub</span> ?
           </h2>
           <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-            Everything you need for a productive and successful professional experience.
+            Tout ce dont vous avez besoin pour une expérience professionnelle productive et réussie.
           </p>
         </div>
 

@@ -53,7 +53,7 @@ export function Footer() {
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--muted-foreground)'}
               >
                 <MapPin className="h-4 w-4" style={{ color: 'var(--primary)' }} />
-                Bonapriso, Douala
+                Bonapriso, Douala Cameroun
               </a>
               <a
                 href="mailto:info@maleahub.com"
@@ -133,7 +133,7 @@ export function Footer() {
               Ready to grow your project or invest in innovation?
             </p>
             <a
-              href="https://wa.me/237600000000?text=Bonjour, je souhaite rejoindre l'incubateur Malea Hub"
+              href="https://wa.me/237678111022?text=Bonjour, je souhaite rejoindre l'incubateur Malea Hub"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-opacity hover:opacity-90"
