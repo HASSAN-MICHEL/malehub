@@ -104,7 +104,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X, Shield } from 'lucide-react';
-import { useAdminAuth } from '../../contexts/AdminContext';
+import { useAdminAuth } from '../../contexts/adminContext';
 
 const navigation = [
   { name: 'Accueil', href: '/' },

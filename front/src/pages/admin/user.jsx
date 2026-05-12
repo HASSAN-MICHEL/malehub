@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 import { adminUsersAPI } from '../../services/admin';
-import { useAdminAuth } from '../../contexts/AdminContext';
+import { useAdminAuth } from '../../contexts/adminContext';
 
 const roleOptions = [
   { value: 'SUPER_ADMIN', label: 'Super Admin' },
