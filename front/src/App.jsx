@@ -40,7 +40,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { WhatsAppButton } from './components/ui/WhatsAppButton';
-import { AdminAuthProvider } from './contexts/AdminContext';
+import { AdminAuthProvider } from './contexts/adminContext';
 import HomePage from './pages/HomePage';
 import CoworkingPage from './pages/CoworkingPage';
 import IncubatorPage from './pages/IncubatorPage';
@@ -50,7 +50,7 @@ import LibraryPage from './pages/LibraryPage';
 import ContactPage from './pages/ContactPage';
 
 // coté admin
-import AdminLayout from './pages/admin/AdminLayout';
+import AdminLayout from './pages/admin/adminLayout';
 import AdminLogin from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import Reservations from './pages/admin/reservations';

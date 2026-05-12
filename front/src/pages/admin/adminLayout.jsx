@@ -13,7 +13,7 @@ import {
   X,
   LogOut
 } from 'lucide-react';
-import { useAdminAuth } from '../../contexts/AdminContext';
+import { useAdminAuth } from '../../contexts/adminContext';
 
 const menuItems = [
   { name: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
