@@ -187,24 +187,22 @@ app.get('/health', (_req, res) => {
 // FRONTEND VITE DIST
 // ─────────────────────────────────────────────────────────────
 
-const frontendPath = path.join(__dirname, '../front/dist');
+const frontendPath = path.join(process.cwd(), 'front/dist');
 
 app.use(express.static(frontendPath));
 
-// React Router
-app.get('*', (_req, res) => {
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
+
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
-
 // Error Handler
 
 app.use(errorHandler);
 
 
-// Start Server
-
-
-// Start Server
 try {
   await testConnection();
   console.log('✅ Database connected');
@@ -212,4 +210,7 @@ try {
   console.error('❌ Database connection failed:', err);
 }
 
+
 export default app;
+
+
