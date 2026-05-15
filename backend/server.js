@@ -183,11 +183,7 @@ app.get('/health', (_req, res) => {
   });
 });
 
-// ─────────────────────────────────────────────────────────────
-// FRONTEND VITE DIST
-// ─────────────────────────────────────────────────────────────
-
-const frontendPath = path.join(process.cwd(), 'front/dist');
+const frontendPath = path.join(__dirname, '..', 'front', 'dist');
 
 app.use(express.static(frontendPath));
 
