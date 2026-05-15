@@ -193,15 +193,17 @@ app.get('/health', (_req, res) => {
 // FRONTEND VITE DIST
 // ─────────────────────────────────────────────────────────────
 
-const frontendPath = path.join(__dirname, '../front/dist');
+const frontendPath = path.join(process.cwd(), 'front/dist');
 
 app.use(express.static(frontendPath));
 
-// React Router
-app.get('*', (_req, res) => {
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
+
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
-
 // Error Handler
 
 app.use(errorHandler);
