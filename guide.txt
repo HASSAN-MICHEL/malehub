@@ -36,3 +36,23 @@ guide de configuration...
 ...................................................................................................
 La guide n'es pas complet donc..!
 Pour plus d'info ou soucis contacter le 678128857 sur whatsApp ou ATTENDEZ la prochaine mise a jour, je suis deja fatiguer de saisir.
+
+
+
+
+NEXT_PUBLIC_bd_maleha_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NzQwODksImV4cCI6MjA5NDE1MDA4OX0.HRJT8sU-OxwRYAQoSVUEqfIXGrJZD30D8FDDkJTDMdc"
+NEXT_PUBLIC_bd_maleha_SUPABASE_PUBLISHABLE_KEY="sb_publishable_QuvQOnwWC48i2kKwba79BA_lRL03lzd"
+NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"
+bd_maleha_POSTGRES_DATABASE="postgres"
+bd_maleha_POSTGRES_HOST="db.wleqstqpyblllgwqxesk.supabase.co"
+bd_maleha_POSTGRES_PASSWORD="44TN8sjqiT28PTZd"
+bd_maleha_POSTGRES_PRISMA_URL="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+bd_maleha_POSTGRES_URL="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x"
+bd_maleha_POSTGRES_URL_NON_POOLING="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require"
+bd_maleha_POSTGRES_USER="postgres"
+NEXT_PUBLIC_bd_maleha_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NzQwODksImV4cCI6MjA5NDE1MDA4OX0.HRJT8sU-OxwRYAQoSVUEqfIXGrJZD30D8FDDkJTDMdc"
+bd_maleha_SUPABASE_JWT_SECRET="gUFR5uhdTFPzmgXlwJ904dDIBvJK2kB86LKyJvZydDrBLt4HbSgx7RQ4+ngLjRwqTA9NxjGxKKxtYGFIgXZlbQ=="
+NEXT_PUBLIC_bd_maleha_SUPABASE_PUBLISHABLE_KEY="sb_publishable_QuvQOnwWC48i2kKwba79BA_lRL03lzd"
+bd_maleha_SUPABASE_SECRET_KEY="sb_secret_Ae_nXOV75Tz94-Gjj1Y9wQ_T0s34d5K"
+bd_maleha_SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODU3NDA4OSwiZXhwIjoyMDk0MTUwMDg5fQ.0w6TbPsLYMLl2cK22xpbRsr7af-OsmmFWDN81_yLyRk"
+NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"

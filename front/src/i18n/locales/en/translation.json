@@ -1,20 +1,37 @@
 {
-    "home":"Home",
-    "about":"About",
-    "contact":"Contact",
-    "welcome": "Welcome",
-    "close":"Close",
-    "return": "Return", 
-    "search": "Search",
-    "locales":{
-        "en":{
+    "nav": {
+        "home": "Home",
+        "coworking": "Coworking",
+        "incubator": "Incubator",
+        "trainings": "Trainings",
+        "lounge": "Lounge",
+        "library": "Library",
+        "contact": "Contact"
+    },
+    "footer": {
+        "services": "Services",
+        "company": "Company",
+        "get_started": "Get Started",
+        "ready_to_grow": "Ready to grow your project or invest in innovation?",
+        "join_incubator": "Join Incubator",
+        "all_rights_reserved": "All rights reserved",
+        "about": "About",
+        "invest_club": "Malea Invest Club",
+        "jobs_week": "Jobs Week",
+        "social_library": "Social Library"
+    },
+    "buttons": {
+        "admin": "Admin",
+        "administration": "Administration"
+    },
+    "locales": {
+        "en": {
             "placeholder": "EN",
-            "label":"English"
-            
+            "label": "English"
         },
         "fr": {
             "placeholder": "FR",
-            "label":"French"
+            "label": "French"
         }
     }
 }
