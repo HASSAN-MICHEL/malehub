@@ -169,9 +169,7 @@ app.use(
   express.static(path.join(__dirname, config.upload.dir))
 );
 
-// ─────────────────────────────────────────────────────────────
-// API
-// ─────────────────────────────────────────────────────────────
+// APPEL API
 app.use('/api', apiRouter);
 
 // la route de test
