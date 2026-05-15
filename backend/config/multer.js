@@ -2,7 +2,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { config } from './config.js';
-import { AppError } from '../utils/AppError.js';
+import { AppError } from '../utils/Apperror.js';
 
 const uploadDir = config.upload.dir;
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
