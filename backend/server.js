@@ -157,18 +157,13 @@ app.use(express.urlencoded({
   limit: '10mb',
 }));
 
-// ─────────────────────────────────────────────────────────────
-// Logging
-// ─────────────────────────────────────────────────────────────
+
 if (!config.isProd) {
   app.use(morgan('dev'));
 } else {
   app.use(morgan('combined'));
 }
-
-// ─────────────────────────────────────────────────────────────
-// Uploads
-// ─────────────────────────────────────────────────────────────
+// enregistré les fichiers
 app.use(
   '/uploads',
   express.static(path.join(__dirname, config.upload.dir))
@@ -179,9 +174,8 @@ app.use(
 // ─────────────────────────────────────────────────────────────
 app.use('/api', apiRouter);
 
-// ─────────────────────────────────────────────────────────────
-// Health check
-// ─────────────────────────────────────────────────────────────
+// la route de test
+
 app.get('/health', (_req, res) => {
   res.json({
     status: 'ok',
@@ -209,19 +203,13 @@ app.use(errorHandler);
 
 // Start Server
 
-const PORT = process.env.PORT || config.port || 5000;
 
-const start = async () => {
+// Start Server
+try {
   await testConnection();
-
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
-};
-
-start().catch((err) => {
-  console.error('❌ Failed to start server:', err);
-  process.exit(1);
-});
+  console.log('✅ Database connected');
+} catch (err) {
+  console.error('❌ Database connection failed:', err);
+}
 
 export default app;
