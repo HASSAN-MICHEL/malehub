@@ -3,6 +3,7 @@ import * as salleCtrl from '../controllers/reservation.js';
 import * as resCtrl from '../controllers/reservation.js';
 import { protect, staffAndAbove, adminOnly } from '../middlewares/auth.js';
 import { validate } from '../middlewares/validate.js';
+//
 import {
   createSalleSchema,
   updateSalleSchema,
