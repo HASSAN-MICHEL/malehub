@@ -39,7 +39,11 @@ export const config = {
 };
 
 // Validate required env vars at startup
-const required = ['JWT_SECRET', 'JWT_REFRESH_SECRET', 'DB_PASSWORD'];
+const required = [
+  'JWT_SECRET',
+  'JWT_REFRESH_SECRET',
+  'DATABASE_URL',
+];
 required.forEach((key) => {
   if (!process.env[key]) {
     console.warn(`⚠️  Missing env variable: ${key}`);
