@@ -208,20 +208,11 @@ app.use(errorHandler);
 
 
 // Start Server
-
-const PORT = process.env.PORT || config.port || 5000;
-
-const start = async () => {
+try {
   await testConnection();
-
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
-};
-
-start().catch((err) => {
-  console.error('❌ Failed to start server:', err);
-  process.exit(1);
-});
+  console.log('✅ Database connected');
+} catch (err) {
+  console.error('❌ Database connection failed:', err);
+}
 
 export default app;
