@@ -34,6 +34,12 @@
     "discover": "Découvrir Malea Hub",
     "scroll": "Défiler"
   },
+  "home": {
+  "home_badge": "Innovation Hub - Bonapriso, Douala",
+  "home_stats_startups": "Startups",
+  "home_stats_entrepreneurs": "Entrepreneurs",
+  "home_stats_investors": "Investisseurs"
+},
 
   "about": {
   "badge": "Notre Histoire",
