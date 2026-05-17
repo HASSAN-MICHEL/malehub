@@ -1,139 +1,145 @@
-// import { GraduationCap, Check, Users, Clock, Award, FileText, Briefcase, ArrowRight, Mic } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { GraduationCap, Check, Users, Clock, Award, FileText, Briefcase, ArrowRight, Mic } from 'lucide-react'
 
-// const jobsWeekModules = [
-//   { day: 'Jour 1', title: 'CV & Motivation', description: 'Créez un CV percutant.' },
-//   { day: 'Jour 2', title: 'Branding', description: 'Votre image pro.' },
-//   { day: 'Jour 3', title: 'Entretien', description: 'Maîtrisez les codes.' },
-//   { day: 'Jour 4', title: 'Simulations', description: 'Pratiquez en réel.' },
-//   { day: 'Jour 5', title: 'Matching', description: 'Accès aux offres.' },
-// ]
+export default function TrainingPage() {
+  const { t } = useTranslation()
 
-// const benefits = [
-//   { icon: FileText, title: 'Optimisation de CV', description: 'Un CV remarqué par les recruteurs.' },
-//   { icon: Users, title: 'Simulations d’Entretiens', description: 'Pratiquez avec des experts.' },
-//   { icon: Award, title: 'Certificat', description: 'Preuve de réussite pour votre portfolio.' },
-//   { icon: Briefcase, title: 'Accès à l’Emploi', description: 'Connexions directes avec des opportunités.' },
-// ]
+  const jobsWeekModules = t('training.jobsWeekModules', { returnObjects: true })
+  const benefits = t('training.benefits', { returnObjects: true })
 
-// export default function TrainingPage() {
-//   return (
-//     <div className="pt-16 lg:pt-20">
-//       {/* Hero Section */}
-//       <section className="relative py-12 lg:py-20 overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
-//         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, color-mix(in oklch, var(--primary) 5%, transparent), transparent)' }} />
-//         <div className="container mx-auto px-4 lg:px-8 relative z-10">
-//           <div className="max-w-3xl">
-//             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
-//               style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
-//               Formations Professionnelles
-//             </div>
-//             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-//               Soyez <span style={{ color: 'var(--primary)' }}>prêt pour l&apos;emploi</span> en 5 jours
-//             </h1>
-//           </div>
-//         </div>
-//       </section>
+  return (
+    <div className="pt-16 lg:pt-20">
+      {/* Hero Section */}
+      <section className="relative py-12 lg:py-20 overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, color-mix(in oklch, var(--primary) 5%, transparent), transparent)' }} />
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
+              style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
+              {t('training.hero.badge')}
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
+              {t('training.hero.title_prefix')}{' '}
+              <span style={{ color: 'var(--primary)' }}>{t('training.hero.title_highlight')}</span>{' '}
+              {t('training.hero.title_suffix')}
+            </h1>
+          </div>
+        </div>
+      </section>
 
-//       {/* Jobs Week Section */}
-//       <section id="jobs-week" className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
-//         <div className="container mx-auto px-4 lg:px-8">
-//           <div className="grid lg:grid-cols-2 gap-12 items-center">
-//             <div>
-//               <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: 'var(--foreground)' }}>Jobs Week</h2>
-//               <p className="leading-relaxed mb-8" style={{ color: 'var(--muted-foreground)' }}>
-//                 Un accompagnement intensif pour transformer votre profil. Apprenez des experts et accédez directement au réseau d&apos;employeurs de Malea Hub.
-//               </p>
-//               <div className="grid grid-cols-2 gap-6">
-//                 {benefits.map((benefit) => (
-//                   <div key={benefit.title} className="flex flex-col gap-2">
-//                     <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
-//                       <benefit.icon className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-//                     </div>
-//                     <h4 className="font-bold text-sm" style={{ color: 'var(--foreground)' }}>{benefit.title}</h4>
-//                     <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{benefit.description}</p>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
+      {/* Jobs Week Section */}
+      <section id="jobs-week" className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: 'var(--foreground)' }}>{t('training.jobsWeek.title')}</h2>
+              <p className="leading-relaxed mb-8" style={{ color: 'var(--muted-foreground)' }}>
+                {t('training.jobsWeek.description')}
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                {benefits.map((benefit) => {
+                  const IconMap = {
+                    'Optimisation de CV': FileText,
+                    'CV Optimization': FileText,
+                    'Simulations d’Entretiens': Users,
+                    'Mock Interviews': Users,
+                    'Certificat': Award,
+                    'Certificate': Award,
+                    'Accès à l’Emploi': Briefcase,
+                    'Job Access': Briefcase,
+                  }
+                  const Icon = IconMap[benefit.title] || FileText
+                  return (
+                    <div key={benefit.title} className="flex flex-col gap-2">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
+                        <Icon className="h-5 w-5" style={{ color: 'var(--primary)' }} />
+                      </div>
+                      <h4 className="font-bold text-sm" style={{ color: 'var(--foreground)' }}>{benefit.title}</h4>
+                      <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>{benefit.description}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
 
-//             <div className="rounded-2xl p-8 relative border shadow-xl" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
-//               <div className="mb-6">
-//                 <span className="text-sm uppercase font-bold tracking-wider" style={{ color: 'var(--primary)' }}>Tarif Unique</span>
-//                 <div className="mt-2 flex items-baseline gap-2">
-//                   <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>30,000</span>
-//                   <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>FCFA</span>
-//                 </div>
-//               </div>
-//               <ul className="space-y-4 mb-8">
-//                 {['Préparation intensive', 'Accès aux opportunités', 'Coaching expert', 'Certificat inclus'].map((item) => (
-//                   <li key={item} className="flex items-center gap-2 text-sm font-medium" style={{ color: 'var(--foreground)' }}>
-//                     <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} /> {item}
-//                   </li>
-//                 ))}
-//               </ul>
-//               <a href="https://wa.me/237678111022" className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold transition-all hover:scale-[1.02]"
-//                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-//                 S&apos;inscrire sur WhatsApp <ArrowRight className="h-5 w-5" />
-//               </a>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
+            <div className="rounded-2xl p-8 relative border shadow-xl" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
+              <div className="mb-6">
+                <span className="text-sm uppercase font-bold tracking-wider" style={{ color: 'var(--primary)' }}>{t('training.jobsWeek.price_label')}</span>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>{t('training.jobsWeek.price_value')}</span>
+                  <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>{t('training.jobsWeek.price_currency')}</span>
+                </div>
+              </div>
+              <ul className="space-y-4 mb-8">
+                {t('training.jobsWeek.included_items', { returnObjects: true }).map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm font-medium" style={{ color: 'var(--foreground)' }}>
+                    <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} /> {item}
+                  </li>
+                ))}
+              </ul>
+              <a href="https://wa.me/237678111022" className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold transition-all hover:scale-[1.02]"
+                style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+                {t('training.jobsWeek.cta_button')} <ArrowRight className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-//       {/* Program Details - DISPOSITION HORIZONTALE */}
-//       <section className="py-12 lg:py-20" style={{ backgroundColor: 'var(--card)' }}>
-//         <div className="container mx-auto px-4 lg:px-8">
-//           <div className="text-center mb-16">
-//             <h2 className="text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Le Planning de votre semaine</h2>
-//             <p className="mt-4" style={{ color: 'var(--muted-foreground)' }}>Une progression logique vers votre futur poste</p>
-//           </div>
+      {/* Program Details - DISPOSITION HORIZONTALE */}
+      <section className="py-12 lg:py-20" style={{ backgroundColor: 'var(--card)' }}>
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold" style={{ color: 'var(--foreground)' }}>{t('training.program.title')}</h2>
+            <p className="mt-4" style={{ color: 'var(--muted-foreground)' }}>{t('training.program.subtitle')}</p>
+          </div>
           
-//           <div className="relative">
-//             {/* Ligne de connexion horizontale (visible uniquement sur desktop) */}
-//             <div className="hidden lg:block absolute top-10 left-0 w-full h-0.5 bg-border" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 20%, transparent)' }} />
+          <div className="relative">
+            <div className="hidden lg:block absolute top-10 left-0 w-full h-0.5 bg-border" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 20%, transparent)' }} />
             
-//             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-//               {jobsWeekModules.map((module, index) => (
-//                 <div key={module.day} className="relative flex flex-col items-center text-center group">
-//                   {/* Point sur la ligne / Numéro */}
-//                   <div className="w-20 h-20 rounded-2xl flex items-center justify-center font-bold text-2xl mb-6 relative z-10 transition-transform group-hover:scale-110 border-4 border-[var(--card)]" 
-//                     style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-//                     {index + 1}
-//                   </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+              {jobsWeekModules.map((module, index) => (
+                <div key={module.day} className="relative flex flex-col items-center text-center group">
+                  <div className="w-20 h-20 rounded-2xl flex items-center justify-center font-bold text-2xl mb-6 relative z-10 transition-transform group-hover:scale-110 border-4 border-[var(--card)]" 
+                    style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+                    {index + 1}
+                  </div>
                   
-//                   <div className="space-y-2">
-//                     <div className="text-xs font-black uppercase tracking-widest" style={{ color: 'var(--primary)' }}>{module.day}</div>
-//                     <h3 className="font-bold text-lg" style={{ color: 'var(--foreground)' }}>{module.title}</h3>
-//                     <p className="text-sm px-4 leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>{module.description}</p>
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </section>
+                  <div className="space-y-2">
+                    <div className="text-xs font-black uppercase tracking-widest" style={{ color: 'var(--primary)' }}>{module.day}</div>
+                    <h3 className="font-bold text-lg" style={{ color: 'var(--foreground)' }}>{module.title}</h3>
+                    <p className="text-sm px-4 leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>{module.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-//       {/* Trainers/Organizations Block */}
-//       <section className="py-12 lg:py-20" style={{ backgroundColor: 'var(--background)' }}>
-//         <div className="container mx-auto px-4 lg:px-8">
-//           <div className="max-w-4xl mx-auto text-center rounded-3xl p-8 lg:p-14 border relative overflow-hidden" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
-//             <Mic className="h-12 w-12 mx-auto mb-6" style={{ color: 'var(--primary)' }} />
-//             <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Vous êtes formateur ou une école ?</h2>
-//             <p className="mt-4 text-lg" style={{ color: 'var(--muted-foreground)' }}>
-//               Organisez vos sessions chez Malea Hub. Équipements premium et environnement pro.
-//             </p>
-//             <div className="mt-10">
-//               <a href="https://wa.me/237678111022" className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all hover:opacity-90"
-//                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-//                 Organiser vos formations <ArrowRight className="h-5 w-5" />
-//               </a>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </div>
-//   )
-// }
+      {/* Trainers/Organizations Block */}
+      <section className="py-12 lg:py-20" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center rounded-3xl p-8 lg:p-14 border relative overflow-hidden" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
+            <Mic className="h-12 w-12 mx-auto mb-6" style={{ color: 'var(--primary)' }} />
+            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>{t('training.trainer.title')}</h2>
+            <p className="mt-4 text-lg" style={{ color: 'var(--muted-foreground)' }}>
+              {t('training.trainer.description')}
+            </p>
+            <div className="mt-10">
+              <a href="https://wa.me/237678111022" className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all hover:opacity-90"
+                style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+                {t('training.trainer.button')} <ArrowRight className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+// ICI Tous les messages envoyé sont aussi traité coté admin:
 
 
 // // import { useState, useEffect } from 'react';
@@ -508,183 +514,184 @@
 // //   );
 // // }
 
-import { GraduationCap, Check, Users, Clock, Award, FileText, Briefcase, ArrowRight, Mic } from 'lucide-react';
-import { useContent, useSettings } from '../hooks/useContet';
 
-const jobsWeekModules = [
-  { day: 'Jour 1', title: 'CV & Lettre de motivation', description: 'Rédigez un CV convaincant qui sort du lot' },
-  { day: 'Jour 2', title: 'Personal Branding',         description: 'Construisez votre image professionnelle en ligne' },
-  { day: 'Jour 3', title: 'Techniques d\'entretien',   description: 'Maîtrisez les questions et le langage corporel' },
-  { day: 'Jour 4', title: 'Entretiens simulés',        description: 'Pratiquez avec des scénarios réels et des retours' },
-  { day: 'Jour 5', title: 'Mise en relation emploi',   description: 'Connectez-vous aux opportunités et aux employeurs' },
-];
+// import { GraduationCap, Check, Users, Clock, Award, FileText, Briefcase, ArrowRight, Mic } from 'lucide-react';
+// import { useContent, useSettings } from '../hooks/useContet';
 
-const benefits = [
-  { icon: FileText,  title: 'CV Optimisé',       description: 'Un CV professionnel remarqué par les recruteurs' },
-  { icon: Users,     title: 'Entretiens simulés', description: 'Pratique avec retours d\'experts' },
-  { icon: Award,     title: 'Certificat',         description: 'Preuve de complétion pour votre portfolio' },
-  { icon: Briefcase, title: 'Accès Emploi',       description: 'Connexions directes aux opportunités' },
-];
+// const jobsWeekModules = [
+//   { day: 'Jour 1', title: 'CV & Lettre de motivation', description: 'Rédigez un CV convaincant qui sort du lot' },
+//   { day: 'Jour 2', title: 'Personal Branding',         description: 'Construisez votre image professionnelle en ligne' },
+//   { day: 'Jour 3', title: 'Techniques d\'entretien',   description: 'Maîtrisez les questions et le langage corporel' },
+//   { day: 'Jour 4', title: 'Entretiens simulés',        description: 'Pratiquez avec des scénarios réels et des retours' },
+//   { day: 'Jour 5', title: 'Mise en relation emploi',   description: 'Connectez-vous aux opportunités et aux employeurs' },
+// ];
 
-export default function TrainingPage() {
-  const { get } = useContent('training');
-  const { setting } = useSettings();
+// const benefits = [
+//   { icon: FileText,  title: 'CV Optimisé',       description: 'Un CV professionnel remarqué par les recruteurs' },
+//   { icon: Users,     title: 'Entretiens simulés', description: 'Pratique avec retours d\'experts' },
+//   { icon: Award,     title: 'Certificat',         description: 'Preuve de complétion pour votre portfolio' },
+//   { icon: Briefcase, title: 'Accès Emploi',       description: 'Connexions directes aux opportunités' },
+// ];
 
-  const waGeneral = setting('whatsapp_general', '237678111022');
-  const jobsPrice = setting('jobs_week_price', '30000');
-  const jobsQuota = setting('jobs_week_quota', '10');
-  const jobsOpen  = setting('jobs_week_open', 'true') === 'true';
+// export default function TrainingPage() {
+//   const { get } = useContent('training');
+//   const { setting } = useSettings();
 
-  return (
-    <div className="pt-16 lg:pt-20">
-      {/* Hero */}
-      <section className="relative py-12 lg:py-20 overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, color-mix(in oklch, var(--primary) 5%, transparent), transparent)' }} />
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
-              style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
-              Formations Professionnelles
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-              {get('hero_title', <>Devenez <span style={{ color: 'var(--primary)' }}>prêt pour l'emploi</span> en 5 jours</>)}
-            </h1>
-            <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-              {get('description', "Des programmes de formation professionnelle conçus pour accélérer votre carrière.")}
-            </p>
-          </div>
-        </div>
-      </section>
+//   const waGeneral = setting('whatsapp_general', '237678111022');
+//   const jobsPrice = setting('jobs_week_price', '30000');
+//   const jobsQuota = setting('jobs_week_quota', '10');
+//   const jobsOpen  = setting('jobs_week_open', 'true') === 'true';
 
-      {/* Jobs Week */}
-      <section id="jobs-week" className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
-                style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
-                Programme Phare
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold" style={{ color: 'var(--foreground)' }}>Jobs Week</h2>
-              <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>Programme Intensif 5 Jours</p>
-              <p className="mt-6 leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                {get('jobs_week_desc', "Un programme intensif conçu pour transformer votre profil en candidat compétitif. Apprenez des experts, pratiquez sur des cas réels et connectez-vous directement aux employeurs.")}
-              </p>
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                {benefits.map((b) => (
-                  <div key={b.title} className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
-                      <b.icon className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm" style={{ color: 'var(--foreground)' }}>{b.title}</h4>
-                      <p className="text-xs mt-1" style={{ color: 'var(--muted-foreground)' }}>{b.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+//   return (
+//     <div className="pt-16 lg:pt-20">
+//       {/* Hero */}
+//       <section className="relative py-12 lg:py-20 overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
+//         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, color-mix(in oklch, var(--primary) 5%, transparent), transparent)' }} />
+//         <div className="container mx-auto px-4 lg:px-8 relative z-10">
+//           <div className="max-w-3xl">
+//             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
+//               style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
+//               Formations Professionnelles
+//             </div>
+//             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
+//               {get('hero_title', <>Devenez <span style={{ color: 'var(--primary)' }}>prêt pour l'emploi</span> en 5 jours</>)}
+//             </h1>
+//             <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+//               {get('description', "Des programmes de formation professionnelle conçus pour accélérer votre carrière.")}
+//             </p>
+//           </div>
+//         </div>
+//       </section>
 
-            {/* Pricing card */}
-            <div className="rounded-2xl p-8 relative overflow-hidden border"
-              style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
-              {jobsOpen ? (
-                <div className="absolute top-0 right-0 text-xs font-bold px-4 py-2 rounded-bl-xl"
-                  style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                  {jobsQuota} PLACES SEULEMENT
-                </div>
-              ) : (
-                <div className="absolute top-0 right-0 text-xs font-bold px-4 py-2 rounded-bl-xl bg-gray-500 text-white">
-                  INSCRIPTIONS FERMÉES
-                </div>
-              )}
-              <GraduationCap className="h-10 w-10 mb-6" style={{ color: 'var(--primary)' }} />
-              <div className="mb-6">
-                <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Programme complet</span>
-                <div className="mt-2 flex items-baseline gap-2">
-                  <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>
-                    {Number(jobsPrice).toLocaleString('fr-FR')}
-                  </span>
-                  <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>FCFA</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 rounded-lg mb-6"
-                style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
-                <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                <span className="font-medium" style={{ color: 'var(--foreground)' }}>5 jours intensifs</span>
-              </div>
-              <ul className="space-y-3 mb-8">
-                {['CV & personal branding', 'Préparation entretiens', 'Accès aux opportunités', 'Coaching expert', 'Certificat'].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                    <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} /> {item}
-                  </li>
-                ))}
-              </ul>
-              {jobsOpen ? (
-                <a href={`https://wa.me/${waGeneral}?text=Bonjour, je souhaite m'inscrire à Jobs Week (${Number(jobsPrice).toLocaleString('fr-FR')} FCFA)`}
-                  target="_blank" rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-opacity hover:opacity-90"
-                  style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                  Réserver ma place <ArrowRight className="h-5 w-5" />
-                </a>
-              ) : (
-                <button disabled className="w-full py-4 rounded-lg font-semibold opacity-50 cursor-not-allowed"
-                  style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>
-                  Inscriptions fermées
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+//       {/* Jobs Week */}
+//       <section id="jobs-week" className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
+//         <div className="container mx-auto px-4 lg:px-8">
+//           <div className="grid lg:grid-cols-2 gap-12 items-start">
+//             <div>
+//               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
+//                 style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
+//                 Programme Phare
+//               </div>
+//               <h2 className="text-3xl md:text-4xl font-bold" style={{ color: 'var(--foreground)' }}>Jobs Week</h2>
+//               <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>Programme Intensif 5 Jours</p>
+//               <p className="mt-6 leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+//                 {get('jobs_week_desc', "Un programme intensif conçu pour transformer votre profil en candidat compétitif. Apprenez des experts, pratiquez sur des cas réels et connectez-vous directement aux employeurs.")}
+//               </p>
+//               <div className="mt-8 grid grid-cols-2 gap-4">
+//                 {benefits.map((b) => (
+//                   <div key={b.title} className="flex items-start gap-3">
+//                     <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+//                       style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
+//                       <b.icon className="h-5 w-5" style={{ color: 'var(--primary)' }} />
+//                     </div>
+//                     <div>
+//                       <h4 className="font-medium text-sm" style={{ color: 'var(--foreground)' }}>{b.title}</h4>
+//                       <p className="text-xs mt-1" style={{ color: 'var(--muted-foreground)' }}>{b.description}</p>
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
 
-      {/* Programme détaillé */}
-      <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--card)' }}>
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Programme détaillé</h2>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {jobsWeekModules.map((module, i) => (
-              <div key={module.day} className="flex items-center gap-6 p-6 rounded-xl border"
-                style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
-                <div className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
-                  <span className="text-xl font-bold" style={{ color: 'var(--primary)' }}>{i + 1}</span>
-                </div>
-                <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--primary)' }}>{module.day}</div>
-                  <h3 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>{module.title}</h3>
-                  <p className="text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>{module.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+//             {/* Pricing card */}
+//             <div className="rounded-2xl p-8 relative overflow-hidden border"
+//               style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
+//               {jobsOpen ? (
+//                 <div className="absolute top-0 right-0 text-xs font-bold px-4 py-2 rounded-bl-xl"
+//                   style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//                   {jobsQuota} PLACES SEULEMENT
+//                 </div>
+//               ) : (
+//                 <div className="absolute top-0 right-0 text-xs font-bold px-4 py-2 rounded-bl-xl bg-gray-500 text-white">
+//                   INSCRIPTIONS FERMÉES
+//                 </div>
+//               )}
+//               <GraduationCap className="h-10 w-10 mb-6" style={{ color: 'var(--primary)' }} />
+//               <div className="mb-6">
+//                 <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Programme complet</span>
+//                 <div className="mt-2 flex items-baseline gap-2">
+//                   <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>
+//                     {Number(jobsPrice).toLocaleString('fr-FR')}
+//                   </span>
+//                   <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>FCFA</span>
+//                 </div>
+//               </div>
+//               <div className="flex items-center gap-3 p-3 rounded-lg mb-6"
+//                 style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
+//                 <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
+//                 <span className="font-medium" style={{ color: 'var(--foreground)' }}>5 jours intensifs</span>
+//               </div>
+//               <ul className="space-y-3 mb-8">
+//                 {['CV & personal branding', 'Préparation entretiens', 'Accès aux opportunités', 'Coaching expert', 'Certificat'].map((item) => (
+//                   <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
+//                     <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} /> {item}
+//                   </li>
+//                 ))}
+//               </ul>
+//               {jobsOpen ? (
+//                 <a href={`https://wa.me/${waGeneral}?text=Bonjour, je souhaite m'inscrire à Jobs Week (${Number(jobsPrice).toLocaleString('fr-FR')} FCFA)`}
+//                   target="_blank" rel="noopener noreferrer"
+//                   className="w-full flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-opacity hover:opacity-90"
+//                   style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//                   Réserver ma place <ArrowRight className="h-5 w-5" />
+//                 </a>
+//               ) : (
+//                 <button disabled className="w-full py-4 rounded-lg font-semibold opacity-50 cursor-not-allowed"
+//                   style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>
+//                   Inscriptions fermées
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       </section>
 
-      {/* Formateurs */}
-      <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center rounded-2xl p-8 lg:p-12 border"
-            style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
-            <Mic className="h-12 w-12 mx-auto mb-6" style={{ color: 'var(--primary)' }} />
-            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
-              Vous êtes formateur ou organisation ?
-            </h2>
-            <p className="mt-4 text-lg" style={{ color: 'var(--muted-foreground)' }}>
-              Organisez vos formations chez Malea Hub. Équipements premium, environnement professionnel.
-            </p>
-            <a href={`https://wa.me/${waGeneral}?text=Bonjour, je suis formateur et souhaite organiser une formation à Malea Hub`}
-              target="_blank" rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-opacity hover:opacity-90"
-              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-              Organiser une formation <ArrowRight className="h-5 w-5" />
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+//       {/* Programme détaillé */}
+//       <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--card)' }}>
+//         <div className="container mx-auto px-4 lg:px-8">
+//           <div className="text-center max-w-2xl mx-auto mb-10">
+//             <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Programme détaillé</h2>
+//           </div>
+//           <div className="max-w-3xl mx-auto space-y-4">
+//             {jobsWeekModules.map((module, i) => (
+//               <div key={module.day} className="flex items-center gap-6 p-6 rounded-xl border"
+//                 style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
+//                 <div className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
+//                   style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
+//                   <span className="text-xl font-bold" style={{ color: 'var(--primary)' }}>{i + 1}</span>
+//                 </div>
+//                 <div>
+//                   <div className="text-sm font-medium" style={{ color: 'var(--primary)' }}>{module.day}</div>
+//                   <h3 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>{module.title}</h3>
+//                   <p className="text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>{module.description}</p>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Formateurs */}
+//       <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
+//         <div className="container mx-auto px-4 lg:px-8">
+//           <div className="max-w-3xl mx-auto text-center rounded-2xl p-8 lg:p-12 border"
+//             style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
+//             <Mic className="h-12 w-12 mx-auto mb-6" style={{ color: 'var(--primary)' }} />
+//             <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
+//               Vous êtes formateur ou organisation ?
+//             </h2>
+//             <p className="mt-4 text-lg" style={{ color: 'var(--muted-foreground)' }}>
+//               Organisez vos formations chez Malea Hub. Équipements premium, environnement professionnel.
+//             </p>
+//             <a href={`https://wa.me/${waGeneral}?text=Bonjour, je suis formateur et souhaite organiser une formation à Malea Hub`}
+//               target="_blank" rel="noopener noreferrer"
+//               className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-opacity hover:opacity-90"
+//               style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//               Organiser une formation <ArrowRight className="h-5 w-5" />
+//             </a>
+//           </div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// }

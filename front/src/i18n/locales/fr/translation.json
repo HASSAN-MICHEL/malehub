@@ -1,37 +1,338 @@
 {
-    "nav": {
-        "home": "Accueil",
-        "coworking": "Coworking",
-        "incubator": "Incubateur",
-        "trainings": "Formations",
-        "lounge": "Lounge",
-        "library": "Bibliothèque",
-        "contact": "Contact"
+  "nav": {
+    "home": "Accueil",
+    "coworking": "Coworking",
+    "incubator": "Incubateur",
+    "trainings": "Formations",
+    "lounge": "Lounge",
+    "library": "Bibliothèque",
+    "contact": "Contact"
+  },
+
+  "footer": {
+    "services": "Services",
+    "company": "Entreprise",
+    "get_started": "Commencer",
+    "ready_to_grow": "Prêt à développer votre projet ou investir dans l'innovation ?",
+    "join_incubator": "Rejoindre l'Incubateur",
+    "all_rights_reserved": "Tous droits réservés",
+    "about": "À propos",
+    "invest_club": "Malea Invest Club",
+    "jobs_week": "Jobs Week",
+    "social_library": "Bibliothèque sociale"
+  },
+
+  "buttons": {
+    "admin": "Admin",
+    "administration": "Administration"
+  },
+
+  "hero": {
+    "title": "Travaillez, connectez-vous et développez-vous",
+    "subtitle": "Espace coworking, programme d'accompagnement et accès à un réseau d'investisseurs.",
+    "join_incubator": "Rejoindre l'incubateur",
+    "discover": "Découvrir Malea Hub",
+    "scroll": "Défiler"
+  },
+
+  "about": {
+  "badge": "Notre Histoire",
+  "title_prefix": "À l'origine de",
+  "title_suffix": "Malea Hub",
+  "paragraph_1": "Entrepreneur actif dans les industries créatives,",
+  "paragraph_1_name": "Erdman Doumbè",
+  "paragraph_1_suffix": "a plus de 5 ans d'expérience dans l'accompagnement de projet.",
+  "paragraph_2": "Acteur de référence dans le secteur culturel en Belgique, il met l'humain au cœur de tout projet, d'où sa passion pour la mise en relation.",
+  "paragraph_3_prefix": "C'est là que réside l'essence du projet",
+  "paragraph_3_suffix": "Connecter des talents et faciliter la création d'opportunités",
+  "quote": "Le succès n'est pas une destination, c'est un voyage que l'on fait ensemble.",
+  "quote_author": "Erdman Doumbè, Fondateur"
+},
+"incubatorCta": {
+  "badge": "Programme Phare",
+  "title_prefix": "Rejoignez un",
+  "title_highlight": "programme d'accompagnement",
+  "subtitle": "Dédié aux porteurs de projets innovants.",
+  "description": "Malea Hub vous accompagne dans la structuration, le développement et le lancement de votre projet.",
+  "benefits": [
+    {
+      "title": "Structurez votre projet",
+      "description": "Définissez votre modèle d'affaires et votre stratégie de croissance."
     },
-    "footer": {
-        "services": "Services",
-        "company": "Entreprise",
-        "get_started": "Commencer",
-        "ready_to_grow": "Prêt à développer votre projet ou investir dans l'innovation ?",
-        "join_incubator": "Rejoindre l'Incubateur",
-        "all_rights_reserved": "Tous droits réservés",
-        "about": "À propos",
-        "invest_club": "Malea Invest Club",
-        "jobs_week": "Jobs Week",
-        "social_library": "Bibliothèque sociale"
+    {
+      "title": "Accès au mentorat",
+      "description": "Apprenez aux côtés d'entrepreneurs expérimentés."
     },
-    "buttons": {
-        "admin": "Admin",
-        "administration": "Administration"
-    },
-    "locales": {
-        "en": {
-            "placeholder": "EN",
-            "label": "English"
-        },
-        "fr": {
-            "placeholder": "FR",
-            "label": "Français"
-        }
+    {
+      "title": "Connexion investisseurs",
+      "description": "Présentez votre projet à notre réseau d'investisseurs."
     }
+  ],
+  "cta_button": "Rejoindre l'incubateur",
+  "card_title": "Incubateur Malea Hub",
+  "card_description": "Pour tout accompagnement sur vos projets innovants.",
+  "stats": [
+    { "value": "3", "label": "mois de programme" },
+    { "value": "10+", "label": "mentors experts" },
+    { "value": "5", "label": "startups / cohorte" },
+    { "value": "Demo", "label": "Day investisseurs" }
+  ]
+},
+"services": {
+  "badge": "Nos Services",
+  "title_prefix": "Tout ce dont vous avez besoin pour",
+  "title_highlight": "réussir",
+  "subtitle": "Trois piliers conçus pour accompagner votre parcours professionnel, de l'espace de travail à la croissance de votre entreprise.",
+  "featured_tag": "À LA UNE",
+  "cta": "En savoir plus",
+  "items": [
+    {
+      "title": "Incubateur",
+      "description": "Structurez, développez et lancez votre projet avec un mentorat sur mesure et un accès privilégié à notre réseau d'investisseurs.",
+      "features": ["Mentorat expert", "Réseau d'investisseurs", "Demo Day"],
+      "href": "/incubator"
+    },
+    {
+      "title": "Coworking",
+      "description": "Un espace de travail moderne et professionnel avec WiFi haut débit, salles de réunion et tout le confort nécessaire pour booster votre productivité.",
+      "features": ["WiFi illimité", "Salles de réunion", "Espace sécurisé"],
+      "href": "/coworking"
+    },
+    {
+      "title": "Formations",
+      "description": "Des programmes de formation intensive pour développer vos compétences techniques et devenir opérationnel sur le marché en un temps record.",
+      "features": ["Jobs Week", "Certifications", "Workshops"],
+      "href": "/training"
+    }
+  ]
+},
+"whyChoose": {
+  "badge": "Nos Avantages",
+  "title_prefix": "Pourquoi choisir",
+  "title_highlight": "Malea Hub",
+  "subtitle": "Tout ce dont vous avez besoin pour une expérience professionnelle productive et réussie.",
+  "features": [
+    {
+      "title": "Cadre professionnel moderne",
+      "description": "Un espace de travail à la pointe de la technologie, conçu pour la productivité et le confort."
+    },
+    {
+      "title": "Emplacement stratégique",
+      "description": "Situé à Bonapriso, au cœur battant des affaires à Douala."
+    },
+    {
+      "title": "Réseau solide",
+      "description": "Connectez-vous avec des entrepreneurs, des investisseurs et des experts."
+    },
+    {
+      "title": "WiFi haut débit illimité",
+      "description": "Une connexion par fibre optique pour une expérience de travail sans interruption."
+    },
+    {
+      "title": "Groupe électrogène",
+      "description": "Une alimentation électrique continue pour garantir votre productivité en tout temps."
+    },
+    {
+      "title": "Espace sécurisé",
+      "description": "Sécurité 24h/24 et accès contrôlé pour une totale tranquillité d'esprit."
+    }
+  ]
+},
+"jobsWeek": {
+  "badge": "Programme Vedette",
+  "title": "Jobs Week",
+  "subtitle": "Prêt pour l'emploi en 5 jours",
+  "description": "Un programme intensif de 5 jours conçu pour transformer votre profil professionnel et vous ouvrir les portes de nouvelles opportunités de carrière.",
+  "benefits": [
+    "Optimisation CV & Personal Branding",
+    "Préparation aux entretiens",
+    "Accès aux opportunités",
+    "Développement du réseau",
+    "Coaching expert personnalisé"
+  ],
+  "cta_button": "Réserver via WhatsApp",
+  "card_badge": "LIMITÉ",
+  "price_label": "Tarif du programme complet",
+  "price_value": "30 000",
+  "price_currency": "FCFA",
+  "spots_label": "Seulement 10 places",
+  "duration_label": "5 jours intensifs",
+  "included_title": "Inclus dans le pack :",
+  "included_items": [
+    "Optimisation CV",
+    "Entretiens blancs",
+    "Profil LinkedIn",
+    "Matching emploi",
+    "Certificat"
+  ],
+  "reserve_button": "Réserver ma place maintenant"
+},
+"contact": {
+  "hero": {
+    "badge": "Contactez-nous",
+    "title_prefix": "Restons en",
+    "title_highlight": "contact",
+    "subtitle": "Une question ? Envie de visiter Malea Hub ? Nous sommes à votre écoute."
+  },
+  "info_section": {
+    "title": "Nos Coordonnées"
+  },
+  "info_items": [
+    { "title": "Adresse", "value": "Bonapriso, Douala" },
+    { "title": "Email", "value": "info@maleahub.com" },
+    { "title": "Instagram", "value": "@maleahub" },
+    { "title": "WhatsApp", "value": "+237 678 11 10 22" }
+  ],
+  "quick_response": "Besoin d'une réponse rapide ?",
+  "whatsapp_chat": "Chatter sur WhatsApp",
+  "form": {
+    "title": "Envoyez un message",
+    "name_label": "Nom complet",
+    "name_placeholder": "John Doe",
+    "email_label": "Adresse Email",
+    "email_placeholder": "john@example.com",
+    "subject_label": "Objet",
+    "subject_placeholder": "Comment pouvons-nous vous aider ?",
+    "message_label": "Message",
+    "message_placeholder": "Votre message...",
+    "submit_button": "Envoyer le message",
+    "submitting_button": "Envoi en cours...",
+    "success_message": "Message envoyé avec succès !",
+    "error_message": "Erreur lors de l'envoi. Essayez via WhatsApp."
+  },
+  "map": {
+    "title": "Nous trouver",
+    "address": "Koloko, Bonapriso, Douala, Cameroun",
+    "button": "Ouvrir dans Google Maps"
+  }
+},
+"coworking": {
+  "hero": {
+    "badge": "Espace Coworking",
+    "title_prefix": "Votre espace de",
+    "title_highlight": "coworking",
+    "title_suffix": "premium",
+    "description": "Un espace de travail moderne et professionnel au cœur de Bonapriso. Tout ce dont vous avez besoin pour travailler efficacement et faire progresser votre entreprise."
+  },
+  "cta_button": "Réserver mon espace",
+  "gallery": {
+    "title": "Notre Espace"
+  },
+  "features": {
+    "title": "Tout ce qu'il vous faut",
+    "subtitle": "Des équipements premium pour une expérience de travail productive",
+    "items": [
+      { "title": "WiFi Haut Débit", "description": "Connexion fibre optique illimitée." },
+      { "title": "Salles de Réunion", "description": "Espaces privés pour vos réunions et appels clients." },
+      { "title": "Équipements Modernes", "description": "Mobilier ergonomique et équipements professionnels." },
+      { "title": "Espace Détente", "description": "Zone de relaxation pour vos pauses et échanges." },
+      { "title": "Horaires Flexibles", "description": "Accès durant les heures de bureau avec extensions." },
+      { "title": "Espace Sécurisé", "description": "Accès contrôlé pour votre tranquillité d'esprit." }
+    ]
+  },
+  "rental": {
+    "title": "Louez notre espace pour vos événements",
+    "description": "Vous souhaitez organiser une formation ou un événement ?",
+    "availability_label": "Disponibilité",
+    "button": "Contacter via WhatsApp"
+  }
+},"incubator": {
+  "hero": {
+    "badge": "Programme Incubateur",
+    "title_prefix": "Rejoignez l'",
+    "title_highlight": "incubateur",
+    "description": "Rejoignez un programme d'accompagnement dédié aux porteurs de projets innovants. Malea Hub vous accompagne dans la structuration, le développement et le lancement de votre projet.",
+    "cta_button": "Rejoindre l'incubateur"
+  },
+  "program": {
+    "title": "Votre parcours d'incubation",
+    "subtitle": "Un programme structuré de l'idée à l'entreprise",
+    "phases": [
+      { "phase": "01", "title": "Présentation", "description": "Validation de la vision et de la proposition de valeur." },
+      { "phase": "02", "title": "Fonctionnement", "description": "Élaboration du modèle économique (Business Model)." },
+      { "phase": "03", "title": "Accompagnement", "description": "Développement MVP, tests clients et préparation levée de fonds." }
+    ]
+  },
+  "benefits": {
+    "title": "Pourquoi rejoindre notre incubateur ?",
+    "items": [
+      { "title": "Mentorat d'Expert", "description": "Accès à des entrepreneurs chevronnés et des experts métiers." },
+      { "title": "Réseau Puissant", "description": "Investisseurs, partenaires, entrepreneurs connectés." },
+      { "title": "Ressources de Croissance", "description": "Outils, ateliers et ressources stratégiques." },
+      { "title": "Accès au Marché", "description": "Mise en relation avec marchés locaux et internationaux." },
+      { "title": "Opportunités de Financement", "description": "Réseau d'investisseurs et sessions de pitch." },
+      { "title": "Support à l'Innovation", "description": "Accompagnement technique et stratégique." }
+    ]
+  },
+  "invest_club": {
+    "title": "Malea Invest Club",
+    "description": "Vous souhaitez rejoindre notre communauté d'investisseurs privés ? Accédez à des opportunités d'investissement dans des projets à fort potentiel.",
+    "button": "WhatsApp Investisseurs"
+  }
+},
+"training": {
+  "hero": {
+    "badge": "Formations Professionnelles",
+    "title_prefix": "Soyez",
+    "title_highlight": "prêt pour l'emploi",
+    "title_suffix": "en 5 jours"
+  },
+  "jobsWeek": {
+    "title": "Jobs Week",
+    "description": "Un accompagnement intensif pour transformer votre profil. Apprenez des experts et accédez directement au réseau d'employeurs de Malea Hub.",
+    "price_label": "Tarif Unique",
+    "price_value": "30,000",
+    "price_currency": "FCFA",
+    "included_items": ["Préparation intensive", "Accès aux opportunités", "Coaching expert", "Certificat inclus"],
+    "cta_button": "S'inscrire sur WhatsApp"
+  },
+  "jobsWeekModules": [
+    { "day": "Jour 1", "title": "CV & Motivation", "description": "Créez un CV percutant." },
+    { "day": "Jour 2", "title": "Branding", "description": "Votre image pro." },
+    { "day": "Jour 3", "title": "Entretien", "description": "Maîtrisez les codes." },
+    { "day": "Jour 4", "title": "Simulations", "description": "Pratiquez en réel." },
+    { "day": "Jour 5", "title": "Matching", "description": "Accès aux offres." }
+  ],
+  "benefits": [
+    { "title": "Optimisation de CV", "description": "Un CV remarqué par les recruteurs." },
+    { "title": "Simulations d'Entretiens", "description": "Pratiquez avec des experts." },
+    { "title": "Certificat", "description": "Preuve de réussite pour votre portfolio." },
+    { "title": "Accès à l'Emploi", "description": "Connexions directes avec des opportunités." }
+  ],
+  "program": {
+    "title": "Le Planning de votre semaine",
+    "subtitle": "Une progression logique vers votre futur poste"
+  },
+  "trainer": {
+    "title": "Vous êtes formateur ou une école ?",
+    "description": "Organisez vos sessions chez Malea Hub. Équipements premium et environnement pro.",
+    "button": "Organiser vos formations"
+  }
+},
+"lounge": {
+  "hero": {
+    "badge": "Espace Détente & Networking",
+    "title_prefix": "Le",
+    "title_highlight": "Lounge",
+    "description": "Un espace premium conçu pour la relaxation, le réseautage et les réunions informelles. Un cadre où les connexions se créent naturellement."
+  },
+  "gallery": {
+    "main_label": "Espace principal chaleureux"
+  },
+  "menu": {
+    "title": "Pause Gourmande",
+    "description": "Accédez à notre sélection de rafraîchissements, cafés premium et encas pour dynamiser vos journées de travail.",
+    "items": ["Cafés & Thés d'exception", "Boissons fraîches", "Viennoiseries & Encas sains"],
+    "button": "Consulter le menu"
+  },
+  "usage": {
+    "title": "Pourquoi profiter du Lounge ?",
+    "items": [
+      { "title": "Événements Networking", "description": "Rencontrez des partenaires potentiels dans un cadre décontracté." },
+      { "title": "Break Productif", "description": "Prenez une pause bien méritée pour revenir plus efficace à votre bureau." },
+      { "title": "Réunions Informelles", "description": "Lieu parfait pour des discussions d'équipe ou des rendez-vous clients relax." }
+    ],
+    "cta_button": "Découvrir le Lounge"
+  }
+}
 }

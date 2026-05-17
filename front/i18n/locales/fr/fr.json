@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "coworking": "Coworking",
+    "incubator": "Incubateur",
+    "trainings": "Formations",
+    "lounge": "Lounge",
+    "library": "Bibliothèque",
+    "contact": "Contact"
+  },
+
+  "footer": {
+    "services": "Services",
+    "company": "Entreprise",
+    "get_started": "Commencer",
+    "ready_to_grow": "Prêt à développer votre projet ou investir dans l'innovation ?",
+    "join_incubator": "Rejoindre l'Incubateur",
+    "all_rights_reserved": "Tous droits réservés",
+    "about": "À propos",
+    "invest_club": "Malea Invest Club",
+    "jobs_week": "Jobs Week",
+    "social_library": "Bibliothèque sociale"
+  },
+
+  "buttons": {
+    "admin": "Admin",
+    "administration": "Administration"
+  },
+
+  "hero": {
+    "title": "Travaillez, connectez-vous et développez-vous",
+    "subtitle": "Espace coworking, programme d'accompagnement et accès à un réseau d'investisseurs.",
+    "join_incubator": "Rejoindre l'incubateur",
+    "discover": "Découvrir Malea Hub",
+    "scroll": "Défiler"
+  }
+}

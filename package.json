@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "@tanstack/query-sync-storage-persister": "^5.100.10",
+    "@tanstack/react-query": "^5.100.10",
+    "@tanstack/react-query-devtools": "^5.100.10",
+    "@tanstack/react-query-persist-client": "^5.100.10",
     "axios": "^1.15.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",

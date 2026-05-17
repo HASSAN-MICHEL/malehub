@@ -241,14 +241,14 @@ adminApi.interceptors.response.use(
   }
 );
 
-// ── 1. AUTH ───────────────────────────────────────────────────────────────────
+//AUTHentification
 export const adminAuthAPI = {
   login:          (creds) => adminApi.post('/auth/login', creds),
   getMe:          ()      => adminApi.get('/auth/me'),
   changePassword: (data)  => adminApi.patch('/auth/change-password', data),
 };
 
-// ── 2. UTILISATEURS ───────────────────────────────────────────────────────────
+//  UTILISATEURS 
 export const adminUsersAPI = {
   getAll:  (params)    => adminApi.get('/auth/users', { params }),
   create:  (data)      => adminApi.post('/auth/users', data),
@@ -256,7 +256,7 @@ export const adminUsersAPI = {
   delete:  (id)        => adminApi.delete(`/auth/users/${id}`),
 };
 
-// ── 3. RÉSERVATIONS & SALLES ──────────────────────────────────────────────────
+
 export const adminReservationsAPI = {
   getAll:    (params)    => adminApi.get('/reservations', { params }),
   getById:   (id)        => adminApi.get(`/reservations/${id}`),
@@ -271,7 +271,7 @@ export const adminReservationsAPI = {
   deleteSalle:  (id)       => adminApi.delete(`/reservations/salles/${id}`),
 };
 
-// ── 4. FORMATIONS & INSCRIPTIONS ──────────────────────────────────────────────
+
 export const adminFormationsAPI = {
   getAll:   (params)       => adminApi.get('/formations', { params }),
   getById:  (id)           => adminApi.get(`/formations/${id}`),
@@ -284,7 +284,7 @@ export const adminFormationsAPI = {
   exportInscriptions:(fid)       => adminApi.get(`/formations/${fid}/inscriptions/export`, { responseType: 'blob' }),
 };
 
-// ── 5. INCUBATEUR ─────────────────────────────────────────────────────────────
+
 export const adminIncubatorAPI = {
   getCandidatures:    (params)    => adminApi.get('/candidatures', { params }),
   getCandidatureById: (id)        => adminApi.get(`/candidatures/${id}`),
@@ -297,19 +297,18 @@ export const adminIncubatorAPI = {
   updateProjetIncube:  (id, data) => adminApi.patch(`/candidatures/projets/${id}`, data),
 };
 
-// ── 6. INVESTISSEURS — /system/investors ──────────────────────────────────────
+// INVESTISSEURS 
 export const adminInvestorsAPI = {
   getAll:  (params)    => adminApi.get('/system/investors', { params }),
   getById: (id)        => adminApi.get(`/system/investors/${id}`),
   create:  (data)      => adminApi.post('/system/investors', data),
   update:  (id, data)  => adminApi.patch(`/system/investors/${id}`, data),
   delete:  (id)        => adminApi.delete(`/system/investors/${id}`),
-  // Interactions — stored as notes in notes field or separate endpoint if available
   getInteractions: (id) => adminApi.get(`/system/investors/${id}/interactions`).catch(() => ({ data: { data: [] } })),
   addInteraction:  (id, data) => adminApi.post(`/system/investors/${id}/interactions`, data).catch(() => ({})),
 };
 
-// ── 7. CONTACTS — /system/contacts ────────────────────────────────────────────
+// /system/contacts 
 export const adminContactsAPI = {
   getAll:  (params)   => adminApi.get('/system/contacts', { params }),
   getById: (id)       => adminApi.get(`/system/contacts/${id}`),
@@ -318,16 +317,12 @@ export const adminContactsAPI = {
   export:  ()         => adminApi.get('/system/contacts/export', { responseType: 'blob' }),
 };
 
-// ── 8. DASHBOARD — /system/dashboard ─────────────────────────────────────────
+//  DASHBOARD 
 export const adminDashboardAPI = {
   getKPIs: () => adminApi.get('/system/dashboard'),
 };
 
-// ── 9. CONTENT BLOCKS — /system/content ──────────────────────────────────────
-//
-// Réponse backend : { status, data: { blocks: [...] } }
-// Pour un bloc existant (avec id) : PUT /system/content/:id
-// Pour un nouveau bloc             : PUT /system/content  (upsert page_slug+bloc_key)
+// CONTENUE DES PAGES
 export const contentAPI = {
   getBlocks:    (pageSlug) => adminApi.get('/system/content', { params: { page_slug: pageSlug } }),
   getAllBlocks:  ()         => adminApi.get('/system/content'),
@@ -341,10 +336,7 @@ export const contentAPI = {
   },
 };
 
-// ── 10. SETTINGS — /system/settings ──────────────────────────────────────────
-//
-// Réponse backend : { status, data: { settings: [...] } }
-// Upsert : PUT /system/settings  { cle, valeur }
+
 export const settingsAPI = {
   getAll:  ()             => adminApi.get('/system/settings'),
   get:     (cle)          => adminApi.get(`/system/settings/${cle}`),

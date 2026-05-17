@@ -428,31 +428,35 @@
 // //   );
 // // }
 
+import { useTranslation } from 'react-i18next'
+import { Lightbulb, Users, TrendingUp, Target, Rocket, Network, ArrowRight } from 'lucide-react'
+import { useContent, useSettings } from '../hooks/useContet'
 
-import { Lightbulb, Users, TrendingUp, Target, Rocket, Network, ArrowRight } from 'lucide-react';
-import { useContent, useSettings } from '../hooks/useContet';
-
-const benefits = [
-  { icon: Users,      title: 'Mentorat d\'Expert',          description: 'Accès à des entrepreneurs chevronnés et des experts métiers.' },
-  { icon: Network,    title: 'Réseau Puissant',             description: 'Investisseurs, partenaires, entrepreneurs connectés.' },
-  { icon: TrendingUp, title: 'Ressources de Croissance',   description: 'Outils, ateliers et ressources stratégiques.' },
-  { icon: Target,     title: 'Accès au Marché',            description: 'Mise en relation avec marchés locaux et internationaux.' },
-  { icon: Rocket,     title: 'Opportunités de Financement', description: 'Réseau d\'investisseurs et sessions de pitch.' },
-  { icon: Lightbulb,  title: 'Support à l\'Innovation',    description: 'Accompagnement technique et stratégique.' },
-];
-
-const programPhases = [
-  { phase: '01', title: 'Présentation',    description: 'Validation de la vision et de la proposition de valeur.' },
-  { phase: '02', title: 'Fonctionnement',  description: 'Élaboration du modèle économique (Business Model).' },
-  { phase: '03', title: 'Accompagnement',  description: 'Développement MVP, tests clients et préparation levée de fonds.' },
-];
+const iconMap = {
+  'Mentorat d\'Expert': Users,
+  'Expert Mentorship': Users,
+  'Réseau Puissant': Network,
+  'Powerful Network': Network,
+  'Ressources de Croissance': TrendingUp,
+  'Growth Resources': TrendingUp,
+  'Accès au Marché': Target,
+  'Market Access': Target,
+  'Opportunités de Financement': Rocket,
+  'Funding Opportunities': Rocket,
+  'Support à l\'Innovation': Lightbulb,
+  'Innovation Support': Lightbulb,
+}
 
 export default function IncubatorPage() {
-  const { get } = useContent('incubator');
-  const { setting } = useSettings();
+  const { t } = useTranslation()
+  const { get } = useContent('incubator')
+  const { setting } = useSettings()
 
-  const waIncubator = setting('whatsapp_general', '237678111022');
-  const waInvestors = setting('whatsapp_investors', waIncubator);
+  const waIncubator = setting('whatsapp_general', '237678111022')
+  const waInvestors = setting('whatsapp_investors', waIncubator)
+
+  const benefits = t('incubator.benefits.items', { returnObjects: true })
+  const programPhases = t('incubator.program.phases', { returnObjects: true })
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -464,20 +468,25 @@ export default function IncubatorPage() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
                 style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
-                Programme Incubateur
+                {t('incubator.hero.badge')}
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-                {get('hero_title', <>Rejoignez l&apos;<span style={{ color: 'var(--primary)' }}>incubateur</span></>)}
+                {get('hero_title', (
+                  <>
+                    {t('incubator.hero.title_prefix')}{' '}
+                    <span style={{ color: 'var(--primary)' }}>{t('incubator.hero.title_highlight')}</span>
+                  </>
+                ))}
               </h1>
               <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                {get('description', "Rejoignez un programme d'accompagnement dédié aux porteurs de projets innovants. Malea Hub vous accompagne dans la structuration, le développement et le lancement de votre projet.")}
+                {get('description', t('incubator.hero.description'))}
               </p>
               <div className="mt-8">
                 <a href={`https://wa.me/${waIncubator}?text=Bonjour, je souhaite rejoindre l'incubateur Malea Hub`}
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105"
                   style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                  Rejoindre l'incubateur <ArrowRight className="h-5 w-5" />
+                  {t('incubator.hero.cta_button')} <ArrowRight className="h-5 w-5" />
                 </a>
               </div>
             </div>
@@ -495,8 +504,12 @@ export default function IncubatorPage() {
       <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--background)' }}>
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Votre parcours d'incubation</h2>
-            <p className="mt-4" style={{ color: 'var(--muted-foreground)' }}>Un programme structuré de l'idée à l'entreprise</p>
+            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
+              {t('incubator.program.title')}
+            </h2>
+            <p className="mt-4" style={{ color: 'var(--muted-foreground)' }}>
+              {t('incubator.program.subtitle')}
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {programPhases.map((phase) => (
@@ -515,20 +528,25 @@ export default function IncubatorPage() {
       <section className="py-12 lg:py-16" style={{ backgroundColor: 'var(--card)' }}>
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Pourquoi rejoindre notre incubateur ?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
+              {t('incubator.benefits.title')}
+            </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((b) => (
-              <div key={b.title} className="p-6 rounded-xl border"
-                style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                  style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
-                  <b.icon className="h-6 w-6" style={{ color: 'var(--primary)' }} />
+            {benefits.map((b) => {
+              const Icon = iconMap[b.title] || Lightbulb
+              return (
+                <div key={b.title} className="p-6 rounded-xl border"
+                  style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                    style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
+                    <Icon className="h-6 w-6" style={{ color: 'var(--primary)' }} />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--foreground)' }}>{b.title}</h3>
+                  <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{b.description}</p>
                 </div>
-                <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--foreground)' }}>{b.title}</h3>
-                <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{b.description}</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -539,19 +557,21 @@ export default function IncubatorPage() {
           <div className="max-w-3xl mx-auto text-center rounded-2xl p-8 lg:p-12 relative overflow-hidden border"
             style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
             <TrendingUp className="h-12 w-12 mx-auto mb-6" style={{ color: 'var(--primary)' }} />
-            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>Malea Invest Club</h2>
+            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
+              {t('incubator.invest_club.title')}
+            </h2>
             <p className="mt-4 text-lg" style={{ color: 'var(--muted-foreground)' }}>
-              {get('invest_club', "Vous souhaitez rejoindre notre communauté d'investisseurs privés ? Accédez à des opportunités d'investissement dans des projets à fort potentiel.")}
+              {get('invest_club', t('incubator.invest_club.description'))}
             </p>
             <a href={`https://wa.me/${waInvestors}?text=Bonjour, je souhaite rejoindre le Malea Invest Club`}
               target="_blank" rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-opacity hover:opacity-90"
               style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-              WhatsApp Investisseurs <ArrowRight className="h-5 w-5" />
+              {t('incubator.invest_club.button')} <ArrowRight className="h-5 w-5" />
             </a>
           </div>
         </div>
       </section>
     </div>
-  );
+  )
 }

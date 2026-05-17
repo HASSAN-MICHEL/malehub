@@ -1,4 +1,8 @@
+import { useTranslation } from 'react-i18next'; // ou votre hook de traduction
+
 export function AboutSection() {
+  const { t } = useTranslation(); // adaptez selon votre setup
+
   return (
     <section id="about" className="py-20 lg:py-32" style={{ backgroundColor: 'var(--card)' }}>
       <div className="container mx-auto px-4 lg:px-8">
@@ -21,37 +25,41 @@ export function AboutSection() {
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
               style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}
             >
-              Notre Histoire
+              {t('about.badge')}
             </div>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
-              À l&apos;origine de{' '}
-              <span style={{ color: 'var(--primary)' }}>Malea Hub</span>
+              {t('about.title_prefix')}{' '}
+              <span style={{ color: 'var(--primary)' }}>{t('about.title_suffix')}</span>
             </h2>
 
             <div className="mt-8 space-y-6">
               <p className="text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-               Entrepreneur actif dans les industries créatives ,  <span className="font-semibold" style={{ color: 'var(--foreground)' }}>Erdman Doumbè</span> a plus de 5 ans d'expérience dans l'accompagnement de projet.
+                {t('about.paragraph_1')}{' '}
+                <span className="font-semibold" style={{ color: 'var(--foreground)' }}>{t('about.paragraph_1_name')}</span>{' '}
+                {t('about.paragraph_1_suffix')}
               </p>
               <p className="text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-              Acteur de référence dans le secteur culturel en belgique , il met l'humain au coeur de tout projet , d'où sa passion pour la mise en relation .
+                {t('about.paragraph_2')}
               </p>
               <p className="text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-               C'est là que réside l'essence du projet <span style={{ color: 'var(--primary)' }}>Malea Hub</span>: <span className="font-semibold" style={{ color: 'var(--foreground)' }}>Connecter des talents et faciliter la création d'opportunités</span> 
+                {t('about.paragraph_3_prefix')}{' '}
+                <span style={{ color: 'var(--primary)' }}>{t('about.title_suffix')}</span>:{' '}
+                <span className="font-semibold" style={{ color: 'var(--foreground)' }}>{t('about.paragraph_3_suffix')}</span>
               </p>
             </div>
 
             <blockquote className="mt-8 pl-6 border-l-2" style={{ borderColor: 'var(--primary)' }}>
               <p className="text-xl italic font-light" style={{ color: 'var(--foreground)' }}>
-                &quot;Le succès n&apos;est pas une destination, c&apos;est un voyage que l&apos;on fait ensemble.&quot;
+                &quot;{t('about.quote')}&quot;
               </p>
               <footer className="mt-3 text-sm font-medium" style={{ color: 'var(--primary)' }}>
-                Erdman Doumbè, Fondateur
+                {t('about.quote_author')}
               </footer>
             </blockquote>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

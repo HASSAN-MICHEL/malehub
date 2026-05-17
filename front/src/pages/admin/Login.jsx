@@ -118,8 +118,7 @@ export default function AdminLogin() {
 
         {/* Info de debug (à retirer en production) */}
         <div className="mt-4 p-2 text-xs text-center" style={{ color: 'var(--muted-foreground)' }}>
-          <p>URL API: {import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}</p>
-          <p>Test: admin@maleahub.com / admin123</p>
+         
         </div>
       </div>
     </div>
