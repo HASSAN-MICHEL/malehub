@@ -1,20 +1,36 @@
 {
   "version": 2,
+
   "builds": [
     {
       "src": "backend/server.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "front/dist/**"
-        ]
-      }
+      "use": "@vercel/node"
+    },
+    {
+      "src": "front/dist/**",
+      "use": "@vercel/static"
     }
   ],
+
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/front/dist/assets/$1"
+    },
+
+    {
+      "src": "/favicon.ico",
+      "dest": "/front/dist/favicon.ico"
+    },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+
+    {
       "src": "/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/front/dist/index.html"
     }
   ]
 }
