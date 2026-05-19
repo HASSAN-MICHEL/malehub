@@ -36,3 +36,25 @@ guide de configuration...
 ...................................................................................................
 La guide n'es pas complet donc..!
 Pour plus d'info ou soucis contacter le 678128857 sur whatsApp ou ATTENDEZ la prochaine mise a jour, je suis deja fatiguer de saisir.
+
+
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "front/dist/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "backend/server.js"
+    }
+  ]
+}
