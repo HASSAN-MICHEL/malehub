@@ -112,10 +112,10 @@ import errorHandler from './middlewares/error.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
+app.set('trust proxy', 1);
 
-// ─────────────────────────────────────────────────────────────
 // Security
-// ─────────────────────────────────────────────────────────────
+
 app.use(helmet());
 
 app.use(cors({
@@ -124,9 +124,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
 
-// ─────────────────────────────────────────────────────────────
+
 // Rate limit
-// ─────────────────────────────────────────────────────────────
+
 app.use('/api/', rateLimit({
   windowMs: config.rateLimit.windowMs,
   max: config.rateLimit.max,
@@ -147,9 +147,9 @@ app.use('/api/auth/login', rateLimit({
   },
 }));
 
-// ─────────────────────────────────────────────────────────────
+
 // Body parser
-// ─────────────────────────────────────────────────────────────
+
 app.use(express.json({ limit: '10mb' }));
 
 app.use(express.urlencoded({
