@@ -10,7 +10,7 @@ export function AboutSection() {
           <div className="relative order-2 lg:order-1">
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=640&q=80"
+                src="malesalon.jpeg"
                 alt="Erdman Doumbè, Fondateur de Malea Hub"
                 className="w-full h-full object-cover"
               />

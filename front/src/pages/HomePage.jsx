@@ -30,12 +30,14 @@ import { ServicesSection } from '../components/ui/ServicesSection'
 import { JobsWeekSection } from '../components/ui/JobsWeekSection'
 import { WhyChooseSection } from '../components/ui/WhyChooseSection'
 import { FinalCtaSection } from '../components/ui/FinalCtaSection'
+import { TeamSection } from '../components/ui/TeamSection' 
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <AboutSection />
+      <TeamSection />
       <IncubatorCtaSection />
       <ServicesSection />
       <JobsWeekSection />

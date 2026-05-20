@@ -4,7 +4,7 @@
     "coworking": "Coworking",
     "incubator": "Incubator",
     "trainings": "Trainings",
-    "lounge": "Lounge",
+    "even": "Events",
     "library": "Library",
     "contact": "Contact"
   },
@@ -29,7 +29,7 @@
 
   "hero": {
     "title": "Work, Connect, Grow",
-    "subtitle": "Coworking space, support program and access to an investor network.",
+    "description": "We support high-potential startups and innovative projects towards growth and opportunities at national and international level.",
     "join_incubator": "Join Incubator",
     "discover": "Discover Malea Hub",
     "scroll": "Scroll"
@@ -65,7 +65,7 @@
   "title_prefix": "Join a",
   "title_highlight": "support program",
   "subtitle": "Dedicated to innovative project holders.",
-  "description": "Malea Hub supports you in structuring, developing and launching your project.",
+  "description": "Malea LAB supports you in structuring, developing and launching your project.",
   "benefits": [
     {
       "title": "Structure your project",
@@ -81,7 +81,7 @@
     }
   ],
   "cta_button": "Join the incubator",
-  "card_title": "Malea Hub Incubator",
+  "card_title": "Malea LAB Incubator",
   "card_description": "For any support on your innovative projects.",
   "stats": [
     { "value": "3", "label": "months program" },
@@ -90,66 +90,69 @@
     { "value": "Demo", "label": "Investor Day" }
   ]
 },
-"services": {
-  "badge": "Our Services",
-  "title_prefix": "Everything you need to",
-  "title_highlight": "succeed",
-  "subtitle": "Three pillars designed to support your professional journey, from workspace to business growth.",
-  "featured_tag": "FEATURED",
-  "cta": "Learn more",
-  "items": [
-    {
-      "title": "Incubator",
-      "description": "Structure, develop and launch your project with tailored mentorship and privileged access to our investor network.",
-      "features": ["Expert mentorship", "Investor network", "Demo Day"],
-      "href": "/incubator"
-    },
-    {
-      "title": "Coworking",
-      "description": "A modern and professional workspace with high-speed WiFi, meeting rooms and all the comfort you need to boost your productivity.",
-      "features": ["Unlimited WiFi", "Meeting rooms", "Secure space"],
-      "href": "/coworking"
-    },
-    {
-      "title": "Trainings",
-      "description": "Intensive training programs to develop your technical skills and become operational on the market in record time.",
-      "features": ["Jobs Week", "Certifications", "Workshops"],
-      "href": "/training"
-    }
-  ]
-},
-"whyChoose": {
-  "badge": "Our Advantages",
-  "title_prefix": "Why choose",
-  "title_highlight": "Malea Hub",
-  "subtitle": "Everything you need for a productive and successful professional experience.",
-  "features": [
-    {
-      "title": "Modern professional environment",
-      "description": "A state-of-the-art workspace designed for productivity and comfort."
-    },
-    {
-      "title": "Strategic location",
-      "description": "Located in Bonapriso, the beating heart of business in Douala."
-    },
-    {
-      "title": "Strong network",
-      "description": "Connect with entrepreneurs, investors and experts."
-    },
-    {
-      "title": "Unlimited high-speed WiFi",
-      "description": "Fiber optic connection for an uninterrupted work experience."
-    },
-    {
-      "title": "Power generator",
-      "description": "Continuous power supply to guarantee your productivity at all times."
-    },
-    {
-      "title": "Secure space",
-      "description": "24/7 security and controlled access for total peace of mind."
-    }
-  ]
-},
+
+ "services": {
+    "badge": "Our Services",
+    "title_prefix": "The ecosystem that propels",
+    "title_highlight": "high-potential projects",
+    "subtitle": "Three pillars designed to support your professional journey, from workspace to business growth.",
+    "mission_description": "Our mission is to support talents, entrepreneurs, and high-potential startups through modern spaces, expert-led programs, and a strategic network.",
+    "featured_tag": "FEATURED",
+    "cta": "Learn more",
+    "items": [
+      {
+        "title": "Incubator",
+        "description": "Structure, develop and launch your project with tailored mentorship and privileged access to our investor network.",
+        "features": ["Expert mentorship", "Investor network", "Demo Day"],
+        "href": "/incubator"
+      },
+      {
+        "title": "Coworking",
+        "description": "A modern and professional workspace with high-speed WiFi, meeting rooms and all the comfort you need to boost your productivity.",
+        "features": ["Unlimited WiFi", "Meeting rooms", "Secure space"],
+        "href": "/coworking"
+      },
+      {
+        "title": "Trainings",
+        "description": "Intensive training programs to develop your technical skills and become operational on the market in record time.",
+        "features": ["Jobs Week", "Certifications", "Workshops"],
+        "href": "/training"
+      }
+    ]
+  },
+
+  "whyChoose": {
+    "badge": "Our Advantages",
+    "title_prefix": "Why choose",
+    "title_highlight": "Malea Hub",
+    "subtitle": "Everything you need for a productive and successful professional experience.",
+    "features": [
+      {
+        "title": "Modern professional environment",
+        "description": "A state-of-the-art workspace designed for productivity and comfort."
+      },
+      {
+        "title": "Strategic location",
+        "description": "Located in Bonapriso, the beating heart of business in Douala."
+      },
+      {
+        "title": "Strong network",
+        "description": "Connect with entrepreneurs, investors and experts."
+      },
+      {
+        "title": "Unlimited high-speed WiFi",
+        "description": "Fiber optic connection for an uninterrupted work experience."
+      },
+      {
+        "title": "Power generator",
+        "description": "Continuous power supply to guarantee your productivity at all times."
+      },
+      {
+        "title": "Secure space",
+        "description": "24/7 security and controlled access for total peace of mind."
+      }
+    ]
+  },
 "jobsWeek": {
   "badge": "Featured Program",
   "title": "Jobs Week",
@@ -214,10 +217,29 @@
   },
   "map": {
     "title": "Find us",
-    "address": "Koloko, Bonapriso, Douala, Cameroon",
+    "address": "Rue Koloko, Bonapriso, Douala, Cameroon",
     "button": "Open in Google Maps"
   }
 },
+ "library": {
+    "badge": "Social Library",
+    "title_prefix": "Social",
+    "title_highlight": "Library",
+    "description": "A curated collection of books, resources, and materials for your personal and professional development journey.",
+    "coming_soon": "Coming Soon",
+    "notify_text": "Our social library is being prepared. Get notified when it launches.",
+    "notify_button": "Get notified",
+    "gallery_title": "Our Spaces",
+    "gallery_subtitle": "Discover the different spaces of Malea Hub",
+    "resources": {
+      "books": "Books & Resources",
+      "books_desc": "Access to a knowledge-rich library",
+      "community": "Community",
+      "community_desc": "Share with other reading enthusiasts",
+      "tools": "Digital Tools",
+      "tools_desc": "Digital resources for your growth"
+    }
+  },
 
 "coworking": {
   "hero": {
@@ -322,31 +344,79 @@
     "description": "Host your sessions at Malea Hub. Premium equipment and pro environment.",
     "button": "Host your trainings"
   }
-},
-"lounge": {
-  "hero": {
-    "badge": "Relaxation & Networking Space",
-    "title_prefix": "The",
-    "title_highlight": "Lounge",
-    "description": "A premium space designed for relaxation, networking and informal meetings. A place where connections happen naturally."
+}, "lounge": {
+    "hero": {
+      "badge": "Announcements & Events",
+      "title_prefix": "The",
+      "title_highlight": "Lounge",
+      "description": "Discover our announcements, upcoming events and meeting spaces at the heart of Malea Hub."
+    },
+    "announcements": {
+      "title": "Featured Announcements",
+      "subtitle": "Don't miss any opportunity",
+      "cta": "Learn more"
+    },
+    "usage": {
+      "title": "Why enjoy the Lounge?",
+      "cta_button": "Discover the Lounge",
+      "items": [
+        {
+          "title": "Networking Events",
+          "description": "Meet potential partners in a relaxed setting."
+        },
+        {
+          "title": "Productive Break",
+          "description": "Take a well-deserved break to return more efficient to your desk."
+        },
+        {
+          "title": "Informal Meetings",
+          "description": "Perfect place for team discussions or relaxed client meetings."
+        }
+      ]
+    }
   },
-  "gallery": {
-    "main_label": "Cozy main space"
-  },
-  "menu": {
-    "title": "Gourmet Break",
-    "description": "Access our selection of refreshments, premium coffees and snacks to energize your workdays.",
-    "items": ["Premium Coffees & Teas", "Fresh drinks", "Pastries & Healthy Snacks"],
-    "button": "View menu"
-  },
-  "usage": {
-    "title": "Why enjoy the Lounge?",
-    "items": [
-      { "title": "Networking Events", "description": "Meet potential partners in a relaxed setting." },
-      { "title": "Productive Break", "description": "Take a well-deserved break to return more efficient to your desk." },
-      { "title": "Informal Meetings", "description": "Perfect place for team discussions or relaxed client meetings." }
-    ],
-    "cta_button": "Discover the Lounge"
+ "team": {
+    "badge": "Our Team",
+    "title_prefix": "Passionate",
+    "title_highlight": "professionals",
+    "subtitle": "A team dedicated to your success and supporting innovative talents.",
+    "members": [
+      {
+        "name": "Erdman Doumbè",
+        "role": "Founder & CEO",
+        "description": "Expert in innovative project support",
+        "image": "/team/erdman-doumbe.jpg"
+      },
+      {
+        "name": "Sarah Kamga",
+        "role": "Programs Director",
+        "description": "Startup development specialist",
+        "image": "/team/sarah-kamga.jpg"
+      },
+      {
+        "name": "Michael Tchouta",
+        "role": "Lead Mentor",
+        "description": "Business strategy expert",
+        "image": "/team/michael-tchouta.jpg"
+      },
+      {
+        "name": "Amira Diallo",
+        "role": "Community Manager",
+        "description": "Entrepreneur network animation",
+        "image": "/team/amira-diallo.jpg"
+      },
+      {
+        "name": "Jean Njiké",
+        "role": "Incubation Officer",
+        "description": "Personalized startup support",
+        "image": "/team/jean-njike.jpg"
+      },
+      {
+        "name": "Clarisse Ngo",
+        "role": "Certified Trainer",
+        "description": "Jobs Week & Professional Development",
+        "image": "/team/clarisse-ngo.jpg"
+      }
+    ]
   }
-}
 }
