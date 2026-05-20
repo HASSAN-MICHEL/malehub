@@ -117,7 +117,6 @@ app.set('trust proxy', 1);
 // Security
 
 // app.use(helmet());
-
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -126,7 +125,32 @@ app.use(
 
         scriptSrc: [
           "'self'",
+          "'unsafe-inline'",
           "https://challenges.cloudflare.com",
+        ],
+
+        scriptSrcElem: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://challenges.cloudflare.com",
+        ],
+
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+
+        styleSrcElem: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "data:",
         ],
 
         frameSrc: [
@@ -143,11 +167,7 @@ app.use(
           "'self'",
           "data:",
           "https:",
-        ],
-
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
+          "blob:",
         ],
       },
     },
