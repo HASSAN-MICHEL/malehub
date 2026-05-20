@@ -12,7 +12,7 @@ guide de configuration...
     path :
         scr/i18n
 
-........................................................................................
+
 
 3 - COMPOSANT UI DE TRADUCTION :
     copy le Composant LanguageSwitcher.tsx dans le dossier Components de ton projet.
