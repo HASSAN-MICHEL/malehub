@@ -56,3 +56,43 @@ NEXT_PUBLIC_bd_maleha_SUPABASE_PUBLISHABLE_KEY="sb_publishable_QuvQOnwWC48i2kKwb
 bd_maleha_SUPABASE_SECRET_KEY="sb_secret_Ae_nXOV75Tz94-Gjj1Y9wQ_T0s34d5K"
 bd_maleha_SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODU3NDA4OSwiZXhwIjoyMDk0MTUwMDg5fQ.0w6TbPsLYMLl2cK22xpbRsr7af-OsmmFWDN81_yLyRk"
 NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"
+
+
+//ancien vercel.json:
+
+{
+  "version": 2,
+
+  "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "front/dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/front/dist/assets/$1"
+    },
+
+    {
+      "src": "/favicon.ico",
+      "dest": "/front/dist/favicon.ico"
+    },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+
+    {
+      "src": "/(.*)",
+      "dest": "/front/dist/index.html"
+    }
+  ]
+}

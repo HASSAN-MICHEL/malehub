@@ -132,11 +132,12 @@ const iconMap = {
   'Secure Space': Shield,
 }
 
+// Images locales
 const workspaceImages = [
-  { src: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80', alt: 'Espace de travail ouvert' },
-  { src: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80', alt: 'Salle de réunion' },
-  { src: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80', alt: 'Bureau privé' },
-  { src: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&q=80', alt: 'Zone lounge' },
+  { src: '/maletravail.jpeg', alt: 'Espace de travail ouvert' },
+  { src: '/malesalon.jpeg', alt: 'Salle de réunion' },
+  { src: '/maleSalonthe.jpeg', alt: 'Bureau privé' },
+  { src: '/maleannonce.jpeg', alt: 'Zone lounge' },
 ]
 
 export default function CoworkingPage() {
@@ -145,10 +146,12 @@ export default function CoworkingPage() {
   const { setting } = useSettings()
 
   const waLocation = setting('whatsapp_reservations', setting('whatsapp_general', '237678111022'))
-  const heroImg = get('hero_image', workspaceImages[0].src)
   const rentalHours = get('rental_hours', '18h30 – 22h30')
 
   const features = t('coworking.features.items', { returnObjects: true })
+
+  // Chemin de base pour les images
+  const basePath = process.env.PUBLIC_URL || ''
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -196,12 +199,15 @@ export default function CoworkingPage() {
             {t('coworking.gallery.title')}
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[heroImg, ...workspaceImages.slice(1)].map((img, i) => (
+            {workspaceImages.map((img, i) => (
               <div key={i} className="relative aspect-[4/3] rounded-xl overflow-hidden group">
                 <img
-                  src={typeof img === 'string' ? img : img.src}
-                  alt={workspaceImages[i]?.alt || 'Malea Hub Space'}
+                  src={`${basePath}${img.src}`}
+                  alt={img.alt}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/600x450?text=Malea+Hub'
+                  }}
                 />
               </div>
             ))}
