@@ -42,7 +42,7 @@
   },
 
   "about": {
-  "badge": "Notre Histoire",
+  "badge": "Découvrir Malea Hub",
   "title_prefix": "À l'origine de",
   "title_suffix": "Malea Hub",
   "paragraph_1": "Entrepreneur actif dans les industries créatives,",
@@ -55,7 +55,7 @@
   "quote_author": "Erdman Doumbè, Fondateur"
 },
 "incubatorCta": {
-  "badge": "Programme Phare",
+  "badge": "MALEA LAB",
   "title_prefix": "Rejoignez un",
   "title_highlight": "programme d'accompagnement",
   "subtitle": "Dédié aux porteurs de projets innovants.",

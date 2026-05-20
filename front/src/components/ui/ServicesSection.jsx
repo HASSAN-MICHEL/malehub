@@ -201,9 +201,13 @@
 //           })}
 //         </div>
 //       </div>
-//     </section>
-//   )
-// }
+// //     </section>
+// //   )
+// // }
+
+// <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+//             {t('services.subtitle')}
+//           </p>
 
 
 
@@ -239,10 +243,8 @@ export function ServicesSection() {
             {t('services.title_prefix')}{' '}
             <span style={{ color: 'var(--primary)' }}>{t('services.title_highlight')}</span>
           </h2>
-          {/* Nouvelle phrase d'accroche */}
-          <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-            {t('services.subtitle')}
-          </p>
+         
+          
           {/* Nouvelle description en italique */}
           <p className="mt-4 text-md leading-relaxed italic" style={{ color: 'var(--muted-foreground)' }}>
             {t('services.mission_description')}
