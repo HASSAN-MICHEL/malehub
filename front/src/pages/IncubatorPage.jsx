@@ -428,6 +428,7 @@
 // //   );
 // // }
 
+
 import { useTranslation } from 'react-i18next'
 import { Lightbulb, Users, TrendingUp, Target, Rocket, Network, ArrowRight } from 'lucide-react'
 import { useContent, useSettings } from '../hooks/useContet'
@@ -457,6 +458,9 @@ export default function IncubatorPage() {
 
   const benefits = t('incubator.benefits.items', { returnObjects: true })
   const programPhases = t('incubator.program.phases', { returnObjects: true })
+
+  // Chemin de base pour les images
+  const basePath = process.env.PUBLIC_URL || ''
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -492,8 +496,14 @@ export default function IncubatorPage() {
             </div>
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <img src="maletravail.jpeg"
-                  alt="Équipe startup" className="w-full h-full object-cover" />
+                <img 
+                  src={`${basePath}/maletravail.jpeg`}
+                  alt="Équipe startup" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Malea+Hub'
+                  }}
+                />
               </div>
             </div>
           </div>
