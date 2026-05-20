@@ -5,7 +5,7 @@ guide de configuration...
         CMD : 
             npm install i18next react-i18next i18next-browser-languagedetector  
 
-.................................................................................... bonjour ISSA nopm admin HASSAN
+
 
 2 - i18n CONFIG :
     copy le dossier i18n dans ton projet 
