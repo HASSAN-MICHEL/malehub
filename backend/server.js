@@ -116,7 +116,43 @@ app.set('trust proxy', 1);
 
 // Security
 
-app.use(helmet());
+// app.use(helmet());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        scriptSrc: [
+          "'self'",
+          "https://challenges.cloudflare.com",
+        ],
+
+        frameSrc: [
+          "'self'",
+          "https://challenges.cloudflare.com",
+        ],
+
+        connectSrc: [
+          "'self'",
+          "https://challenges.cloudflare.com",
+        ],
+
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https:",
+        ],
+
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+        ],
+      },
+    },
+  })
+);
 
 app.use(cors({
   origin: config.cors.origins,
