@@ -461,7 +461,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapPin, Mail, Phone, Send, ArrowRight } from 'lucide-react'
 import { SiInstagram } from 'react-icons/si'
-import Turnstile from 'react-turnstile'
+import { Turnstile } from 'react-turnstile'
 
 import { contactAPI } from '../services/client.js'
 

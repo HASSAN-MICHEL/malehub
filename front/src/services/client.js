@@ -74,19 +74,19 @@ export const clientApi = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ── Formations 
+// Formations 
 export const formationsAPI = {
   getAll:      ()                  => clientApi.get('/formations'),
   getById:     (id)                => clientApi.get(`/formations/${id}`),
   inscription: (formationId, data) => clientApi.post(`/formations/${formationId}/inscriptions`, data),
 };
 
-// ── Candidatures (publiques) ──────────────────────────────────────────────────
+// Candidatures 
 export const candidaturesAPI = {
   submit: (data) => clientApi.post('/candidatures', data),
 };
 
-// ── Contact (public) 
+//Contact (public) 
 export const contactAPI = {
   submit: (data) => clientApi.post('/system/contacts', data),
 };
