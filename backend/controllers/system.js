@@ -160,6 +160,7 @@
 import { InvestorModel, ContactModel, SettingModel, ContentBlockModel } from '../models/system.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
+import axios from 'axios';
 
 //investisseur
 export const getAllInvestors = asyncHandler(async (req, res) => {
