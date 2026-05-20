@@ -3,15 +3,12 @@
 
   "builds": [
     {
-      "src": "front/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
       "src": "backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "front/dist/**",
+      "use": "@vercel/static"
     }
   ],
 
@@ -22,21 +19,11 @@
     },
 
     {
-      "src": "/assets/(.*)",
-      "dest": "/front/dist/assets/$1"
-    },
-
-    {
-      "src": "/(.*)",
-      "dest": "/front/dist/$1"
-    },
-
-    {
       "handle": "filesystem"
     },
 
     {
-      "src": "/.*",
+      "src": "/(.*)",
       "dest": "/front/dist/index.html"
     }
   ]
