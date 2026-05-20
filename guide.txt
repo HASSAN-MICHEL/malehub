@@ -26,7 +26,6 @@ guide de configuration...
     path : 
         import './i18n'
 
-..............................................................................................
 
 5 - TEST :
     Pour tester le TRADUCTION, inport le Composant LanguageSwitcher dans le fichier desire.
