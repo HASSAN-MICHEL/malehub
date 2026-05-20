@@ -804,17 +804,22 @@ export default function ContactPage() {
 
                   {/* CAPTCHA */}
                   <div className="flex justify-center py-2">
-                    <Turnstile
-                      sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                      onVerify={(token) => {
-                        setCaptchaToken(token)
-                        setCaptchaError('')
-                      }}
-                      onExpire={() => {
-                        setCaptchaToken('')
-                      }}
-                    />
-                  </div>
+                 <Turnstile
+                sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                  onSuccess={(token) => {
+                console.log('Captcha token:', token)
+
+              setCaptchaToken(token)
+              setCaptchaError('')
+                   }}
+                   onExpire={() => {
+               setCaptchaToken('')
+                   }}
+               onError={() => {
+               setCaptchaError('Erreur lors du chargement du captcha.')
+                    }}
+                 />
+                 </div>
 
                   {captchaError && (
                     <p className="text-sm text-red-500 text-center">
