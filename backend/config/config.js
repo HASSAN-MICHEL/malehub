@@ -31,6 +31,9 @@ export const config = {
     investors: process.env.WA_INVESTORS || '237600000001',
     location:  process.env.WA_LOCATION  || '237600000002',
   },
+  turnstile: {
+  secretKey: process.env.TURNSTILE_SECRET_KEY,
+},
 
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,

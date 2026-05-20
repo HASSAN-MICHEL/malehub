@@ -221,10 +221,68 @@ export const getContactById = asyncHandler(async (req, res) => {
   sendSuccess(res, { contact: rows[0] });
 });
 
-// Public endpoint — no auth required
+// // Public endpoint — no auth required
+// export const createContact = asyncHandler(async (req, res) => {
+//   const { rows } = await ContactModel.create(req.body);
+//   sendCreated(res, { contact: rows[0] }, 'Message envoyé avec succès');
+// });
+
+//VERSION de contact protégé avec captchat
 export const createContact = asyncHandler(async (req, res) => {
-  const { rows } = await ContactModel.create(req.body);
-  sendCreated(res, { contact: rows[0] }, 'Message envoyé avec succès');
+
+  const {
+    nom,
+    email,
+    objet,
+    message,
+    source,
+    turnstileToken
+  } = req.body;
+
+  // Vérification présence token
+  if (!turnstileToken) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Vérification CAPTCHA requise',
+    });
+  }
+
+  // Vérification Cloudflare Turnstile
+  const verification = await axios.post(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    new URLSearchParams({
+      secret: process.env.TURNSTILE_SECRET_KEY,
+      response: turnstileToken,
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+
+  // CAPTCHA invalide
+  if (!verification.data.success) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Échec de la vérification anti-bot',
+    });
+  }
+
+  // Sauvegarde du message
+  const { rows } = await ContactModel.create({
+    nom,
+    email,
+    objet,
+    message,
+    source,
+  });
+
+  sendCreated(
+    res,
+    { contact: rows[0] },
+    'Message envoyé avec succès'
+  );
 });
 
 export const updateContact = asyncHandler(async (req, res) => {

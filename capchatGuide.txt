@@ -1,0 +1,157 @@
+Le plus simple, sécurisé et rapide à intégrer sur React + Vercel est d’utiliser Google reCAPTCHA v2 Checkbox ou Cloudflare Turnstile.
+
+Je te recommande fortement Cloudflare Turnstile :
+
+gratuit
+plus moderne
+moins agressif pour les utilisateurs
+très bon contre le spam
+facile avec React/Vercel
+1. Créer le captcha Turnstile
+
+Va sur :
+
+Cloudflare Turnstile
+
+Crée un site :
+
+Domain : maleahub.vercel.app
+Widget type : Managed
+
+Tu recevras :
+
+SITE_KEY
+SECRET_KEY
+2. Installer le package React
+
+Dans ton frontend :
+
+npm install react-turnstile
+3. Ajouter la clé publique dans Vercel
+
+Dans les variables frontend :
+
+VITE_TURNSTILE_SITE_KEY=ta_site_key
+
+Puis redeploie.
+
+4. Modifier ton ContactPage.jsx
+
+Ajoute :
+
+import Turnstile from 'react-turnstile'
+
+Ajoute les states :
+
+const [captchaToken, setCaptchaToken] = useState('')
+const [captchaError, setCaptchaError] = useState('')
+
+Dans handleSubmit ajoute AVANT l’appel API :
+
+if (!captchaToken) {
+  setCaptchaError('Veuillez confirmer le captcha.')
+  setSubmitting(false)
+  return
+}
+
+Puis dans contactAPI.submit :
+
+await contactAPI.submit({
+  nom: formData.name,
+  email: formData.email,
+  objet: formData.subject,
+  message: formData.message,
+  source: 'site_web',
+  captchaToken,
+})
+5. Ajouter le widget dans le formulaire
+
+Ajoute juste avant le bouton submit :
+
+<div className="flex justify-center py-2">
+  <Turnstile
+    sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+    onVerify={(token) => {
+      setCaptchaToken(token)
+      setCaptchaError('')
+    }}
+    onExpire={() => {
+      setCaptchaToken('')
+    }}
+  />
+</div>
+
+{captchaError && (
+  <p className="text-sm text-red-500 text-center">
+    {captchaError}
+  </p>
+)}
+6. Vérification backend (TRÈS IMPORTANT)
+
+Installe axios côté backend si pas déjà :
+
+npm install axios
+
+Dans ton controller backend contact :
+
+import axios from 'axios'
+
+Ajoute avant l’enregistrement du message :
+
+const { captchaToken } = req.body
+
+if (!captchaToken) {
+  return res.status(400).json({
+    status: 'error',
+    message: 'Captcha requis',
+  })
+}
+
+Puis validation Cloudflare :
+
+const verifyURL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+
+const response = await axios.post(
+  verifyURL,
+  new URLSearchParams({
+    secret: process.env.TURNSTILE_SECRET_KEY,
+    response: captchaToken,
+  }),
+  {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  }
+)
+
+if (!response.data.success) {
+  return res.status(400).json({
+    status: 'error',
+    message: 'Captcha invalide',
+  })
+}
+7. Ajouter la clé secrète dans Vercel backend
+
+Variable backend :
+
+TURNSTILE_SECRET_KEY=ta_secret_key
+Résultat
+
+Maintenant :
+
+les bots seront bloqués
+impossible d’envoyer du spam automatiquement
+sécurité bien meilleure
+UX propre
+très rapide
+fonctionne parfaitement avec React + Vercel + Express
+
+Et contrairement à Google reCAPTCHA :
+
+pas de popup bizarre
+moins de tracking
+
+
+
+clé du site: 0x4AAAAAADTSZJILGXuhQYi7
+clé secrète: 0x4AAAAAADTSZJILGXuhQYi7

@@ -91,8 +91,7 @@ export const contactAPI = {
   submit: (data) => clientApi.post('/system/contacts', data),
 };
 
-// ── Contenu CMS (public, lecture seule) ───────────────────────────────────────
-// Utilisé par les pages publiques pour lire les blocs de contenu dynamiques
+// Contenu CMS (public, lecture seule) 
 export const cmsAPI = {
   getPageContent: (pageSlug) =>
     clientApi.get('/system/content', { params: { page_slug: pageSlug } }),

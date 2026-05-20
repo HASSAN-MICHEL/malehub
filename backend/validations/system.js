@@ -24,6 +24,7 @@ export const createContactSchema = Joi.object({
   objet:   Joi.string().min(2).max(200).required(),
   message: Joi.string().min(10).required(),
   source:  Joi.string().max(100).allow('', null),
+  turnstileToken: Joi.string().required(),
 });
 
 export const updateContactSchema = Joi.object({

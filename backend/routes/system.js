@@ -80,7 +80,7 @@ router.patch('/investors/:id',  protect, adminOnly, validate(updateInvestorSchem
 router.delete('/investors/:id', protect, adminOnly, miscCtrl.deleteInvestor);
 
 // ── Contacts 
-router.post('/contacts',             validate(createContactSchema), miscCtrl.createContact); // public
+router.post('/contacts',             validate(createContactSchema), miscCtrl.createContact); 
 router.get('/contacts',              protect, staffAndAbove, miscCtrl.getAllContacts);
 router.get('/contacts/export',       protect, staffAndAbove, miscCtrl.exportContactsCSV);
 router.get('/contacts/:id',          protect, staffAndAbove, miscCtrl.getContactById);
@@ -93,11 +93,9 @@ router.put('/settings',              protect, adminOnly, validate(upsertSettingS
 router.delete('/settings/:cle',      protect, adminOnly, miscCtrl.deleteSetting);
 
 // ── Content Blocks
-// GET /content — public, used by frontend to read content
-router.get('/content',               miscCtrl.getAllContentBlocks);
-// PUT /content — upsert by (page_slug + bloc_key) — used for new blocks
+
+router.get('/content',    miscCtrl.getAllContentBlocks);
 router.put('/content',               protect, adminOnly, validate(upsertContentBlockSchema), miscCtrl.upsertContentBlock);
-// PUT /content/:id — update existing block by id — called when block already exists
 router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentBlockById);
 router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentBlock);
 
