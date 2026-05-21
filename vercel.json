@@ -1,3 +1,4 @@
+
 {
   "version": 2,
 
@@ -7,25 +8,31 @@
       "use": "@vercel/node"
     },
     {
-      "src": "front/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "src": "front/dist/**",
+      "use": "@vercel/static"
     }
   ],
 
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "src": "/assets/(.*)",
+      "dest": "/front/dist/assets/$1"
     },
+
     {
-      "handle": "filesystem"
+      "src": "/favicon.ico",
+      "dest": "/front/dist/favicon.ico"
     },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/front/dist/index.html"
     }
   ]
 }
+
