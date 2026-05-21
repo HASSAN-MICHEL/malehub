@@ -1,4 +1,3 @@
-
 {
   "version": 2,
 
@@ -14,26 +13,6 @@
   ],
 
   "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/front/dist/assets/$1"
-    },
-
-    {
-      "src": "/images/(.*)",
-      "dest": "/front/dist/$1"
-    },
-
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/front/dist/uploads/$1"
-    },
-
-    {
-      "src": "/favicon.ico",
-      "dest": "/front/dist/"
-    },
-
     {
       "src": "/api/(.*)",
       "dest": "/backend/server.js"
