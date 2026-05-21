@@ -298,13 +298,28 @@ export default function EventsPage() {
   // WhatsApp number depuis les settings
   const waGeneral = setting('whatsapp_general', '237678111022');
   
+  // URL de base de l'API
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
+  
   // Fonction pour obtenir l'URL complète d'une image
   const getFullImageUrl = (url) => {
     if (!url) return null;
-    if (url.startsWith('http')) return url;
-    if (url.startsWith('/uploads')) return `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`;
-    return url;
+    // Si c'est déjà une URL complète
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    // Si c'est un chemin absolu commençant par /
+    if (url.startsWith('/')) {
+      return `${API_BASE_URL}${url}`;
+    }
+    // Sinon, on suppose que c'est un chemin relatif
+    return `${API_BASE_URL}/uploads/${url}`;
   };
+
+  // Debug: Afficher les URLs dans la console
+  console.log('API_BASE_URL:', API_BASE_URL);
+  console.log('Annonces:', apiAnnouncements);
+  console.log('Membres:', teamMembers);
 
   // Dupliquer les membres pour un effet de boucle infinie
   const duplicatedStaff = teamMembers && teamMembers.length > 0 
@@ -385,12 +400,16 @@ export default function EventsPage() {
                   onMouseLeave={e => e.currentTarget.style.borderColor = 'color-mix(in oklch, var(--border) 50%, transparent)'}
                 >
                   {announcement.image_url && (
-                    <div className="aspect-[16/9] overflow-hidden">
+                    <div className="aspect-[16/9] overflow-hidden bg-gray-100">
                       <img
                         src={getFullImageUrl(announcement.image_url)}
                         alt={announcement.titre}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        onError={(e) => { e.currentTarget.src = '/maleannonce.jpeg'; }}
+                        onError={(e) => { 
+                          console.error('Image error:', announcement.image_url);
+                          e.currentTarget.src = '/maleannonce.jpeg';
+                          e.currentTarget.onerror = null;
+                        }}
                       />
                     </div>
                   )}
@@ -459,18 +478,20 @@ export default function EventsPage() {
                     <div className="text-center">
                       {/* Photo en cercle */}
                       <div className="relative mx-auto mb-3">
-                        <div className="w-20 h-20 lg:w-28 lg:h-28 rounded-full overflow-hidden border-2 transition-all duration-300 hover:scale-105 hover:shadow-md mx-auto"
+                        <div className="w-20 h-20 lg:w-28 lg:h-28 rounded-full overflow-hidden border-2 transition-all duration-300 hover:scale-105 hover:shadow-md mx-auto bg-gray-100"
                           style={{
                             borderColor: 'color-mix(in oklch, var(--primary) 40%, transparent)',
                             backgroundColor: 'var(--card)'
                           }}
                         >
                           <img
-                            src={getFullImageUrl(member.image_url) || '/maleblan.jpeg'}
+                            src={getFullImageUrl(member.image_url)}
                             alt={member.nom}
                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                            onError={(e) => {
+                            onError={(e) => { 
+                              console.error('Member image error:', member.image_url);
                               e.currentTarget.src = 'https://via.placeholder.com/150?text=Photo';
+                              e.currentTarget.onerror = null;
                             }}
                           />
                         </div>
