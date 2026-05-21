@@ -110,4 +110,28 @@ router.post(
   (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
 );
 
+
+
+
+// Public (sans auth) — lu par EventsPage côté client
+router.get('/announcements/public', miscCtrl.getPublicAnnouncements);
+
+// Admin (avec auth)
+router.get('/announcements',          protect, staffAndAbove, miscCtrl.getAllAnnouncements);
+router.get('/announcements/:id',      protect, staffAndAbove, miscCtrl.getAnnouncementById);
+router.post('/announcements',         protect, adminOnly, miscCtrl.createAnnouncement);
+router.patch('/announcements/:id',    protect, adminOnly, miscCtrl.updateAnnouncement);
+router.delete('/announcements/:id',   protect, adminOnly, miscCtrl.deleteAnnouncement);
+
+// ── TEAM MEMBERS 
+
+// Public (sans auth) — lu par TeamSection/EventsPage côté client
+router.get('/team/public', miscCtrl.getPublicTeamMembers);
+
+// Admin (avec auth)
+router.get('/team',          protect, staffAndAbove, miscCtrl.getAllTeamMembers);
+ router.get('/team/:id',      protect, staffAndAbove, miscCtrl.getTeamMemberById);
+router.post('/team',         protect, adminOnly, miscCtrl.createTeamMember);
+router.patch('/team/:id',    protect, adminOnly, miscCtrl.updateTeamMember);
+router.delete('/team/:id',   protect, adminOnly, miscCtrl.deleteTeamMember);
 export default router;

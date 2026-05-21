@@ -519,3 +519,76 @@ ALTER TABLE contacts ADD CONSTRAINT contacts_statut_check
 -- 3. Mettre à jour les données existantes
 UPDATE contacts SET statut = 'traite' WHERE statut = 'traité';
 UPDATE contacts SET statut = 'archive' WHERE statut = 'archivé';
+
+
+//ajout des annonces et memebres de l'equipe:
+
+
+-- ============================================================
+-- MIGRATION: Ajout tables announcements, team_members
+--            + contrainte UNIQUE sur content_blocks
+-- À exécuter UNE FOIS sur votre base PostgreSQL
+-- ============================================================
+
+-- 1. Contrainte UNIQUE sur content_blocks (nécessaire pour ON CONFLICT upsert)
+ALTER TABLE content_blocks
+  ADD CONSTRAINT IF NOT EXISTS uq_content_blocks_page_bloc
+  UNIQUE (page_slug, bloc_key);
+
+-- 2. Table des annonces / événements
+CREATE TABLE IF NOT EXISTS announcements (
+    id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    titre       VARCHAR(200) NOT NULL,
+    description TEXT NOT NULL,
+    image_url   TEXT,
+    date_event  VARCHAR(100),          -- ex: "15-19 Juillet 2024"
+    lien_wa     TEXT,                  -- lien WhatsApp optionnel
+    actif       BOOLEAN DEFAULT TRUE,
+    ordre       INTEGER DEFAULT 0,     -- pour trier l'ordre d'affichage
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Table des membres de l'équipe
+CREATE TABLE IF NOT EXISTS team_members (
+    id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nom        VARCHAR(150) NOT NULL,
+    role       VARCHAR(150) NOT NULL,
+    image_url  TEXT,
+    bio        TEXT,
+    ordre      INTEGER DEFAULT 0,      -- pour trier l'ordre d'affichage
+    actif      BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4. Données initiales — annonces
+INSERT INTO announcements (titre, description, date_event, lien_wa, ordre) VALUES
+  ('Jobs Week - Session Juillet 2024',
+   'Programme intensif de 5 jours pour être prêt pour l''emploi. Optimisation CV, entretiens blancs et matching avec des employeurs.',
+   '15-19 Juillet 2024',
+   'https://wa.me/237678111022?text=Bonjour, je souhaite participer à Jobs Week',
+   1),
+  ('Incubateur Malea Lab',
+   'Programme d''accompagnement de 3 mois pour les startups innovantes. Mentorat, networking et accès aux investisseurs.',
+   'Inscriptions ouvertes',
+   'https://wa.me/237678111022?text=Bonjour, je souhaite rejoindre l''incubateur Malea Lab',
+   2),
+  ('Networking Evening',
+   'Rencontrez des entrepreneurs, investisseurs et professionnels lors de notre soirée networking mensuelle.',
+   'Chaque dernier vendredi du mois',
+   'https://wa.me/237678111022?text=Bonjour, je souhaite participer au Networking Evening',
+   3);
+
+-- 5. Données initiales — équipe
+INSERT INTO team_members (nom, role, ordre) VALUES
+  ('Erdman Doumbè',  'Fondateur & CEO',               1),
+  ('Sarah Kamga',    'Directrice des Programmes',      2),
+  ('Michael Tchouta','Lead Mentor',                    3),
+  ('Amira Diallo',   'Community Manager',              4),
+  ('Jean Njiké',     'Chargé d''Incubation',           5),
+  ('Clarisse Ngo',   'Formatrice certifiée',           6);
+
+-- 6. Index
+CREATE INDEX IF NOT EXISTS idx_announcements_ordre ON announcements(ordre, actif);
+CREATE INDEX IF NOT EXISTS idx_team_members_ordre  ON team_members(ordre, actif);
