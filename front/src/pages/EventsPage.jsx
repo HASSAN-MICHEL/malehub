@@ -298,28 +298,23 @@ export default function EventsPage() {
   // WhatsApp number depuis les settings
   const waGeneral = setting('whatsapp_general', '237678111022');
   
-  // URL de base de l'API
+  // URL de base de l'API - utilisée de la même manière que dans Coworking
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
   
-  // Fonction pour obtenir l'URL complète d'une image
+  // Fonction pour obtenir l'URL complète d'une image (identique à celle de Coworking)
   const getFullImageUrl = (url) => {
     if (!url) return null;
     // Si c'est déjà une URL complète
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url;
     }
-    // Si c'est un chemin absolu commençant par /
+    // Si l'URL commence par /, on ajoute le domaine
     if (url.startsWith('/')) {
       return `${API_BASE_URL}${url}`;
     }
-    // Sinon, on suppose que c'est un chemin relatif
-    return `${API_BASE_URL}/uploads/${url}`;
+    // Sinon, retourne l'URL telle quelle (pour les images dans public/)
+    return url;
   };
-
-  // Debug: Afficher les URLs dans la console
-  console.log('API_BASE_URL:', API_BASE_URL);
-  console.log('Annonces:', apiAnnouncements);
-  console.log('Membres:', teamMembers);
 
   // Dupliquer les membres pour un effet de boucle infinie
   const duplicatedStaff = teamMembers && teamMembers.length > 0 
@@ -388,59 +383,74 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {apiAnnouncements.map((announcement) => (
-                <div
-                  key={announcement.id}
-                  className="group rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-                  style={{
-                    backgroundColor: 'var(--card)',
-                    borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = 'color-mix(in oklch, var(--primary) 40%, transparent)'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = 'color-mix(in oklch, var(--border) 50%, transparent)'}
-                >
-                  {announcement.image_url && (
-                    <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-                      <img
-                        src={getFullImageUrl(announcement.image_url)}
-                        alt={announcement.titre}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        onError={(e) => { 
-                          console.error('Image error:', announcement.image_url);
-                          e.currentTarget.src = '/maleannonce.jpeg';
-                          e.currentTarget.onerror = null;
-                        }}
-                      />
+              {apiAnnouncements.map((announcement) => {
+                // Déterminer l'URL de l'image de l'annonce
+                let imageUrl = announcement.image_url;
+                
+                // Si image_url est vide, essayer de récupérer depuis le ContentManager (si configuré)
+                if (!imageUrl) {
+                  imageUrl = getMedia(`announcement_${announcement.id}_image`);
+                }
+                
+                return (
+                  <div
+                    key={announcement.id}
+                    className="group rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                    style={{
+                      backgroundColor: 'var(--card)',
+                      borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = 'color-mix(in oklch, var(--primary) 40%, transparent)'}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = 'color-mix(in oklch, var(--border) 50%, transparent)'}
+                  >
+                    {imageUrl && (
+                      <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+                        <img
+                          src={getFullImageUrl(imageUrl)}
+                          alt={announcement.titre}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => { 
+                            console.error('Image error for announcement:', announcement.titre, imageUrl);
+                            e.currentTarget.style.display = 'none';
+                            // Afficher un fallback
+                            const parent = e.currentTarget.parentElement;
+                            if (parent) {
+                              parent.style.backgroundColor = '#f3f4f6';
+                              parent.innerHTML = '<div class="flex items-center justify-center h-full text-gray-400">📷</div>';
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        {announcement.date_event && (
+                          <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
+                            <Calendar className="h-3 w-3 inline mr-1" />
+                            {announcement.date_event}
+                          </span>
+                        )}
+                        <Eye className="h-4 w-4 opacity-50" style={{ color: 'var(--muted-foreground)' }} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--foreground)' }}>
+                        {announcement.titre}
+                      </h3>
+                      <p className="text-sm leading-relaxed mb-4 line-clamp-3" style={{ color: 'var(--muted-foreground)' }}>
+                        {announcement.description}
+                      </p>
+                      <a
+                        href={announcement.lien_wa || `https://wa.me/${waGeneral}?text=${encodeURIComponent(`Bonjour, je souhaite participer à ${announcement.titre}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-semibold transition-all hover:gap-3"
+                        style={{ color: 'var(--primary)' }}
+                      >
+                        {get('announcements_cta', 'En savoir plus')} <ArrowRight className="h-4 w-4" />
+                      </a>
                     </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      {announcement.date_event && (
-                        <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
-                          <Calendar className="h-3 w-3 inline mr-1" />
-                          {announcement.date_event}
-                        </span>
-                      )}
-                      <Eye className="h-4 w-4 opacity-50" style={{ color: 'var(--muted-foreground)' }} />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--foreground)' }}>
-                      {announcement.titre}
-                    </h3>
-                    <p className="text-sm leading-relaxed mb-4 line-clamp-3" style={{ color: 'var(--muted-foreground)' }}>
-                      {announcement.description}
-                    </p>
-                    <a
-                      href={announcement.lien_wa || `https://wa.me/${waGeneral}?text=${encodeURIComponent(`Bonjour, je souhaite participer à ${announcement.titre}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-semibold transition-all hover:gap-3"
-                      style={{ color: 'var(--primary)' }}
-                    >
-                      {get('announcements_cta', 'En savoir plus')} <ArrowRight className="h-4 w-4" />
-                    </a>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -484,16 +494,27 @@ export default function EventsPage() {
                             backgroundColor: 'var(--card)'
                           }}
                         >
-                          <img
-                            src={getFullImageUrl(member.image_url)}
-                            alt={member.nom}
-                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                            onError={(e) => { 
-                              console.error('Member image error:', member.image_url);
-                              e.currentTarget.src = 'https://via.placeholder.com/150?text=Photo';
-                              e.currentTarget.onerror = null;
-                            }}
-                          />
+                          {member.image_url ? (
+                            <img
+                              src={getFullImageUrl(member.image_url)}
+                              alt={member.nom}
+                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                              onError={(e) => { 
+                                console.error('Member image error:', member.nom, member.image_url);
+                                e.currentTarget.style.display = 'none';
+                                // Afficher un fallback
+                                const parent = e.currentTarget.parentElement;
+                                if (parent) {
+                                  parent.style.backgroundColor = '#f3f4f6';
+                                  parent.innerHTML = '<div class="flex items-center justify-center h-full text-2xl text-gray-400">👤</div>';
+                                }
+                              }}
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-2xl text-gray-400">
+                              👤
+                            </div>
+                          )}
                         </div>
                       </div>
                       
