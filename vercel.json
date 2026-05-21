@@ -1,4 +1,3 @@
-
 {
   "version": 2,
 
@@ -20,6 +19,16 @@
     },
 
     {
+      "src": "/images/(.*)",
+      "dest": "/front/dist/images/$1"
+    },
+
+    {
+      "src": "/uploads/(.*)",
+      "dest": "/front/dist/uploads/$1"
+    },
+
+    {
       "src": "/favicon.ico",
       "dest": "/front/dist/favicon.ico"
     },
@@ -27,6 +36,10 @@
     {
       "src": "/api/(.*)",
       "dest": "/backend/server.js"
+    },
+
+    {
+      "handle": "filesystem"
     },
 
     {
