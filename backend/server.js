@@ -105,7 +105,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { config } from './config/config.js';
-import { testConnection } from './config/database.js';
+// import { testConnection } from './config/database.js';
 import apiRouter from './routes/index.js';
 import errorHandler from './middlewares/error.js';
 
