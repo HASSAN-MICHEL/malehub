@@ -1,5 +1,5 @@
 guide de configuration...
-...................................................................................
+
 1 - installation : 
     Copy et Lance le cmd suivant..
         CMD : 
