@@ -48,34 +48,34 @@ router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentB
 
 // ── Upload 
 
-// router.post(
-//   '/upload',
-//   protect,
-//   adminOnly,
-//   (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
-//   upload.single('file'),
-//   (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
-// );
-
-// ICI on construit le chemin del'image avec le domaine:
-
-// ── Upload 
 router.post(
   '/upload',
   protect,
   adminOnly,
   (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
   upload.single('file'),
-  (req, res) => {
-    // Construire l'URL complète avec le domaine
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : (process.env.API_URL || 'https://maleahub.vercel.app');
-    
-    const fileUrl = `${baseUrl}/uploads/media/${req.file.filename}`;
-    res.json({ status: 'success', data: { url: fileUrl } });
-  }
+  (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
 );
+
+// ICI on construit le chemin del'image avec le domaine:
+
+// // ── Upload 
+// router.post(
+//   '/upload',
+//   protect,
+//   adminOnly,
+//   (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
+//   upload.single('file'),
+//   (req, res) => {
+//     // Construire l'URL complète avec le domaine
+//     const baseUrl = process.env.VERCEL_URL 
+//       ? `https://${process.env.VERCEL_URL}`
+//       : (process.env.API_URL || 'https://maleahub.vercel.app');
+    
+//     const fileUrl = `${baseUrl}/uploads/media/${req.file.filename}`;
+//     res.json({ status: 'success', data: { url: fileUrl } });
+//   }
+// );
 
 
 
