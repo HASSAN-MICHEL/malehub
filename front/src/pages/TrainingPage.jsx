@@ -514,6 +514,7 @@
 // //   );
 // // }
 
+
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GraduationCap, Check, Users, Clock, Award, FileText, Briefcase, ArrowRight, Mic, X, Calendar, DollarSign } from 'lucide-react';
@@ -534,6 +535,14 @@ const defaultBenefits = [
   { title: 'Entretiens simulés', description: 'Pratiquez avec des retours d\'experts' },
   { title: 'Certificat', description: 'Preuve de complétion pour votre portfolio' },
   { title: 'Accès à l\'emploi', description: 'Connexions directes avec les opportunités' },
+];
+
+const defaultIncludedItems = [
+  'Optimisation CV',
+  'Entretiens blancs',
+  'Profil LinkedIn',
+  'Matching emploi',
+  'Certificat'
 ];
 
 export default function TrainingPage() {
@@ -568,7 +577,7 @@ export default function TrainingPage() {
   const jobsWeekModules = (() => {
     try {
       const modulesJson = getText('jobs_week_modules', '');
-      if (modulesJson) return JSON.parse(modulesJson);
+      if (modulesJson && modulesJson.trim()) return JSON.parse(modulesJson);
     } catch (e) { console.warn('Invalid modules JSON'); }
     return defaultJobsWeekModules;
   })();
@@ -576,10 +585,19 @@ export default function TrainingPage() {
   const benefits = (() => {
     try {
       const benefitsJson = getText('jobs_week_benefits', '');
-      if (benefitsJson) return JSON.parse(benefitsJson);
+      if (benefitsJson && benefitsJson.trim()) return JSON.parse(benefitsJson);
     } catch (e) { console.warn('Invalid benefits JSON'); }
     return defaultBenefits;
   })();
+
+  // Récupération sécurisée des éléments inclus
+  const getIncludedItems = () => {
+    const items = t('training.jobsWeek.included_list', { returnObjects: true });
+    if (Array.isArray(items) && items.length > 0) {
+      return items;
+    }
+    return defaultIncludedItems;
+  };
 
   useEffect(() => {
     fetchFormations();
@@ -627,6 +645,7 @@ export default function TrainingPage() {
   };
 
   const formatDate = (date) => {
+    if (!date) return '';
     return new Date(date).toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',
@@ -704,7 +723,7 @@ export default function TrainingPage() {
                   {jobsWeekDescription}
                 </p>
                 <div className="mt-8 grid grid-cols-2 gap-4">
-                  {benefits.map((benefit) => {
+                  {Array.isArray(benefits) && benefits.map((benefit) => {
                     const IconMap = {
                       'Optimisation de CV': FileText,
                       'CV Optimization': FileText,
@@ -760,7 +779,7 @@ export default function TrainingPage() {
                   <span className="font-medium" style={{ color: 'var(--foreground)' }}>{t('training.jobsWeek.duration', '5 jours intensifs')}</span>
                 </div>
                 <ul className="space-y-3 mb-8">
-                  {t('training.jobsWeek.included_list', { returnObjects: true }).map((item) => (
+                  {getIncludedItems().map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
                       <Check className="h-4 w-4" style={{ color: 'var(--primary)' }} /> {item}
                     </li>
@@ -864,9 +883,9 @@ export default function TrainingPage() {
             </p>
           </div>
           <div className="max-w-3xl mx-auto space-y-4">
-            {jobsWeekModules.map((module, index) => (
+            {Array.isArray(jobsWeekModules) && jobsWeekModules.map((module, index) => (
               <div
-                key={module.day}
+                key={module.day || index}
                 className="flex items-center gap-6 p-6 rounded-xl border"
                 style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}
               >
