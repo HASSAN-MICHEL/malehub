@@ -199,7 +199,7 @@
 
 import { useTranslation } from 'react-i18next'
 import { Wifi, Users, Monitor, Coffee, Clock, Shield, ArrowRight, Calendar } from 'lucide-react'
-import { useContent, useSettings } from '../hooks/useContet' 
+import { useContent, useSettings } from '../hooks/usecontet' 
 
 const iconMap = {
   'WiFi Haut Débit': Wifi,
