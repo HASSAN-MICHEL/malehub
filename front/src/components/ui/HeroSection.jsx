@@ -156,7 +156,7 @@
 
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { useContent, useSettings } from '../../hooks/useContet';
+import { useContent, useSettings } from '../../hooks/usecontet';
 import { useTranslation } from 'react-i18next';
 
 export function HeroSection() {

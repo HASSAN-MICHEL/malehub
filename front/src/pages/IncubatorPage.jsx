@@ -430,7 +430,7 @@
 
 import { useTranslation } from 'react-i18next'
 import { Lightbulb, Users, TrendingUp, Target, Rocket, Network, ArrowRight } from 'lucide-react'
-import { useContent, useSettings } from '../hooks/useContet'
+import { useContent, useSettings } from '../hooks/usecontet'
 
 const iconMap = {
   'Mentorat d\'Expert': Users,
