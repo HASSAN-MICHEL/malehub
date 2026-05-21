@@ -19,7 +19,6 @@ guide de configuration...
     path : 
         ./Components/LanguageSwitcher.tsx
 
-.........................................................................................
 
 4 - CONFIG FINAL : 
     IMPORTE le dossier i18n dans ton fichier main.tsx
