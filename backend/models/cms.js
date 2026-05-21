@@ -1,6 +1,6 @@
 import { query } from '../config/database.js';
 
-
+//
 export const AnnouncementModel = {
   findAll: ({ actifOnly = false } = {}) => {
     const where = actifOnly ? 'WHERE actif = TRUE' : '';
