@@ -236,29 +236,30 @@ app.get('/health', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
-// const frontendPath = path.join(__dirname, '..', 'front', 'dist');
 
-// // Static frontend files
-// app.use(express.static(frontendPath));
+const frontendPath = path.join(__dirname, '..', 'front', 'dist');
 
-// // Static assets
-// app.use('/assets', express.static(path.join(frontendPath, 'assets')));
+// Static frontend files
+app.use(express.static(frontendPath));
 
-// // React Router SPA
-// app.use((req, res, next) => {
-//   // API routes
-//   if (req.originalUrl.startsWith('/api')) {
-//     return next();
-//   }
+// Static assets
+app.use('/assets', express.static(path.join(frontendPath, 'assets')));
 
-//   // Assets routes
-//   if (req.originalUrl.startsWith('/assets')) {
-//     return next();
-//   }
+// React Router SPA
+app.use((req, res, next) => {
+  // API routes
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
 
-//   res.sendFile(path.join(frontendPath, 'index.html'));
-// });
-// Error Handler
+  // Assets routes
+  if (req.originalUrl.startsWith('/assets')) {
+    return next();
+  }
+
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+///Error Handler
 
 app.use(errorHandler);
 
