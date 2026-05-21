@@ -136,30 +136,50 @@ NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"
 }
 
 
-
 {
   "version": 2,
+
   "builds": [
     {
       "src": "backend/server.js",
       "use": "@vercel/node"
     },
     {
-      "src": "front/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "src": "front/dist/**",
+      "use": "@vercel/static"
     }
   ],
+
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "src": "/assets/(.*)",
+      "dest": "/front/dist/assets/$1"
     },
+
+    {
+      "src": "/images/(.*)",
+      "dest": "/front/dist/images/$1"
+    },
+
+    {
+      "src": "/uploads/(.*)",
+      "dest": "/front/dist/uploads/$1"
+    },
+
+    {
+      "src": "/favicon.ico",
+      "dest": "/front/dist/favicon.ico"
+    },
+
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+
     {
       "handle": "filesystem"
     },
+
     {
       "src": "/(.*)",
       "dest": "/front/dist/index.html"
