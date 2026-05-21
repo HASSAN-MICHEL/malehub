@@ -48,35 +48,36 @@ router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentB
 
 // ── Upload 
 
-router.post(
-  '/upload',
-  protect,
-  adminOnly,
-  (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
-  upload.single('file'),
-  (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
-);
-
-// ICI on construit le chemin del'image avec le domaine:
-
-// // ── Upload 
 // router.post(
 //   '/upload',
 //   protect,
 //   adminOnly,
 //   (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
 //   upload.single('file'),
-//   (req, res) => {
-//     // Construire l'URL complète avec le domaine
-//     const baseUrl = process.env.VERCEL_URL 
-//       ? `https://${process.env.VERCEL_URL}`
-//       : (process.env.API_URL || 'https://maleahub.vercel.app');
-    
-//     const fileUrl = `${baseUrl}/uploads/media/${req.file.filename}`;
-//     res.json({ status: 'success', data: { url: fileUrl } });
-//   }
+//   (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
 // );
 
+// ICI on construit le chemin del'image avec le domaine:
+
+// ── Upload 
+router.post(
+  '/upload',
+  protect,
+  adminOnly,
+  (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
+  upload.single('file'),
+  (req, res) => {
+    // Obtenir l'URL de base du serveur
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+    
+    // Construire l'URL complète
+    const fileUrl = `${baseUrl}/uploads/media/${req.file.filename}`;
+    
+    res.json({ status: 'success', data: { url: fileUrl } });
+  }
+);
 
 
 // Public (sans auth) — lu par EventsPage côté client
