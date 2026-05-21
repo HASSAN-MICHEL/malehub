@@ -65,18 +65,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { cmsAPI } from '../services/client';
 
-/**
- * useContent(pageSlug)
- *
- * Lit les content_blocks pour une page depuis le CMS.
- * Expose get(key, fallback) qui retourne :
- *   - media_url  si le bloc est de type image (media_url non vide)
- *   - valeur_texte  sinon
- *
- * BUG CORRIGÉ : l'ancien hook ignorait media_url, les images uploadées
- * étaient stockées dans media_url côté BD mais le hook ne les lisait pas,
- * d'où un espace vide sur le client.
- */
+
 export function useContent(pageSlug) {
   const [blocks, setBlocks]   = useState({});   // { bloc_key: { text, media } }
   const [loading, setLoading] = useState(true);
@@ -105,11 +94,7 @@ export function useContent(pageSlug) {
 
   useEffect(() => { fetchBlocks(); }, [fetchBlocks]);
 
-  /**
-   * get(key, fallback?)
-   * Pour un champ texte → retourne valeur_texte ou fallback
-   * Pour un champ image → retourne media_url (priorité) ou valeur_texte (URL manuelle) ou fallback
-   */
+  
   const get = useCallback(
     (key, fallback = '') => {
       const b = blocks[key];
