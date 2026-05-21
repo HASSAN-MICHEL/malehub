@@ -50,7 +50,7 @@
 //   app.use(morgan('combined'));
 // }
 
-// // ── Static files (uploads) ────────────────────────────────────────────────────
+// // 
 // app.use('/uploads', express.static(path.join(__dirname, '..', config.upload.dir)));
 
 // // API routes 
