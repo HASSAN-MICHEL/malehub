@@ -264,12 +264,6 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 
-try {
-  await testConnection();
-  console.log('✅ Database connected');
-} catch (err) {
-  console.error('❌ Database connection failed:', err);
-}
 
 
 export default app;
