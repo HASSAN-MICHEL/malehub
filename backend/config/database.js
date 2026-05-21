@@ -49,37 +49,34 @@ dotenv.config();
 
 const { Pool } = pg;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+const globalForPool = globalThis;
+
+const pool =
+  globalForPool.pgPool ||
+  new Pool({
+    connectionString: process.env.DATABASE_URL,
+
+    ssl: {
+      rejectUnauthorized: false,
+    },
+
+    max: 3,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+  });
+
+if (!globalForPool.pgPool) {
+  globalForPool.pgPool = pool;
+}
 
 pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
+  console.error('Unexpected PostgreSQL error', err);
 });
 
-export const query = (text, params) => pool.query(text, params);
+export const query = (text, params) =>
+  pool.query(text, params);
 
-export const getClient = () => pool.connect();
-
-export const testConnection = async () => {
-  try {
-    const client = await pool.connect();
-    const res = await client.query('SELECT NOW()');
-
-    console.log(`✅ PostgreSQL connected — ${res.rows[0].now}`);
-
-    client.release();
-  } catch (err) {
-    console.error('❌ PostgreSQL connection error:', err.message);
-    process.exit(1);
-  }
-};
+export const getClient = () =>
+  pool.connect();
 
 export default pool;
