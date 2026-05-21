@@ -242,7 +242,7 @@ const frontendPath = path.join(__dirname, '..', 'front', 'dist');
 app.use(express.static(frontendPath));
 
 // Static assets
-//app.use('/assets', express.static(path.join(frontendPath, 'assets')));
+app.use('/assets', express.static(path.join(frontendPath, 'assets')));
 
 // React Router SPA
 app.use((req, res, next) => {
