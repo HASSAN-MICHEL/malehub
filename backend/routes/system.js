@@ -14,7 +14,7 @@ import {
 } from '../validations/system.js';
 import { upload } from '../config/multer.js';
 import { uploadToSupabase } from '../service/supabase.js';
-//
+
 const router = Router();
 
 //  Upload vers Supabase Storage
