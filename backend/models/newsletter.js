@@ -32,7 +32,14 @@ export const NewsletterModel = {
        ORDER BY subscribed_at DESC`
     );
   },
-
+ async getAllActiveEmails() {
+    const { rows } = await query(
+      `SELECT email FROM newsletter_subscribers 
+       WHERE actif = TRUE 
+       ORDER BY subscribed_at DESC`
+    );
+    return rows.map(row => row.email);
+  },
   // Compter les abonnés
   async count() {
     const { rows } = await query(
