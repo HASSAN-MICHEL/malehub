@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  Save, Upload, X, CheckCircle, AlertCircle, RefreshCw,
+  Save, Upload, X, CheckCircle, Mail ,  AlertCircle, RefreshCw,
   Plus, Trash2, Edit3, Eye, EyeOff, GripVertical,
   Megaphone, Users, Settings, FileImage, Globe,
 } from 'lucide-react';
@@ -99,6 +99,7 @@ const TABS = [
   { id: 'content',       label: 'Pages',       icon: Globe },
   { id: 'announcements', label: 'Annonces',    icon: Megaphone },
   { id: 'team',          label: 'Équipe',      icon: Users },
+  { id: 'newsletter',    label: 'Newsletter',  icon: Mail },
   { id: 'settings',      label: 'Paramètres',  icon: Settings },
 ];
 
@@ -800,7 +801,7 @@ function TeamTab() {
   );
 }
 
-// ── SECTION : Settings ────────────────────────────────────────────────────────
+// ── SECTION : Settings
 function SettingsTab() {
   const [settings, setSettings] = useState({});
   const [loading, setLoading]   = useState(true);
@@ -906,6 +907,220 @@ function SettingsTab() {
               {g.keys.map(cle => SETTINGS_CONFIG[cle] ? renderSetting(cle, SETTINGS_CONFIG[cle]) : null)}
             </div>
           ))}
+        </div>
+      )}
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </div>
+  );
+}
+
+// ── SECTION : Newsletter ──────────────────────────────────────────────────────
+function NewsletterTab() {
+  const [subscribers, setSubscribers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
+  const [total, setTotal] = useState(0);
+  const [sending, setSending] = useState(false);
+  const [emailForm, setEmailForm] = useState({
+    subject: '',
+    content: '',
+    isHtml: true,
+  });
+
+  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+
+  const fetchSubscribers = async () => {
+    setLoading(true);
+    try {
+      const res = await adminApi.get('/system/newsletter/subscribers');
+      setSubscribers(res.data?.data?.subscribers || []);
+      const countRes = await adminApi.get('/system/newsletter/count');
+      setTotal(countRes.data?.data?.total || 0);
+    } catch {
+      showToast('Erreur chargement', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchSubscribers(); }, []);
+
+  const exportSubscribers = () => {
+    const csv = [
+      ['Email', "Date d'inscription"],
+      ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])
+    ].map(row => row.join(',')).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `newsletter-subscribers-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleSendNewsletter = async (e) => {
+    e.preventDefault();
+    
+    if (!emailForm.subject || !emailForm.content) {
+      showToast('Veuillez remplir le sujet et le contenu', 'error');
+      return;
+    }
+
+    if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
+
+    setSending(true);
+    try {
+      const res = await adminApi.post('/system/newsletter/send', {
+        subject: emailForm.subject,
+        content: emailForm.content,
+        isHtml: emailForm.isHtml,
+      });
+      
+      showToast(res.data?.message || 'Newsletter envoyée avec succès !');
+      setEmailForm({ subject: '', content: '', isHtml: true });
+    } catch (error) {
+      showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
+            Newsletter
+          </h2>
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+            {total} abonné(s) actif(s)
+          </p>
+        </div>
+        <button
+          onClick={exportSubscribers}
+          disabled={subscribers.length === 0}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+          style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+        >
+          Exporter CSV
+        </button>
+      </div>
+
+      {/* Formulaire d'envoi de newsletter */}
+      <div className="rounded-xl border p-6 space-y-4"
+        style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+        <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>
+          Envoyer une newsletter
+        </h3>
+        
+        <form onSubmit={handleSendNewsletter} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>
+              Sujet *
+            </label>
+            <input
+              type="text"
+              value={emailForm.subject}
+              onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+              placeholder="Ex: Nouveaux événements chez Malea Hub"
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>
+              Contenu *
+            </label>
+            <div className="flex gap-2 mb-2">
+              <button
+                type="button"
+                onClick={() => setEmailForm({ ...emailForm, isHtml: true })}
+                className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+                  emailForm.isHtml ? 'bg-primary text-white' : 'border'
+                }`}
+                style={emailForm.isHtml ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : { borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
+              >
+                HTML
+              </button>
+              <button
+                type="button"
+                onClick={() => setEmailForm({ ...emailForm, isHtml: false })}
+                className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+                  !emailForm.isHtml ? 'bg-primary text-white' : 'border'
+                }`}
+                style={!emailForm.isHtml ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : { borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
+              >
+                Texte simple
+              </button>
+            </div>
+            <textarea
+              value={emailForm.content}
+              onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
+              rows={8}
+              placeholder={emailForm.isHtml 
+                ? "<h2>Nouveautés chez Malea Hub</h2><p>Découvrez nos prochains événements...</p>"
+                : "Bonjour,\n\nVoici les dernières actualités de Malea Hub..."}
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 font-mono text-sm"
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+              required
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              disabled={sending || total === 0}
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+            >
+              {sending ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                  Envoi en cours...
+                </>
+              ) : (
+                <>Envoyer à {total} abonné(s)</>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Liste des abonnés */}
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+        </div>
+      ) : subscribers.length === 0 ? (
+        <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+          <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
+          <p style={{ color: 'var(--muted-foreground)' }}>Aucun abonné pour le moment.</p>
+        </div>
+      ) : (
+        <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
+          <table className="w-full text-sm">
+            <thead style={{ backgroundColor: 'var(--muted)' }}>
+              <tr>
+                <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th>
+                <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscribers.map((sub) => (
+                <tr key={sub.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
+                  <td className="p-3" style={{ color: 'var(--foreground)' }}>{sub.email}</td>
+                  <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>
+                    {new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 

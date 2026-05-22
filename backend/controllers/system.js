@@ -161,6 +161,7 @@ import { InvestorModel, ContactModel, SettingModel, ContentBlockModel } from '..
 import { NewsletterModel } from '../models/newsletter.js';
 import { AnnouncementModel, TeamMemberModel } from '../models/cms.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
+import { sendMassEmail } from '../service/EmailService.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
 import axios from 'axios';
 
@@ -496,4 +497,39 @@ export const getAllNewsletterSubscribers = asyncHandler(async (req, res) => {
 export const getNewsletterCount = asyncHandler(async (req, res) => {
   const total = await NewsletterModel.count();
   sendSuccess(res, { total });
+});
+
+
+// envoyé les notifications
+
+export const sendNewsletter = asyncHandler(async (req, res) => {
+  const { subject, content, isHtml = true } = req.body;
+  
+  if (!subject || !content) {
+    throw new AppError('Sujet et contenu requis', 400);
+  }
+
+  // Récupérer tous les emails des abonnés
+  const emails = await NewsletterModel.getAllActiveEmails();
+  
+  if (emails.length === 0) {
+    throw new AppError('Aucun abonné à la newsletter', 400);
+  }
+
+  // Envoyer l'email à tous les abonnés
+  const html = isHtml ? content : `<p>${content.replace(/\n/g, '<br>')}</p>`;
+  const text = !isHtml ? content : content.replace(/<[^>]*>/g, '');
+  
+  const result = await sendMassEmail({
+    recipients: emails,
+    subject,
+    html,
+    text,
+  });
+
+  sendSuccess(res, {
+    total: result.total,
+    successCount: result.successCount,
+    errorCount: result.errorCount,
+  }, `Newsletter envoyée à ${result.successCount}/${result.total} abonnés`);
 });

@@ -110,4 +110,5 @@ router.post('/newsletter/subscribe', miscCtrl.subscribeToNewsletter);
 // Admin routes
 router.get('/newsletter/subscribers', protect, staffAndAbove, miscCtrl.getAllNewsletterSubscribers);
 router.get('/newsletter/count', protect, staffAndAbove, miscCtrl.getNewsletterCount);
+router.post('/newsletter/send', protect, adminOnly, miscCtrl.sendNewsletter);
 export default router;
