@@ -197,24 +197,7 @@ export function HeroSection() {
             {heroSubtitle}
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`https://wa.me/${waNumber}?text=${encodeURIComponent("Bonjour, je souhaite rejoindre l'incubateur Malea Hub")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105"
-              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
-            >
-              {ctaIncubator} <ArrowRight className="h-5 w-5" />
-            </a>
-            <Link
-              to="/coworking"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold border transition-all hover:scale-105"
-              style={{ borderColor: 'var(--primary)', color: 'var(--foreground)' }}
-            >
-              {t('hero.discover')}
-            </Link>
-          </div>
+          
 
           <div className="mt-12 flex justify-center">
             <a
