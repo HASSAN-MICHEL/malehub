@@ -81,6 +81,21 @@
   
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    font-size: 16px;
+  }
+  
+  /* Ajustement de la taille de police sur mobile */
+  @media (max-width: 768px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    html {
+      font-size: 13px;
+    }
   }
   
   body {
@@ -88,7 +103,63 @@
     color: var(--foreground);
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  /* Images responsives */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Conteneurs responsives */
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  
+  /* Ajustement des titres pour mobile */
+  h1 {
+    font-size: clamp(1.75rem, 5vw, 3.5rem);
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.25;
+  }
+  
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.3;
+  }
+  
+  p {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.6;
   }
 }
 
@@ -99,9 +170,131 @@
   border-color: color-mix(in oklch, var(--border) 50%, transparent);
 }
 
+/* Version mobile du header */
+@media (max-width: 768px) {
+  .glass-header {
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Grid responsives - corrections pour mobile */
+.grid {
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    gap: 1.5rem;
+  }
+}
+
+/* Cards responsives */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1rem;
+  }
+}
+
+/* Boutons responsives */
+button, .btn {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  button, .btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (hover: hover) {
+  button:hover, .btn:hover {
+    transform: scale(1.02);
+  }
+}
+
+@media (hover: none) {
+  button:active, .btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Espacement des sections pour mobile */
+section {
+  padding-top: clamp(2rem, 8vw, 5rem);
+  padding-bottom: clamp(2rem, 8vw, 5rem);
+}
+
+@media (min-width: 768px) {
+  section {
+    padding-top: clamp(3rem, 6vw, 8rem);
+    padding-bottom: clamp(3rem, 6vw, 8rem);
+  }
+}
+
+/* Formulaire responsif */
+input, textarea, select {
+  max-width: 100%;
+  font-size: 16px; /* Empêche le zoom sur iOS */
+}
+
+@media (max-width: 640px) {
+  input, textarea, select {
+    font-size: 16px;
+    padding: 0.625rem;
+  }
+}
+
+/* Tableaux responsifs */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Marquee animation (pour l'équipe) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+  width: fit-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Ajustement de la vitesse sur mobile */
+@media (max-width: 640px) {
+  .animate-marquee {
+    animation-duration: 20s;
+  }
+}
+
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -120,4 +313,114 @@
 ::selection {
   background: var(--primary);
   color: var(--primary-foreground);
+}
+
+/* Éviter le défilement horizontal sur mobile */
+body, #root {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* Ajustement des icônes pour mobile */
+.icon-sm {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.icon-md {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-lg {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media (max-width: 640px) {
+  .icon-sm {
+    width: 1rem;
+    height: 1rem;
+  }
+  .icon-md {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .icon-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+/* Ajustement des badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .badge {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    white-space: normal;
+  }
+}
+
+/* Animation fade-in pour les toasts */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Amélioration du touch sur mobile */
+@media (max-width: 768px) {
+  button, 
+  a, 
+  [role="button"],
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Ajustement des polices pour une meilleure lisibilité */
+@media (max-width: 480px) {
+  .text-xs {
+    font-size: 0.7rem;
+  }
+  .text-sm {
+    font-size: 0.8rem;
+  }
+  .text-base {
+    font-size: 0.875rem;
+  }
+  .text-lg {
+    font-size: 1rem;
+  }
+  .text-xl {
+    font-size: 1.125rem;
+  }
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+  .text-3xl {
+    font-size: 1.5rem;
+  }
 }
