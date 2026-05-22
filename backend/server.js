@@ -114,8 +114,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.set('trust proxy', 1);
 
-app.use('/uploads', express.static('/tmp/uploads'));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/media', express.static('/tmp/uploads/media'));
 
 // Security
 
