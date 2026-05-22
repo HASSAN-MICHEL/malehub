@@ -13,7 +13,7 @@ import {
   upsertContentBlockSchema,
 } from '../validations/system.js';
 import { upload } from '../config/multer.js';
-import { uploadToSupabase } from '../services/supabase.js';
+import { uploadToSupabase } from '../service/supabase.js';
 
 const router = Router();
 
