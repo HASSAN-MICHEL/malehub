@@ -16,24 +16,24 @@ import { upload } from '../config/multer.js';
 //
 const router = Router();
 
-// ── Dashboard 
+// Dashboard 
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
 
-// ── Investisseurs 
+// Investisseurs 
 router.get('/investors',        protect, staffAndAbove, miscCtrl.getAllInvestors);
 router.get('/investors/:id',    protect, staffAndAbove, miscCtrl.getInvestorById);
 router.post('/investors',       protect, adminOnly, validate(createInvestorSchema), miscCtrl.createInvestor);
 router.patch('/investors/:id',  protect, adminOnly, validate(updateInvestorSchema), miscCtrl.updateInvestor);
 router.delete('/investors/:id', protect, adminOnly, miscCtrl.deleteInvestor);
 
-// ── Contacts 
+//  Contacts 
 router.post('/contacts',             validate(createContactSchema), miscCtrl.createContact); 
 router.get('/contacts',              protect, staffAndAbove, miscCtrl.getAllContacts);
 router.get('/contacts/export',       protect, staffAndAbove, miscCtrl.exportContactsCSV);
 router.get('/contacts/:id',          protect, staffAndAbove, miscCtrl.getContactById);
 router.patch('/contacts/:id',        protect, staffAndAbove, validate(updateContactSchema), miscCtrl.updateContact);
 
-// ── Settings 
+//Settings 
 router.get('/settings',              protect, adminOnly, miscCtrl.getAllSettings);
 router.get('/settings/:cle',         protect, adminOnly, miscCtrl.getSettingByCle);
 router.put('/settings',              protect, adminOnly, validate(upsertSettingSchema), miscCtrl.upsertSetting);
