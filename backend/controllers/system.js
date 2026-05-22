@@ -510,7 +510,7 @@ export const sendNewsletter = asyncHandler(async (req, res) => {
   }
 
   // Récupérer tous les emails des abonnés
-  const emails = await NewsletterModel.getAllActive();
+  const emails = await NewsletterModel.getAllActiveEmails();
   
   if (emails.length === 0) {
     throw new AppError('Aucun abonné à la newsletter', 400);
