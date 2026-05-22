@@ -8,7 +8,7 @@ import {
   Plus, Trash2, Edit3, Eye, EyeOff, GripVertical,
   Megaphone, Users, Settings, FileImage, Globe,
 } from 'lucide-react';
-import { contentAPI, settingsAPI, adminAnnouncementsAPI, adminTeamAPI } from '../../services/admin';
+import { contentAPI, settingsAPI, adminAnnouncementsAPI, adminTeamAPI , adminApi } from '../../services/admin';
 
 // ── Constantes
 
@@ -391,11 +391,11 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── SECTION : Annonces ────────────────────────────────────────────────────────
+// Annonces
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading]   = useState(true);
-  const [editing, setEditing]   = useState(null); // null | 'new' | { ...announcement }
+  const [editing, setEditing]   = useState(null); 
   const [toast, setToast]       = useState(null);
   const [saving, setSaving]     = useState(false);
 
@@ -610,7 +610,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── SECTION : Équipe ──────────────────────────────────────────────────────────
+// Équipe 
 function TeamTab() {
   const [members, setMembers]   = useState([]);
   const [loading, setLoading]   = useState(true);
@@ -915,7 +915,7 @@ function SettingsTab() {
   );
 }
 
-// ── SECTION : Newsletter ──────────────────────────────────────────────────────
+// ── SECTION : Newsletter 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1163,6 +1163,7 @@ export default function ContentManager() {
       {activeTab === 'content'       && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
       {activeTab === 'announcements' && <AnnouncementsTab />}
       {activeTab === 'team'          && <TeamTab />}
+      {activeTab === 'newsletter'    && <NewsletterTab />} 
       {activeTab === 'settings'      && <SettingsTab />}
     </div>
   );
