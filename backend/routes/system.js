@@ -57,7 +57,7 @@ router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentB
 //   (req, res) => res.json({ status: 'success', data: { url: `/uploads/media/${req.file.filename}` } })
 // );
 
-// ICI on construit le chemin del'image avec le domaine:
+// ICI on construit le chemin del'image avec le domaine: pour la production
 
 // ── Upload 
 router.post(
