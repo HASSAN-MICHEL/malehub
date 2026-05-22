@@ -13,8 +13,39 @@ import {
   upsertContentBlockSchema,
 } from '../validations/system.js';
 import { upload } from '../config/multer.js';
-// 
+import { uploadToSupabase } from '../services/supabase.js';
+
 const router = Router();
+
+//  Upload vers Supabase Storage
+router.post(
+  '/upload',
+  protect,
+  adminOnly,
+  upload.single('file'),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ status: 'error', message: 'Aucun fichier' });
+      }
+
+      // Upload vers Supabase
+      const result = await uploadToSupabase(req.file, 'media');
+      
+      if (!result.success) {
+        return res.status(500).json({ status: 'error', message: result.error });
+      }
+
+      res.json({ 
+        status: 'success', 
+        data: { url: result.url } 
+      });
+    } catch (error) {
+      console.error('Upload error:', error);
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  }
+);
 
 // Dashboard 
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
@@ -46,7 +77,7 @@ router.put('/content',               protect, adminOnly, validate(upsertContentB
 router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentBlockById);
 router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentBlock);
 
-// ── Upload 
+// 
 
 // router.post(
 //   '/upload',
@@ -59,28 +90,9 @@ router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentB
 
 // ICI on construit le chemin del'image avec le domaine: pour la production
 
-// ── Upload 
-router.post(
-  '/upload',
-  protect,
-  adminOnly,
-  (req, _res, next) => { req.uploadSubDir = 'media'; next(); },
-  upload.single('file'),
-  (req, res) => {
-    // Obtenir l'URL de base du serveur
-    const protocol = req.headers['x-forwarded-proto'] || 'https';
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const baseUrl = `${protocol}://${host}`;
-    
-    // Construire l'URL complète
-    const fileUrl = `${baseUrl}/uploads/media/${req.file.filename}`;
-    
-    res.json({ status: 'success', data: { url: fileUrl } });
-  }
-);
 
 
-// Public (sans auth) — lu par EventsPage côté client
+// Public lu par EventsPage côté client
 router.get('/announcements/public', miscCtrl.getPublicAnnouncements);
 
 // Admin (avec auth)
@@ -90,9 +102,9 @@ router.post('/announcements',         protect, adminOnly, miscCtrl.createAnnounc
 router.patch('/announcements/:id',    protect, adminOnly, miscCtrl.updateAnnouncement);
 router.delete('/announcements/:id',   protect, adminOnly, miscCtrl.deleteAnnouncement);
 
-// ── TEAM MEMBERS 
+// equipes
 
-// Public (sans auth) — lu par TeamSection/EventsPage côté client
+//  lu par TeamSection/EventsPage côté client
 router.get('/team/public', miscCtrl.getPublicTeamMembers);
 
 // Admin (avec auth)
@@ -104,7 +116,7 @@ router.delete('/team/:id',   protect, adminOnly, miscCtrl.deleteTeamMember);
 
 // newsletter:
 
-// ── Newsletter (public)
+// Newsletter (public)
 router.post('/newsletter/subscribe', miscCtrl.subscribeToNewsletter);
 
 // Admin routes

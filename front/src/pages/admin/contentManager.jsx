@@ -801,7 +801,7 @@ function TeamTab() {
   );
 }
 
-// ── SECTION : Settings
+//Settings
 function SettingsTab() {
   const [settings, setSettings] = useState({});
   const [loading, setLoading]   = useState(true);
@@ -915,7 +915,7 @@ function SettingsTab() {
   );
 }
 
-// ── SECTION : Newsletter 
+// ── SECTION : Newsletter (version simplifiée, sans HTML)
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -925,7 +925,6 @@ function NewsletterTab() {
   const [emailForm, setEmailForm] = useState({
     subject: '',
     content: '',
-    isHtml: true,
   });
 
   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
@@ -976,11 +975,11 @@ function NewsletterTab() {
       const res = await adminApi.post('/system/newsletter/send', {
         subject: emailForm.subject,
         content: emailForm.content,
-        isHtml: emailForm.isHtml,
+        isHtml: false, // Toujours en texte simple
       });
       
       showToast(res.data?.message || 'Newsletter envoyée avec succès !');
-      setEmailForm({ subject: '', content: '', isHtml: true });
+      setEmailForm({ subject: '', content: '' });
     } catch (error) {
       showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error');
     } finally {
@@ -1009,7 +1008,7 @@ function NewsletterTab() {
         </button>
       </div>
 
-      {/* Formulaire d'envoi de newsletter */}
+      {/* Formulaire d'envoi de newsletter - Version simplifiée */}
       <div className="rounded-xl border p-6 space-y-4"
         style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
         <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>
@@ -1034,41 +1033,29 @@ function NewsletterTab() {
 
           <div>
             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>
-              Contenu *
+              Message *
             </label>
-            <div className="flex gap-2 mb-2">
-              <button
-                type="button"
-                onClick={() => setEmailForm({ ...emailForm, isHtml: true })}
-                className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-                  emailForm.isHtml ? 'bg-primary text-white' : 'border'
-                }`}
-                style={emailForm.isHtml ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : { borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
-              >
-                HTML
-              </button>
-              <button
-                type="button"
-                onClick={() => setEmailForm({ ...emailForm, isHtml: false })}
-                className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-                  !emailForm.isHtml ? 'bg-primary text-white' : 'border'
-                }`}
-                style={!emailForm.isHtml ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : { borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
-              >
-                Texte simple
-              </button>
-            </div>
             <textarea
               value={emailForm.content}
               onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
-              rows={8}
-              placeholder={emailForm.isHtml 
-                ? "<h2>Nouveautés chez Malea Hub</h2><p>Découvrez nos prochains événements...</p>"
-                : "Bonjour,\n\nVoici les dernières actualités de Malea Hub..."}
-              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 font-mono text-sm"
+              rows={10}
+              placeholder="Bonjour,
+
+Voici les dernières actualités de Malea Hub...
+
+Cordialement,
+L'équipe Malea Hub"
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
               required
             />
+          </div>
+
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <p className="text-sm text-blue-700">
+              💡 Le message sera envoyé en texte simple à tous les abonnés. 
+              Les retours à la ligne seront automatiquement conservés.
+            </p>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -1129,7 +1116,8 @@ function NewsletterTab() {
   );
 }
 
-// ── Composant principal ───────────────────────────────────────────────────────
+
+//Composant principal 
 export default function ContentManager() {
   const [activeTab, setActiveTab]     = useState('content');
   const [selectedPage, setSelectedPage] = useState('home');
