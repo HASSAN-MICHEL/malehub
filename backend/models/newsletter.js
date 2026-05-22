@@ -2,24 +2,12 @@ import { query } from '../config/database.js';
 
 export const NewsletterModel = {
   // Créer un abonné
-  async create(data) {
+  async create(email) {
     const { rows } = await query(
-      `INSERT INTO newsletter_subscribers (email, ip_address, user_agent)
-       VALUES ($1, $2, $3)
+      `INSERT INTO newsletter_subscribers (email)
+       VALUES ($1)
        ON CONFLICT (email) 
-       DO UPDATE SET actif = TRUE, unsubscribed_at = NULL, updated_at = CURRENT_TIMESTAMP
-       RETURNING *`,
-      [data.email, data.ip_address, data.user_agent]
-    );
-    return { rows };
-  },
-
-  // Désabonner un utilisateur
-  async unsubscribe(email) {
-    const { rows } = await query(
-      `UPDATE newsletter_subscribers 
-       SET actif = FALSE, unsubscribed_at = CURRENT_TIMESTAMP
-       WHERE email = $1
+       DO UPDATE SET actif = TRUE, unsubscribed_at = NULL
        RETURNING *`,
       [email]
     );

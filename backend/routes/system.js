@@ -104,8 +104,8 @@ router.delete('/team/:id',   protect, adminOnly, miscCtrl.deleteTeamMember);
 
 // newsletter:
 
+// ── Newsletter (public)
 router.post('/newsletter/subscribe', miscCtrl.subscribeToNewsletter);
-router.post('/newsletter/unsubscribe', miscCtrl.unsubscribeFromNewsletter);
 
 // Admin routes
 router.get('/newsletter/subscribers', protect, staffAndAbove, miscCtrl.getAllNewsletterSubscribers);

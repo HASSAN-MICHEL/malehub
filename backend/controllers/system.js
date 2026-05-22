@@ -474,29 +474,18 @@ export const deleteTeamMember = asyncHandler(async (req, res) => {
   sendSuccess(res, {}, 'Membre supprimé');
   
 });
-export const subscribeToNewsletter = asyncHandler(async (req , res) =>{
-  const {email} = req.body;
 
-  if (!email || !email.includes('@')){
-    throw new AppError('Email valide requis' , 400);
-  }
-  const {rows} = await NewsletterModel.create({
-    email,
-    ip_address,
-    user_agent,
-  });
-  sendCreated(res , {subscriber: rows[0] } , 'iNSCRIPTION REUSSITE ? 0 PR2SENT VOUS ALLEZ RECEVOIR TOUTES NOS INFORMATION PAR EMAIL !')
-} );
 
-export const unsubscribeFromNewsletter = asyncHandler(async (req, res) => {
+// ── NEWSLETTER 
+export const subscribeToNewsletter = asyncHandler(async (req, res) => {
   const { email } = req.body;
   
-  if (!email) {
-    throw new AppError('Email requis', 400);
+  if (!email || !email.includes('@')) {
+    throw new AppError('Email valide requis', 400);
   }
 
-  await NewsletterModel.unsubscribe(email);
-  sendSuccess(res, {}, 'Désabonnement réussi');
+  const { rows } = await NewsletterModel.create(email);
+  sendCreated(res, { subscriber: rows[0] }, 'Inscription à la newsletter réussie !');
 });
 
 export const getAllNewsletterSubscribers = asyncHandler(async (req, res) => {
