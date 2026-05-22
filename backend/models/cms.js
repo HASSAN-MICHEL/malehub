@@ -1,6 +1,6 @@
 import { query } from '../config/database.js';
 
-//
+
 export const AnnouncementModel = {
   findAll: ({ actifOnly = false } = {}) => {
     const where = actifOnly ? 'WHERE actif = TRUE' : '';
@@ -35,7 +35,7 @@ export const AnnouncementModel = {
     query('DELETE FROM announcements WHERE id = $1 RETURNING id', [id]),
 };
 
-// Team Members 
+// ── Team Members ──────────────────────────────────────────────────────────────
 export const TeamMemberModel = {
   findAll: ({ actifOnly = false } = {}) => {
     const where = actifOnly ? 'WHERE actif = TRUE' : '';

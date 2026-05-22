@@ -101,4 +101,13 @@ router.get('/team',          protect, staffAndAbove, miscCtrl.getAllTeamMembers)
 router.post('/team',         protect, adminOnly, miscCtrl.createTeamMember);
 router.patch('/team/:id',    protect, adminOnly, miscCtrl.updateTeamMember);
 router.delete('/team/:id',   protect, adminOnly, miscCtrl.deleteTeamMember);
+
+// newsletter:
+
+router.post('/newsletter/subscribe', miscCtrl.subscribeToNewsletter);
+router.post('/newsletter/unsubscribe', miscCtrl.unsubscribeFromNewsletter);
+
+// Admin routes
+router.get('/newsletter/subscribers', protect, staffAndAbove, miscCtrl.getAllNewsletterSubscribers);
+router.get('/newsletter/count', protect, staffAndAbove, miscCtrl.getNewsletterCount);
 export default router;

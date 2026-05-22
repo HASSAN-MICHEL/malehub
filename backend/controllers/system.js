@@ -158,7 +158,7 @@
 
 
 import { InvestorModel, ContactModel, SettingModel, ContentBlockModel } from '../models/system.js';
-
+import { NewsletterModel } from '../models/newsletter.js';
 import { AnnouncementModel, TeamMemberModel } from '../models/cms.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
@@ -377,8 +377,7 @@ export const getSettingByCle = asyncHandler(async (req, res) => {
   sendSuccess(res, { setting: rows[0] });
 });
 
-// PUT /content/:id — update existing block found by id
-// Falls back to upsert so it works even when called with a temporary client-side id
+
 export const upsertContentBlockById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { valeur_texte, media_url, actif } = req.body;
@@ -473,4 +472,39 @@ export const deleteTeamMember = asyncHandler(async (req, res) => {
   const { rows } = await TeamMemberModel.delete(req.params.id);
   if (!rows.length) throw new AppError('Membre introuvable.', 404);
   sendSuccess(res, {}, 'Membre supprimé');
+  
+});
+export const subscribeToNewsletter = asyncHandler(async (req , res) =>{
+  const {email} = req.body;
+
+  if (!email || !email.includes('@')){
+    throw new AppError('Email valide requis' , 400);
+  }
+  const {rows} = await NewsletterModel.create({
+    email,
+    ip_address,
+    user_agent,
+  });
+  sendCreated(res , {subscriber: rows[0] } , 'iNSCRIPTION REUSSITE ? 0 PR2SENT VOUS ALLEZ RECEVOIR TOUTES NOS INFORMATION PAR EMAIL !')
+} );
+
+export const unsubscribeFromNewsletter = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  
+  if (!email) {
+    throw new AppError('Email requis', 400);
+  }
+
+  await NewsletterModel.unsubscribe(email);
+  sendSuccess(res, {}, 'Désabonnement réussi');
+});
+
+export const getAllNewsletterSubscribers = asyncHandler(async (req, res) => {
+  const { rows } = await NewsletterModel.getAllActive();
+  sendSuccess(res, { subscribers: rows });
+});
+
+export const getNewsletterCount = asyncHandler(async (req, res) => {
+  const total = await NewsletterModel.count();
+  sendSuccess(res, { total });
 });
