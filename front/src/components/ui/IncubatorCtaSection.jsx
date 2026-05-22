@@ -107,6 +107,8 @@
 //   )
 // }
 
+
+
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, Rocket, Users, TrendingUp, Lightbulb } from 'lucide-react'
 

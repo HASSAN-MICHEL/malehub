@@ -1,8 +1,9 @@
 
 
+
 // import { Link } from 'react-router-dom';
 // import { ArrowRight, ChevronDown } from 'lucide-react';
-// import { useContent, useSettings } from '../../hooks/useContet';
+// import { useContent, useSettings } from '../../hooks/usecontet';
 // import { useTranslation } from 'react-i18next';
 
 // export function HeroSection() {
@@ -18,7 +19,7 @@
 //   );
 
 //   return (
-//     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 lg:pt-20">
+//     <section className="relative py-16 md:py-20 lg:py-32 flex items-center justify-center overflow-hidden">
 //       <div className="absolute inset-0 z-0">
 //         <div
 //           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -35,7 +36,7 @@
 //       </div>
 
 //       <div
-//         className="absolute top-1/4 left-0 w-32 h-px opacity-50"
+//         className="absolute top-1/4 left-0 w-32 h-px opacity-50 hidden md:block"
 //         style={{
 //           background:
 //             'linear-gradient(to right, transparent, var(--primary), transparent)',
@@ -43,7 +44,7 @@
 //       />
 
 //       <div
-//         className="absolute bottom-1/4 right-0 w-32 h-px opacity-50"
+//         className="absolute bottom-1/4 right-0 w-32 h-px opacity-50 hidden md:block"
 //         style={{
 //           background:
 //             'linear-gradient(to right, transparent, var(--primary), transparent)',
@@ -60,10 +61,9 @@
 
 //       <div className="container mx-auto px-4 lg:px-8 relative z-10">
 //         <div className="max-w-4xl mx-auto text-center">
-
 //           {/* Badge */}
 //           <div
-//             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium mb-8"
+//             className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full border text-xs md:text-sm font-medium mb-6 md:mb-8"
 //             style={{
 //               borderColor:
 //                 'color-mix(in oklch, var(--primary) 30%, transparent)',
@@ -73,7 +73,7 @@
 //             }}
 //           >
 //             <span
-//               className="w-2 h-2 rounded-full animate-pulse"
+//               className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full animate-pulse"
 //               style={{ backgroundColor: 'var(--primary)' }}
 //             />
 
@@ -82,76 +82,29 @@
 
 //           {/* Title - Work, Connect, Grow */}
 //           <h1
-//             className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
+//             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
 //             style={{ color: 'var(--foreground)' }}
 //           >
 //             {t('hero.title')}
 //           </h1>
 
-//           {/* Nouvelle description */}
+//           {/* Description */}
 //           <p
-//             className="mt-6 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+//             className="mt-4 md:mt-6 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed px-2"
 //             style={{ color: 'var(--muted-foreground)' }}
 //           >
 //             {t('hero.description')}
 //           </p>
-
-//           {/* Stats */}
-//           <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
-//             {[
-//               {
-//                 value: '50+',
-//                 label: t('home.home_stats_startups'),
-//               },
-//               {
-//                 value: '200+',
-//                 label: t('home.home_stats_entrepreneurs'),
-//               },
-//               {
-//                 value: '15+',
-//                 label: t('home.home_stats_investors'),
-//               },
-//             ].map((stat) => (
-//               <div key={stat.label} className="text-center">
-//                 <div
-//                   className="text-2xl md:text-3xl font-bold"
-//                   style={{ color: 'var(--primary)' }}
-//                 >
-//                   {stat.value}
-//                 </div>
-
-//                 <div
-//                   className="text-sm mt-1"
-//                   style={{ color: 'var(--muted-foreground)' }}
-//                 >
-//                   {stat.label}
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
 //         </div>
-//       </div>
-
-//       {/* Scroll */}
-//       <div
-//         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-//         style={{ color: 'var(--muted-foreground)' }}
-//       >
-//         <span className="text-xs uppercase tracking-widest">
-//           {t('hero.scroll')}
-//         </span>
-
-//         <div
-//           className="w-px h-8"
-//           style={{
-//             background:
-//               'linear-gradient(to bottom, var(--primary), transparent)',
-//           }}
-//         />
 //       </div>
 //     </section>
 //   );
 // }
+
+
+
+
+
 
 
 import { Link } from 'react-router-dom';
@@ -160,16 +113,15 @@ import { useContent, useSettings } from '../../hooks/usecontet';
 import { useTranslation } from 'react-i18next';
 
 export function HeroSection() {
-  const { get } = useContent('home');
+  const { get, getMedia } = useContent('home');
   const { setting } = useSettings();
   const { t } = useTranslation();
 
   const waNumber = setting('whatsapp_general', '237678111022');
-
-  const heroImage = get(
-    'hero_image',
-    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80'
-  );
+  const heroTitle = get('hero_title', t('hero.title'));
+  const heroSubtitle = get('hero_subtitle', t('hero.description'));
+  const heroImage = getMedia('hero_image') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80';
+  const ctaIncubator = get('cta_incubator', t('hero.join_incubator'));
 
   return (
     <section className="relative py-16 md:py-20 lg:py-32 flex items-center justify-center overflow-hidden">
@@ -214,7 +166,6 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
           <div
             className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full border text-xs md:text-sm font-medium mb-6 md:mb-8"
             style={{
@@ -229,25 +180,52 @@ export function HeroSection() {
               className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full animate-pulse"
               style={{ backgroundColor: 'var(--primary)' }}
             />
-
             {t('home.home_badge')}
           </div>
 
-          {/* Title - Work, Connect, Grow */}
           <h1
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
             style={{ color: 'var(--foreground)' }}
           >
-            {t('hero.title')}
+            {heroTitle}
           </h1>
 
-          {/* Description */}
           <p
             className="mt-4 md:mt-6 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed px-2"
             style={{ color: 'var(--muted-foreground)' }}
           >
-            {t('hero.description')}
+            {heroSubtitle}
           </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={`https://wa.me/${waNumber}?text=${encodeURIComponent("Bonjour, je souhaite rejoindre l'incubateur Malea Hub")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+            >
+              {ctaIncubator} <ArrowRight className="h-5 w-5" />
+            </a>
+            <Link
+              to="/coworking"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold border transition-all hover:scale-105"
+              style={{ borderColor: 'var(--primary)', color: 'var(--foreground)' }}
+            >
+              {t('hero.discover')}
+            </Link>
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <a
+              href="#about"
+              className="flex flex-col items-center gap-2 text-sm transition-colors hover:text-primary"
+              style={{ color: 'var(--muted-foreground)' }}
+            >
+              <span>{t('hero.scroll')}</span>
+              <ChevronDown className="h-5 w-5 animate-bounce" />
+            </a>
+          </div>
         </div>
       </div>
     </section>

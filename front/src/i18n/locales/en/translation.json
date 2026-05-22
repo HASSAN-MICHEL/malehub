@@ -60,6 +60,33 @@
   "quote": "Success is not a destination, it's a journey we take together.",
   "quote_author": "Erdman Doumbè, Founder"
 },
+"investorCta": {
+  "title": "Malea Invest Club",
+  "subtitle": "Our private investor community",
+  "description": "Join our exclusive network of investors and access high-potential projects from the Malea Hub incubator. Be part of Cameroon's growing entrepreneurial ecosystem.",
+  "cta_button": "Join the club via WhatsApp",
+  "benefits": [
+    {
+      "title": "Exclusive access",
+      "description": "Get early access to projects incubated by Malea Hub."
+    },
+    {
+      "title": "Diversification",
+      "description": "Invest in various promising sectors."
+    },
+    {
+      "title": "Support",
+      "description": "Personalized guidance for your investment decisions."
+    }
+  ],
+  "stats": [
+    { "value": "10+", "label": "incubated projects" },
+    { "value": "5M+", "label": "FCFA raised" },
+    { "value": "25+", "label": "investors" },
+    { "value": "100%", "label": "transparency" }
+  ]
+},
+
 "incubatorCta": {
   "badge": "MALEA LAB",
   "title_prefix": "Join a",

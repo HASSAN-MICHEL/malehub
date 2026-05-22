@@ -26,16 +26,21 @@ const PAGES = [
 // type: 'text' | 'textarea' | 'image' | 'json'
 // field: 'text' (→ valeur_texte) | 'media' (→ media_url)
 const PAGE_BLOCKS = {
-  home: [
-    { key: 'hero_title',    label: 'Titre Hero (H1)',        type: 'text',     hint: 'Ex: Work, Connect, Grow' },
-    { key: 'hero_subtitle', label: 'Sous-titre Hero',        type: 'textarea', hint: "Espace coworking, programme d'accompagnement..." },
-    { key: 'hero_image',    label: 'Image de fond Hero',     type: 'image',    hint: 'Image plein écran en arrière-plan' },
-    { key: 'cta_incubator', label: 'Texte bouton incubateur',type: 'text',     hint: "Rejoindre l'incubateur" },
-    { key: 'about_text',    label: 'Texte section À propos', type: 'textarea', hint: 'Description du fondateur / historique' },
-    { key: 'about_image',   label: 'Photo fondateur (À propos)', type: 'image',hint: 'Portrait du fondateur' },
-    { key: 'jobs_week_price',label:'Prix Jobs Week (FCFA)',  type: 'text',     hint: '30000' },
-    { key: 'jobs_week_quota',label:'Places Jobs Week',       type: 'text',     hint: '10' },
-  ],
+ home: [
+  { key: 'hero_title',    label: 'Titre Hero (H1)',        type: 'text',     hint: 'Ex: Work, Connect, Grow' },
+  { key: 'hero_subtitle', label: 'Sous-titre Hero',        type: 'textarea', hint: "Espace coworking, programme d'accompagnement..." },
+  { key: 'hero_image',    label: 'Image de fond Hero',     type: 'image',    hint: 'Image plein écran en arrière-plan' },
+  { key: 'cta_incubator', label: 'Texte bouton incubateur',type: 'text',     hint: "Rejoindre l'incubateur" },
+  { key: 'about_text',    label: 'Texte section À propos', type: 'textarea', hint: 'Description du fondateur / historique' },
+  { key: 'about_image',   label: 'Photo fondateur (À propos)', type: 'image',hint: 'Portrait du fondateur' },
+  { key: 'why_choose_badge',          label: 'Badge Pourquoi Choisir',       type: 'text',     hint: 'Ex: Nos Avantages' },
+  { key: 'why_choose_title_prefix',   label: 'Début titre Pourquoi Choisir', type: 'text',     hint: 'Ex: Pourquoi choisir' },
+  { key: 'why_choose_title_highlight',label: 'Mot mis en avant',             type: 'text',     hint: 'Ex: Malea Hub' },
+  { key: 'why_choose_subtitle',       label: 'Sous-titre Pourquoi Choisir',  type: 'textarea', hint: 'Ex: Tout ce dont vous avez besoin...' },
+  
+  { key: 'jobs_week_price', label:'Prix Jobs Week (FCFA)',  type: 'text',     hint: '30000' },
+  { key: 'jobs_week_quota', label:'Places Jobs Week',       type: 'text',     hint: '10' },
+],
   coworking: [
     { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: 'Votre espace de coworking premium' },
     { key: 'description',   label: 'Description principale', type: 'textarea', hint: 'Un espace de travail moderne...' },
@@ -209,7 +214,7 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
   );
 }
 
-// ── SECTION : Gestion contenu des pages ──────────────────────────────────────
+// ── SECTION : Gestion contenu des pages
 function ContentTab({ selectedPage, onPageChange }) {
   const [contentBlocks, setContentBlocks] = useState({});
   const [loading, setLoading]             = useState(true);
