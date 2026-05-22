@@ -114,6 +114,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.set('trust proxy', 1);
 
+app.use('/uploads', express.static('/tmp/uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Security
 
 // app.use(helmet());
@@ -219,11 +222,12 @@ if (!config.isProd) {
 } else {
   app.use(morgan('combined'));
 }
-// enregistré les fichiers
-app.use(
-  '/uploads',
-  express.static(path.join(__dirname, config.upload.dir))
-);
+
+// // enregistré les fichiers
+// app.use(
+//   '/uploads',
+//   express.static(path.join(__dirname, config.upload.dir))
+// );
 
 // APPEL API
 app.use('/api', apiRouter);
