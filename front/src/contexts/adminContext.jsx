@@ -1,7 +1,7 @@
 // import React, { createContext, useState, useContext, useEffect } from 'react';
 // import { adminAuthAPI } from '../services/admin'; // ← Importer adminAuthAPI
 
-// const AdminAuthContext = createContext(null //
+// const AdminAuthContext = createContext(null
 
 // export const useAdminAuth = () => {
 //   const context = useContext(AdminAuthContext);
