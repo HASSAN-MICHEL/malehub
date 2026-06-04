@@ -29,4 +29,4 @@ router.get('/:id',             staffAndAbove, resCtrl.getReservationById);
 router.post('/',               validate(createReservationSchema), resCtrl.createReservation); // can be public
 router.patch('/:id',           staffAndAbove, validate(updateReservationSchema), resCtrl.updateReservation);
 
-export default router;
+export const reservationRoutes = router ;
