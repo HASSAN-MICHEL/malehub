@@ -3,7 +3,7 @@ import {authRoutes}        from './auth.js';
 import {reservationRoutes} from './reservation.js';
 import {candidatureRoutes} from './candidature.js';
 import {formationRoutes}   from './formation.js';
-import {systemRoutes}        from './systems.js';
+import {systemRoutes}        from './system.js';
 
 const router = Router();
 
