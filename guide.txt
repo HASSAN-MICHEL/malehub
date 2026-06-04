@@ -1,61 +1,23 @@
-# /etc/nginx/sites-available/maleahub.fr
-# À activer avec : sudo ln -s /etc/nginx/sites-available/maleahub.fr /etc/nginx/sites-enabled/
-
 server {
     listen 80;
     server_name maleahub.fr www.maleahub.fr;
 
-    # Redirige tout en HTTPS (Certbot remplira cette section automatiquement)
-    return 301 https://www.maleahub.fr$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name maleahub.fr;
-
-    ssl_certificate     /etc/letsencrypt/live/maleahub.fr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/maleahub.fr/privkey.pem;
-    include             /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
-
-    # Redirige maleahub.fr → www.maleahub.fr
-    return 301 https://www.maleahub.fr$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name www.maleahub.fr;
-
-    ssl_certificate     /etc/letsencrypt/live/maleahub.fr/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/maleahub.fr/privkey.pem;
-    include             /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
-
-    # Taille max upload (correspond à maxSize dans config)
     client_max_body_size 10M;
 
-    # ── Logs ────────────────────────────────────────────────────────────────────
     access_log /var/log/nginx/maleahub.access.log;
-    error_log  /var/log/nginx/maleahub.error.log;
+    error_log /var/log/nginx/maleahub.error.log;
 
-    # ── Fichiers uploadés (servis directement par Nginx, plus rapide) ──────────
-    location /uploads/ {
-        alias /var/www/maleahub/uploads/;
-        expires 30d;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # ── Proxy vers Node.js (API + SPA) ─────────────────────────────────────────
     location / {
-        proxy_pass         http://127.0.0.1:5000;
+        proxy_pass http://127.0.0.1:5000;
+
         proxy_http_version 1.1;
-        proxy_set_header   Upgrade $http_upgrade;
-        proxy_set_header   Connection 'upgrade';
-        proxy_set_header   Host $host;
-        proxy_set_header   X-Real-IP $remote_addr;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-        proxy_read_timeout 60s;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 }
