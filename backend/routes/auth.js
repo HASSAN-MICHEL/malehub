@@ -30,4 +30,5 @@ router.get('/users/:id',          authCtrl.getUserById);
 router.patch('/users/:id',       validate(updateUserSchema),  authCtrl.updateUser);
 router.delete('/users/:id',       authCtrl.deleteUser);
 
-export default router;
+//export default router;
+export const authRoutes = router;
