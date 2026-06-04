@@ -21,3 +21,105 @@ server {
         proxy_set_header Connection "upgrade";
     }
 }
+
+
+
+J'ai bien configurer nginx sur mon serveur vps car dans le server il tourne sur le port 5000 , et il doit etre accesible en ligne sur "www.maleahub.fr" : ubuntu@vps-0396301b:/etc/nginx/sites-available$ sudo nginx -t
+
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+ubuntu@vps-0396301b:/etc/nginx/sites-available$ sudo systemctl restart nginx
+
+ubuntu@vps-0396301b:/etc/nginx/sites-available$ sudo systemctl status nginx
+
+● nginx.service - A high performance web server and a reverse proxy server
+
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+
+     Active: active (running) since Thu 2026-06-04 21:29:51 UTC; 14s ago
+
+ Invocation: 8e02d384fc994e06adb61efb55e57def
+
+       Docs: man:nginx(8)
+
+    Process: 16256 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+
+    Process: 16259 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+
+   Main PID: 16261 (nginx)
+
+      Tasks: 7 (limit: 13960)
+
+     Memory: 5.8M (peak: 6.8M)
+
+        CPU: 51ms
+
+     CGroup: /system.slice/nginx.service
+
+             ├─16261 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+
+             ├─16262 "nginx: worker process"
+
+             ├─16263 "nginx: worker process"
+
+             ├─16264 "nginx: worker process"
+
+             ├─16265 "nginx: worker process"
+
+             ├─16266 "nginx: worker process"
+
+             └─16267 "nginx: worker process"
+
+
+
+Jun 04 21:29:51 vps-0396301b systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+
+Jun 04 21:29:51 vps-0396301b systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.
+
+ubuntu@vps-0396301b:/etc/nginx/sites-available$ ; fichier nginx( server {
+
+    listen 80;
+
+    server_name maleahub.fr www.maleahub.fr;
+
+
+
+    client_max_body_size 10M;
+
+
+
+    access_log /var/log/nginx/maleahub.access.log;
+
+    error_log /var/log/nginx/maleahub.error.log;
+
+
+
+    location / {
+
+        proxy_pass http://127.0.0.1:5000;
+
+
+
+        proxy_http_version 1.1;
+
+
+
+        proxy_set_header Host $host;
+
+        proxy_set_header X-Real-IP $remote_addr;
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+
+
+        proxy_set_header Upgrade $http_upgrade;
+
+        proxy_set_header Connection "upgrade";
+
+    }
+
+}) mais on me renvoie site inacessible
