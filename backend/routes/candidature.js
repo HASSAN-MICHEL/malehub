@@ -27,4 +27,4 @@ router.get('/projets/:id',   mentorAndAbove, candCtrl.getProjetIncubeById);
 router.post('/projets',      staffAndAbove,  validate(createProjetIncubeSchema), candCtrl.createProjetIncube);
 router.patch('/projets/:id', mentorAndAbove, validate(updateProjetIncubeSchema), candCtrl.updateProjetIncube);
 
-export const reservationRoutes = router;
+export const candidatureRoutes = router;
