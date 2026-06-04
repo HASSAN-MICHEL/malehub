@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import authRoutes        from './auth.js';
-import reservationRoutes from './reservation.js';
-import candidatureRoutes from './candidature.js';
-import formationRoutes   from './formation.js';
-import systemRoutes        from './system.js';
+import {authRoutes}        from './auth.js';
+import {reservationRoutes} from './reservation.js';
+import {candidatureRoutes} from './candidature.js';
+import {formationRoutes}   from './formation.js';
+import {systemRoutes}        from './systems.js';
 
 const router = Router();
 
