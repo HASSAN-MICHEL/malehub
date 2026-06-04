@@ -28,4 +28,4 @@ router.get('/:id/inscriptions',          staffAndAbove, formCtrl.getInscriptions
 router.get('/:id/inscriptions/export',   staffAndAbove, formCtrl.exportInscriptionsCSV);
 router.patch('/inscriptions/:id',        staffAndAbove, validate(updateInscriptionSchema), formCtrl.updateInscription);
 
-export default router;
+export const reservationRoutes = router ;
