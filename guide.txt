@@ -123,3 +123,23 @@ ubuntu@vps-0396301b:/etc/nginx/sites-available$ ; fichier nginx( server {
     }
 
 }) mais on me renvoie site inacessible
+
+
+ubuntu@vps-0396301b:~$ pm2 list
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ maleha             │ fork     │ 0    │ online    │ 0%       │ 88.8mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+ubuntu@vps-0396301b:~$ curl http://127.0.0.1:5000/health
+{"status":"ok","time":"2026-06-04T21:38:21.903Z","env":"development"}ubuntu@vps-0396301b:~$
+ubuntu@vps-0396301b:~$ dig maleahub.fr +short
+213.186.33.5
+ubuntu@vps-0396301b:~$ dig www.maleahub.fr +short
+213.186.33.5
+ubuntu@vps-0396301b:~$ ls -la /etc/nginx/sites-enabled/
+total 8
+drwxr-xr-x 2 root root 4096 Jun  4 21:20 .
+drwxr-xr-x 8 root root 4096 Jun  4 17:12 ..
+lrwxrwxrwx 1 root root   34 Jun  4 17:12 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 root root   33 Jun  4 21:20 maleha -> /etc/ngin
