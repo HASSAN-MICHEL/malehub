@@ -1,188 +1,61 @@
+# /etc/nginx/sites-available/maleahub.fr
+# À activer avec : sudo ln -s /etc/nginx/sites-available/maleahub.fr /etc/nginx/sites-enabled/
 
-{
-  "version": 2,
+server {
+    listen 80;
+    server_name maleahub.fr www.maleahub.fr;
 
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "front/dist/**",
-      "use": "@vercel/static"
-    }
-  ],
-
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/front/dist/assets/$1"
-    },
-
-    {
-      "src": "/favicon.ico",
-      "dest": "/front/dist/favicon.ico"
-    },
-
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-
-    {
-      "src": "/(.*)",
-      "dest": "/front/dist/index.html"
-    }
-  ]
+    # Redirige tout en HTTPS (Certbot remplira cette section automatiquement)
+    return 301 https://www.maleahub.fr$request_uri;
 }
 
+server {
+    listen 443 ssl;
+    server_name maleahub.fr;
 
+    ssl_certificate     /etc/letsencrypt/live/maleahub.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/maleahub.fr/privkey.pem;
+    include             /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
 
-guide de configuration...
-
-1 - installation : 
-    Copy et Lance le cmd suivant..
-        CMD : 
-            npm install i18next react-i18next i18next-browser-languagedetector  
-
-
-
-2 - i18n CONFIG :
-    copy le dossier i18n dans ton projet 
-    path :
-        scr/i18n
-
-
-
-3 - COMPOSANT UI DE TRADUCTION :
-    copy le Composant LanguageSwitcher.tsx dans le dossier Components de ton projet.
-    path : 
-        ./Components/LanguageSwitcher.tsx
-
-
-4 - CONFIG FINAL : 
-    IMPORTE le dossier i18n dans ton fichier main.tsx
-    path : 
-        import './i18n'
-
-
-5 - TEST :
-    Pour tester le TRADUCTION, inport le Composant LanguageSwitcher dans le fichier desire.
-    example : 
-        import LanguageSwitcher from "@/components/LanguageSwitcher";
-
-...................................................................................................
-La guide n'es pas complet donc..!
-Pour plus d'info ou soucis contacter le 678128857 sur whatsApp ou ATTENDEZ la prochaine mise a jour, je suis deja fatiguer de saisir.
-
-
-
-
-NEXT_PUBLIC_bd_maleha_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NzQwODksImV4cCI6MjA5NDE1MDA4OX0.HRJT8sU-OxwRYAQoSVUEqfIXGrJZD30D8FDDkJTDMdc"
-NEXT_PUBLIC_bd_maleha_SUPABASE_PUBLISHABLE_KEY="sb_publishable_QuvQOnwWC48i2kKwba79BA_lRL03lzd"
-NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"
-bd_maleha_POSTGRES_DATABASE="postgres"
-bd_maleha_POSTGRES_HOST="db.wleqstqpyblllgwqxesk.supabase.co"
-bd_maleha_POSTGRES_PASSWORD="44TN8sjqiT28PTZd"
-bd_maleha_POSTGRES_PRISMA_URL="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
-bd_maleha_POSTGRES_URL="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x"
-bd_maleha_POSTGRES_URL_NON_POOLING="postgres://postgres.wleqstqpyblllgwqxesk:44TN8sjqiT28PTZd@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require"
-bd_maleha_POSTGRES_USER="postgres"
-NEXT_PUBLIC_bd_maleha_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NzQwODksImV4cCI6MjA5NDE1MDA4OX0.HRJT8sU-OxwRYAQoSVUEqfIXGrJZD30D8FDDkJTDMdc"
-bd_maleha_SUPABASE_JWT_SECRET="gUFR5uhdTFPzmgXlwJ904dDIBvJK2kB86LKyJvZydDrBLt4HbSgx7RQ4+ngLjRwqTA9NxjGxKKxtYGFIgXZlbQ=="
-NEXT_PUBLIC_bd_maleha_SUPABASE_PUBLISHABLE_KEY="sb_publishable_QuvQOnwWC48i2kKwba79BA_lRL03lzd"
-bd_maleha_SUPABASE_SECRET_KEY="sb_secret_Ae_nXOV75Tz94-Gjj1Y9wQ_T0s34d5K"
-bd_maleha_SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZXFzdHFweWJsbGxnd3F4ZXNrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODU3NDA4OSwiZXhwIjoyMDk0MTUwMDg5fQ.0w6TbPsLYMLl2cK22xpbRsr7af-OsmmFWDN81_yLyRk"
-NEXT_PUBLIC_bd_maleha_SUPABASE_URL="https://wleqstqpyblllgwqxesk.supabase.co"
-
-
-//ancien vercel.json:
-
-{
-  "version": 2,
-
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "front/dist/**",
-      "use": "@vercel/static"
-    }
-  ],
-
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/front/dist/assets/$1"
-    },
-
-    {
-      "src": "/favicon.ico",
-      "dest": "/front/dist/favicon.ico"
-    },
-
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-
-    {
-      "src": "/(.*)",
-      "dest": "/front/dist/index.html"
-    }
-  ]
+    # Redirige maleahub.fr → www.maleahub.fr
+    return 301 https://www.maleahub.fr$request_uri;
 }
 
+server {
+    listen 443 ssl;
+    server_name www.maleahub.fr;
 
-{
-  "version": 2,
+    ssl_certificate     /etc/letsencrypt/live/maleahub.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/maleahub.fr/privkey.pem;
+    include             /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
 
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "front/dist/**",
-      "use": "@vercel/static"
+    # Taille max upload (correspond à maxSize dans config)
+    client_max_body_size 10M;
+
+    # ── Logs ────────────────────────────────────────────────────────────────────
+    access_log /var/log/nginx/maleahub.access.log;
+    error_log  /var/log/nginx/maleahub.error.log;
+
+    # ── Fichiers uploadés (servis directement par Nginx, plus rapide) ──────────
+    location /uploads/ {
+        alias /var/www/maleahub/uploads/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
     }
-  ],
 
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/front/dist/assets/$1"
-    },
-
-    {
-      "src": "/images/(.*)",
-      "dest": "/front/dist/images/$1"
-    },
-
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/front/dist/uploads/$1"
-    },
-
-    {
-      "src": "/favicon.ico",
-      "dest": "/front/dist/favicon.ico"
-    },
-
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-
-    {
-      "handle": "filesystem"
-    },
-
-    {
-      "src": "/(.*)",
-      "dest": "/front/dist/index.html"
+    # ── Proxy vers Node.js (API + SPA) ─────────────────────────────────────────
+    location / {
+        proxy_pass         http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection 'upgrade';
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 60s;
     }
-  ]
 }
