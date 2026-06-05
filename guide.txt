@@ -144,8 +144,7 @@ drwxr-xr-x 8 root root 4096 Jun  4 17:12 ..
 lrwxrwxrwx 1 root root   34 Jun  4 17:12 default -> /etc/nginx/sites-available/default
 lrwxrwxrwx 1 root root   33 Jun  4 21:20 maleha -> /etc/ngin
 
-
-Ajouter une entrée
+Maintenant je suis coincé sur la configuration , cvoici les infos du nom de domaine(Ajouter une entrée
 
 Actions sur ma zone
 
@@ -284,4 +283,12 @@ www
 TXT
 "3|welcome"
 Par défaut
-
+ ) mais les testes pointes vers une autre adresse( buntu@vps-0396301b:~$ dig www.maleahub.com +short
+213.186.33.5
+ubuntu@vps-0396301b:~$ curl ifconfig.me
+2001:41d0:305:2100::1:2587ubuntu@vps-0396301b:~$ curl -4 ifconfig.me
+164.132.42.35ubuntu@vps-0396301b:~$ dig www.maleahub.com +short
+213.186.33.5
+ubuntu@vps-0396301b:~$ dig maleahub.com +short
+213.186.33.5
+ubuntu@vps-0396301b:~$)
