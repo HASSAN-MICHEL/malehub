@@ -359,3 +359,19 @@ imap.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net
 autoconfig.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
 autodiscover.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
 ovhmo-selector-1._domainkey.maleahub.com	vers un domain (CNAME)	ovhmo-selector-1._domainkey.4588122.fo.dkim.mail.ovh.net	
+
+
+
+ubuntu@vps-0396301b:~$ curl -I http://maleahub.com
+HTTP/1.1 302 Moved Temporarily
+server: openresty
+date: Fri, 05 Jun 2026 13:08:21 GMT
+content-type: text/html
+content-length: 142
+location: http://www.maleahub.com
+x-iplb-request-id: A4842A23:E11E_D5BA2105:0050_6A22CA45_EE2BEB7E:5A6D
+x-iplb-instance: 52217
+
+ubuntu@vps-0396301b:~$ curl -I https://maleahub.com
+curl: (35) Recv failure: Connection reset by peer
+ubuntu@vps-0396301b:~$
