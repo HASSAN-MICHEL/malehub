@@ -143,3 +143,145 @@ drwxr-xr-x 2 root root 4096 Jun  4 21:20 .
 drwxr-xr-x 8 root root 4096 Jun  4 17:12 ..
 lrwxrwxrwx 1 root root   34 Jun  4 17:12 default -> /etc/nginx/sites-available/default
 lrwxrwxrwx 1 root root   33 Jun  4 21:20 maleha -> /etc/ngin
+
+
+Ajouter une entrée
+
+Actions sur ma zone
+
+
+Filtrer
+
+Sous-domaine	Type	Cible	TTL (en secondes)	
+
+_autodiscover._tcp
+SRV
+0 0 443 mailconfig.ovh.net.
+Par défaut
+
+
+_imaps._tcp
+SRV
+0 0 993 ssl0.ovh.net.
+Par défaut
+
+
+_submission._tcp
+SRV
+0 0 465 ssl0.ovh.net.
+Par défaut
+
+
+autoconfig
+CNAME
+mailconfig.ovh.net.
+Par défaut
+
+
+autodiscover
+CNAME
+mailconfig.ovh.net.
+Par défaut
+
+
+ftp
+CNAME
+maleahub.com.
+Par défaut
+
+
+imap
+CNAME
+ssl0.ovh.net.
+Par défaut
+
+
+mail
+CNAME
+ssl0.ovh.net.
+Par défaut
+
+
+@
+NS
+dns200.anycast.me.
+Par défaut
+
+
+@
+NS
+ns200.anycast.me.
+Par défaut
+
+
+@
+A
+164.132.42.35
+Par défaut
+
+
+@
+SPF
+v=spf1 include:mx.ovh.com -all
+Par défaut
+
+
+@
+TXT
+"1|www.maleahub.com"
+Par défaut
+
+
+@
+MX
+1 mx1.mail.ovh.net.
+Par défaut
+
+
+@
+MX
+5 mx2.mail.ovh.net.
+Par défaut
+
+
+@
+MX
+100 mx3.mail.ovh.net.
+Par défaut
+
+
+ovhmo-selector-1._domainkey
+CNAME
+ovhmo-selector-1._domainkey.4588122.fo.dkim.mail.ovh.net.
+Par défaut
+
+
+ovhmo-selector-2._domainkey
+CNAME
+ovhmo-selector-2._domainkey.4588123.fo.dkim.mail.ovh.net.
+Par défaut
+
+
+pop3
+CNAME
+ssl0.ovh.net.
+Par défaut
+
+
+smtp
+CNAME
+ssl0.ovh.net.
+Par défaut
+
+
+www
+A
+164.132.42.35
+Par défaut
+
+
+www
+TXT
+"3|welcome"
+Par défaut
+
