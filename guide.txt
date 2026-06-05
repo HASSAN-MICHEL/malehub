@@ -549,3 +549,21 @@ ubuntu@vps-0396301b:~$ sudo cat /etc/nginx/sites-available/maleahub
         proxy_set_header Connection "upgrade";
     }
 }
+
+ubuntu@vps-0396301b:~$ nslookup www.maleahub.com 8.8.8.8
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   www.maleahub.com
+Address: 164.132.42.35
+
+ubuntu@vps-0396301b:~$ nslookup www.maleahub.com 1.1.1.1
+Server:         1.1.1.1
+Address:        1.1.1.1#53
+
+Non-authoritative answer:
+Name:   www.maleahub.com
+Address: 164.132.42.35
+
+ubuntu@vps-0396301b:~$
