@@ -375,3 +375,30 @@ x-iplb-instance: 52217
 ubuntu@vps-0396301b:~$ curl -I https://maleahub.com
 curl: (35) Recv failure: Connection reset by peer
 ubuntu@vps-0396301b:~$
+
+
+
+Redirection
+DynHost
+Hôte
+DS Records
+Gérer les contacts
+Gérer ici les redirections de vos domaines et sous-domaines vers d'autres adresses web ou vers des serveurs.
+
+Filtrer
+Tous
+Rechercher 
+Filtre sous-domaine…
+ 
+Domaine	Type	Cible	
+maleahub.com	vers un serveur (ipv4 - A)	164.132.42.35	
+www.maleahub.com	vers un serveur (ipv4 - A)	164.132.42.35	
+ftp.maleahub.com	vers un domain (CNAME)	maleahub.com	
+mail.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+smtp.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+pop3.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+imap.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+autoconfig.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
+autodiscover.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
+ovhmo-selector-1._domainkey.maleahub.com	vers un domain (CNAME)	ovhmo-selector-1._domainkey.4588122.fo.dkim.mail.ovh.net	
+
