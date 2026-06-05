@@ -438,3 +438,6 @@ Connection: close
 
 ubuntu@vps-0396301b:~$
 
+ubuntu@vps-0396301b:~$ dig @8.8.8.8 www.maleahub.com +short
+164.132.42.35
+ubuntu@vps-0396301b:~$
