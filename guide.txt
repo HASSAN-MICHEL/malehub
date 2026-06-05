@@ -402,3 +402,39 @@ autoconfig.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net
 autodiscover.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
 ovhmo-selector-1._domainkey.maleahub.com	vers un domain (CNAME)	ovhmo-selector-1._domainkey.4588122.fo.dkim.mail.ovh.net	
 
+
+ubuntu@vps-0396301b:~$ curl -I http://164.132.42.35
+HTTP/1.1 200 OK
+Server: nginx/1.26.3 (Ubuntu)
+Date: Fri, 05 Jun 2026 13:13:18 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 925
+Connection: keep-alive
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Origin-Agent-Cluster: ?1
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 04 Jun 2026 19:52:34 GMT
+ETag: W/"39d-19e9431d5a0"
+
+ubuntu@vps-0396301b:~$ curl -I -H "Host: www/maleahub.com"  http://164.132.42.35
+HTTP/1.1 400 Bad Request
+Server: nginx/1.26.3 (Ubuntu)
+Date: Fri, 05 Jun 2026 13:13:48 GMT
+Content-Type: text/html
+Content-Length: 166
+Connection: close
+
+ubuntu@vps-0396301b:~$
+
