@@ -294,12 +294,49 @@ ubuntu@vps-0396301b:~$ dig maleahub.com +short
 ubuntu@vps-0396301b:~$)
 
 
+ubuntu@vps-0396301b:~$ curl -I -H "Host: www.maleahub.com" http://127.0.0.1
+HTTP/1.1 200 OK
+Server: nginx/1.26.3 (Ubuntu)
+Date: Fri, 05 Jun 2026 12:59:45 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 925
+Connection: keep-alive
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Origin-Agent-Cluster: ?1
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 04 Jun 2026 19:52:34 GMT
+ETag: W/"39d-19e9431d5a0"
 
-ubuntu@vps-0396301b:~$ dig NS maleahub.com +short
-ns200.anycast.me.
-dns200.anycast.me.
-ubuntu@vps-0396301b:~$ dig @dns200.anycast.me maleahub.com +short
-164.132.42.35
-ubuntu@vps-0396301b:~$ dig @dns200.anycast.me www.maleahub.com +short
-164.132.42.35
-ubuntu@vps-0396301b:~$
+ubuntu@vps-0396301b:~$ curl  -H "Host: www.maleahub.com" http://127.0.0.1
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#C9A962" />
+    <title>Malea Hub  Incubateur, Coworking & Réseau Investisseurs à Douala</title>
+    <meta name="description" content="Innovation hub à Bonapriso, Douala. Connectez, soutenez et développez vos projets innovants." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/assets/index-srFB9e3q.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-1CtNnwRK.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>ubuntu@vps-0396301b:~$
