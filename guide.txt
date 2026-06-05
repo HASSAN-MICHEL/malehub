@@ -441,3 +441,63 @@ ubuntu@vps-0396301b:~$
 ubuntu@vps-0396301b:~$ dig @8.8.8.8 www.maleahub.com +short
 164.132.42.35
 ubuntu@vps-0396301b:~$
+
+
+ites internet
+
+Guides
+Commander
+
+Exporter en CSV
+
+
+Colonnes
+Nom de domaine	Diagnostic	Dossier racine	Nom d'affichage	Offre	Git	Logs séparés	CDN	SSL	Firewall	Boost	Actions
+aperohit.com
+A
+AAAA
+www
+​
+Perso
+Inactif
+Activé
+Désactivé
+Activé
+Désactivé
+Désactivé
+
+www.aperohit.com
+A
+AAAA
+www
+​
+Perso
+Inactif
+Désactivé
+Désactivé
+Désactivé
+Désactivé
+Désactivé
+
+Informations générales
+Multisite
+Certificats SSL
+Modules en 1 clic
+Statistiques et logs
+Logs Beta
+FTP - SSH
+Bases de données
+Tâches en cours
+Recherche...
+La gestion de vos certificats SSL a été déplacée vers un nouvel onglet dédié. Découvrez le dès maintenant !
+
+Gérer les certificats SSL 
+Domaine	Diagnostic	Dossier racine	Git	Logs séparés	Firewall	
+aperohit.com	A AAAA	www	Inactif	Désactivé	Désactivé	
+aperohituo.cluster027.hosting.ovh.net		www	Inactif	Désactivé	Désactivé	
+www.aperohit.com	A AAAA	www	Inactif	Désactivé	Désactivé	
+
+10
+ 
+Page 1 / 1
+ 
