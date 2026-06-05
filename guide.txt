@@ -292,3 +292,14 @@ ubuntu@vps-0396301b:~$ curl ifconfig.me
 ubuntu@vps-0396301b:~$ dig maleahub.com +short
 213.186.33.5
 ubuntu@vps-0396301b:~$)
+
+
+
+ubuntu@vps-0396301b:~$ dig NS maleahub.com +short
+ns200.anycast.me.
+dns200.anycast.me.
+ubuntu@vps-0396301b:~$ dig @dns200.anycast.me maleahub.com +short
+164.132.42.35
+ubuntu@vps-0396301b:~$ dig @dns200.anycast.me www.maleahub.com +short
+164.132.42.35
+ubuntu@vps-0396301b:~$
