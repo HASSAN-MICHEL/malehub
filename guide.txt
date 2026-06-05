@@ -567,3 +567,68 @@ Name:   www.maleahub.com
 Address: 164.132.42.35
 
 ubuntu@vps-0396301b:~$
+
+
+	Domaine	Type	Cible	
+maleahub.com	vers un serveur (ipv4 - A)	164.132.42.35	
+www.maleahub.com	vers un serveur (ipv4 - A)	164.132.42.35	
+ftp.maleahub.com	vers un domain (CNAME)	maleahub.com	
+mail.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+smtp.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+pop3.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+imap.maleahub.com	vers un domain (CNAME)	ssl0.ovh.net	
+autoconfig.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
+autodiscover.maleahub.com	vers un domain (CNAME)	mailconfig.ovh.net	
+ovhmo-selector-1._domainkey.maleahub.com	vers un domain (CNAME)	ovhmo-selector-1._domainkey.4588122.fo.dkim.mail.ovh.net	
+
+ubuntu@vps-0396301b:~$ curl -I http://164.132.42.35 -H "Host: www.maleahub.com"
+HTTP/1.1 200 OK
+Server: nginx/1.26.3 (Ubuntu)
+Date: Fri, 05 Jun 2026 13:36:25 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 925
+Connection: keep-alive
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Origin-Agent-Cluster: ?1
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 04 Jun 2026 19:52:34 GMT
+ETag: W/"39d-19e9431d5a0"
+
+ubuntu@vps-0396301b:~$ curl -I http://164.132.42.35 -H "Host: maleahub.com"
+HTTP/1.1 200 OK
+Server: nginx/1.26.3 (Ubuntu)
+Date: Fri, 05 Jun 2026 13:36:37 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 925
+Connection: keep-alive
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Origin-Agent-Cluster: ?1
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 04 Jun 2026 19:52:34 GMT
+ETag: W/"39d-19e9431d5a0"
+
+ubuntu@vps-0396301b:~$
