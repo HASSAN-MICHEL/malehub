@@ -500,4 +500,11 @@ www.aperohit.com	A AAAA	www	Inactif	Désactivé	Désactivé
 10
  
 Page 1 / 1
- 
+
+
+ubuntu@vps-0396301b:~$ ls -la /etc/nginx/sites-enabled/
+total 8
+drwxr-xr-x 2 root root 4096 Jun  5 12:35 .
+drwxr-xr-x 8 root root 4096 Jun  4 17:12 ..
+lrwxrwxrwx 1 root root   35 Jun  5 12:35 maleahub -> /etc/nginx/sites-available/maleahub
+ubuntu@vps-0396301b:~$
