@@ -25,6 +25,31 @@
 //   const loadUser = async () => {
 //     try {
 //       const response = await adminAuthAPI.getMe(); // ← Utiliser adminAuthAPI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //       setUser(response.data.data.user);
 //     } catch (error) {
 //       console.error('Error loading user:', error);
@@ -74,7 +99,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = 'https://maleahub.vercel.app/api';
+const API_BASE_URL = '/api';
 
 const AdminAuthContext = createContext(null);
 

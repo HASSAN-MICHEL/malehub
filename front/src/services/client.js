@@ -42,7 +42,7 @@
 
 // import axios from 'axios';
 
-// const API_BASE_URL = 'https://maleahub.vercel.app/api';
+// const API_BASE_URL = '/api';
 
 // export const clientApi = axios.create({
 //   baseURL: API_BASE_URL,
@@ -79,7 +79,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app/api';
+const API_BASE_URL = '/api';
 
 export const clientApi = axios.create({
   baseURL: API_BASE_URL,

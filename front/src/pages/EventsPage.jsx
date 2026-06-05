@@ -299,7 +299,7 @@ export default function EventsPage() {
   const waGeneral = setting('whatsapp_general', '237678111022');
   
   // URL de base de l'API - utilisée de la même manière que dans Coworking
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
+  const API_BASE_URL = '/api';
   
   // Fonction pour obtenir l'URL complète d'une image (identique à celle de Coworking)
   const getFullImageUrl = (url) => {

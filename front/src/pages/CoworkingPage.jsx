@@ -249,7 +249,7 @@ export default function CoworkingPage() {
     if (!url) return null;
     if (url.startsWith('http')) return url;
     // Ajoutez le préfixe de votre API ou CDN si nécessaire
-    // return `https://maleahub.vercel.app${url}`;
+    // return `/api${url}`;
     return url; // Suppose que l'URL est déjà complète ou relative et gérée par le dev server
   };
 

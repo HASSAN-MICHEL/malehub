@@ -177,7 +177,7 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
 
   // L'image prévisualisée peut être une URL relative (/uploads/...) ou absolue
   const previewSrc = value
-    ? (value.startsWith('http') ? value : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${value}`)
+    ? (value.startsWith('http') ? value : `${import.meta.env.VITE_API_URL || '/api'}${value}`)
     : null;
 
   return (
