@@ -508,3 +508,44 @@ drwxr-xr-x 2 root root 4096 Jun  5 12:35 .
 drwxr-xr-x 8 root root 4096 Jun  4 17:12 ..
 lrwxrwxrwx 1 root root   35 Jun  5 12:35 maleahub -> /etc/nginx/sites-available/maleahub
 ubuntu@vps-0396301b:~$
+
+ubuntu@vps-0396301b:~$ curl -I http://www.maleahub.com
+HTTP/1.1 200 OK
+server: openresty
+date: Fri, 05 Jun 2026 13:26:05 GMT
+content-type: text/html; charset=utf8
+pragma: no-cache
+cache-control: no-store, no-cache, must-revalidate
+content-length: 15248
+x-iplb-request-id: A4842A23:BA54_D5BA2105:0050_6A22CE6D_EE33620B:5A6D
+x-iplb-instance: 52217
+
+ubuntu@vps-0396301b:~$ curl -I https://www.maleahub.com
+curl: (35) Recv failure: Connection reset by peer
+ubuntu@vps-0396301b:~$ host ww.maleahub.com
+Host ww.maleahub.com not found: 3(NXDOMAIN)
+ubuntu@vps-0396301b:~$ sudo cat /etc/nginx/sites-available/maleahub
+
+ server {
+    listen 80;
+    server_name maleahub.com  www.maleahub.com;
+
+    client_max_body_size 10M;
+
+    access_log /var/log/nginx/maleahub.access.log;
+    error_log /var/log/nginx/maleahub.error.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
