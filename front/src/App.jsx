@@ -1,39 +1,3 @@
-//// import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import { Header } from './components/layout/Header'
-// import { Footer } from './components/layout/Footer'
-// import { WhatsAppButton } from './components/ui/WhatsAppButton'
-// import HomePage from './pages/HomePage'
-// import CoworkingPage from './pages/CoworkingPage'
-// import IncubatorPage from './pages/IncubatorPage'
-// import TrainingPage from './pages/TrainingPage'
-// import LoungePage from './pages/LoungePage'
-// import LibraryPage from './pages/LibraryPage'
-// import ContactPage from './pages/ContactPage'
-
-// export default function App() {
-//   return (
-//     <BrowserRouter>
-//       <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
-//         <Header />
-//         <main className="flex-1">
-//           <Routes>
-//             <Route path="/" element={<HomePage />} />
-//             <Route path="/coworking" element={<CoworkingPage />} />
-//             <Route path="/incubator" element={<IncubatorPage />} />
-//             <Route path="/training" element={<TrainingPage />} />
-//             <Route path="/lounge" element={<LoungePage />} />
-//             <Route path="/library" element={<LibraryPage />} />
-//             <Route path="/contact" element={<ContactPage />} />
-//           </Routes>
-//         </main>
-//         <Footer />
-//         <WhatsAppButton />
-//       </div>
-//     </BrowserRouter>
-//   )
-// }
-
-
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

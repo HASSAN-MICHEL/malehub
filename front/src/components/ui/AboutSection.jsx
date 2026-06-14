@@ -100,9 +100,11 @@ export function AboutSection() {
 
           <div className="order-1 lg:order-2">
             <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium mb-6"
-              style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}
-            >
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-full border text-lg md:text-xl font-medium mb-4"
+            style={{ 
+              backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' 
+            }}
+          >
               {t('about.badge')}
             </div>
 

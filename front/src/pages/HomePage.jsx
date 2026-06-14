@@ -1,5 +1,33 @@
 
 
+// import { HeroSection } from '../components/ui/HeroSection'
+// import { AboutSection } from '../components/ui/AboutSection'
+// import { IncubatorCtaSection } from '../components/ui/IncubatorCtaSection'
+// import { InvestorCtaSection } from '../components/ui/InvestorCtaSection'
+// import { ServicesSection } from '../components/ui/ServicesSection'
+// import { JobsWeekSection } from '../components/ui/JobsWeekSection'
+// import { WhyChooseSection } from '../components/ui/WhyChooseSection'
+// import { FinalCtaSection } from '../components/ui/FinalCtaSection'
+// import { TeamSection } from '../components/ui/TeamSection' 
+
+// export default function HomePage() {
+//   return (
+//     <>
+//       <HeroSection />
+//       <AboutSection />
+//       <TeamSection />
+//       <IncubatorCtaSection />
+//       <ServicesSection />
+//       <JobsWeekSection />
+//       <WhyChooseSection />
+      
+//     </>
+//   )
+// }
+
+
+
+import { PageThemeWrapper } from '../components/ui/PagethemeWrapper'
 import { HeroSection } from '../components/ui/HeroSection'
 import { AboutSection } from '../components/ui/AboutSection'
 import { IncubatorCtaSection } from '../components/ui/IncubatorCtaSection'
@@ -7,12 +35,11 @@ import { InvestorCtaSection } from '../components/ui/InvestorCtaSection'
 import { ServicesSection } from '../components/ui/ServicesSection'
 import { JobsWeekSection } from '../components/ui/JobsWeekSection'
 import { WhyChooseSection } from '../components/ui/WhyChooseSection'
-import { FinalCtaSection } from '../components/ui/FinalCtaSection'
-import { TeamSection } from '../components/ui/TeamSection' 
+import { TeamSection } from '../components/ui/TeamSection'
 
 export default function HomePage() {
   return (
-    <>
+    <PageThemeWrapper pageSlug="home">
       <HeroSection />
       <AboutSection />
       <TeamSection />
@@ -20,7 +47,6 @@ export default function HomePage() {
       <ServicesSection />
       <JobsWeekSection />
       <WhyChooseSection />
-      
-    </>
+    </PageThemeWrapper>
   )
 }

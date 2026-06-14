@@ -18,7 +18,7 @@ router.get('/:id',  formCtrl.getFormationById);
 // Public inscription (no auth)
 router.post('/:id/inscriptions', validate(createInscriptionSchema), formCtrl.createInscription);
 
-// ── Protected ─────────────────────────────────────────────────────────────────
+// ── Protected
 router.use(protect);
 router.post('/',    adminOnly,     validate(createFormationSchema),  formCtrl.createFormation);
 router.patch('/:id', staffAndAbove, validate(updateFormationSchema), formCtrl.updateFormation);

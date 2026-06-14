@@ -471,11 +471,11 @@ export default function IncubatorPage() {
                 style={{ borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)', backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)', color: 'var(--primary)' }}>
                 {t('incubator.hero.badge')}
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
+              <h1 className="text-3xl md:text-5xl lg:text-4xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>
                 {get('hero_title', (
                   <>
                     {t('incubator.hero.title_prefix')}{' '}
-                    <span style={{ color: 'var(--primary)' }}>{t('incubator.hero.title_highlight')}</span>
+                    
                   </>
                 ))}
               </h1>
