@@ -18,7 +18,7 @@ import  EventsPage from './pages/EventsPage';
 import AdminLayout from './pages/admin/adminLayout';
 import AdminLogin from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
-import Reservations from './pages/admin/reservations';
+import Reservations from './pages/admin/reservationne';
 import Salles from './pages/admin/salles';
 import Users from './pages/admin/user';
 import Formations from './pages/admin/formations';
