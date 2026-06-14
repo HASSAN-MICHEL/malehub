@@ -43,4 +43,10 @@ export const cmsAPI = {
     clientApi.get('/system/team/public'),
 };
 
-export default { formationsAPI, candidaturesAPI, contactAPI, cmsAPI };
+export const libraryAPI = {
+  getAll:      () => clientApi.get('/library/books'),
+  getBySlug:   (slug) => clientApi.get(`/library/books/${slug}`),
+  getCategories: () => clientApi.get('/library/categories'),
+};
+
+export default { formationsAPI, candidaturesAPI, contactAPI, cmsAPI , libraryAPI};

@@ -11,7 +11,7 @@ import {
   Settings,
   Menu,
   X,
-  LogOut
+  LogOut, BookOpen
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/adminContext';
 
@@ -24,6 +24,7 @@ const menuItems = [
   { name: 'Incubateur', icon: Rocket, path: '/admin/candidatures' },
   { name: 'Investisseurs', icon: DollarSign, path: '/admin/investors' },
   { name: 'Contacts', icon: Mail, path: '/admin/contacts' },
+  { name: 'Library', icon: BookOpen, path: '/admin/library' },
   { name: 'Contenu', icon: Settings, path: '/admin/content' },
 ];
 
