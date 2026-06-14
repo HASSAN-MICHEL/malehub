@@ -237,8 +237,7 @@ export default function CoworkingPage() {
     { src: galleryImage1, alt: t('coworking.gallery.image1_alt', 'Espace de travail ouvert') },
     { src: galleryImage2, alt: t('coworking.gallery.image2_alt', 'Salle de réunion') },
     { src: galleryImage3, alt: t('coworking.gallery.image3_alt', 'Bureau privé') },
-    // Vous pourriez ajouter une 4ème image 'gallery_4' dans le ContentManager si besoin
-    // { src: getMedia('gallery_4', '/maleannonce.jpeg'), alt: t('coworking.gallery.image4_alt', 'Zone lounge') },
+    
   ].filter(img => img.src); // Filtre les images qui n'ont pas d'URL (optionnel)
 
   // Fallback pour les images de traduction (si les clés n'existent pas)
@@ -248,8 +247,7 @@ export default function CoworkingPage() {
   const getFullImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    // Ajoutez le préfixe de votre API ou CDN si nécessaire
-    // return `https://maleahub.vercel.app${url}`;
+    
     return url; // Suppose que l'URL est déjà complète ou relative et gérée par le dev server
   };
 

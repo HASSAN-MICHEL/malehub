@@ -41,14 +41,14 @@ adminApi.interceptors.response.use(
   }
 );
 
-// ── Auth 
+// Auth 
 export const adminAuthAPI = {
   login:          (creds) => adminApi.post('/auth/login', creds),
   getMe:          ()      => adminApi.get('/auth/me'),
   changePassword: (data)  => adminApi.patch('/auth/change-password', data),
 };
 
-// ── Users
+// Users
 export const adminUsersAPI = {
   getAll:  (params)   => adminApi.get('/auth/users', { params }),
   create:  (data)     => adminApi.post('/auth/users', data),
@@ -56,8 +56,10 @@ export const adminUsersAPI = {
   delete:  (id)       => adminApi.delete(`/auth/users/${id}`),
 };
 
-// ── Réservations & Salle
+// Réservations & Salle
 export const adminReservationsAPI = {
+  
+  createReservation: (data) => adminApi.post('/reservations', data), 
   getAll:    (params)   => adminApi.get('/reservations', { params }),
   getById:   (id)       => adminApi.get(`/reservations/${id}`),
   getStats:  ()         => adminApi.get('/reservations/stats'),
@@ -123,7 +125,7 @@ export const adminDashboardAPI = {
 export const contentAPI = {
   getBlocks:   (pageSlug) => adminApi.get('/system/content', { params: { page_slug: pageSlug } }),
   getAllBlocks: ()         => adminApi.get('/system/content'),
-  // Upsert bloc nouveau (sans id) — crée via page_slug + bloc_key
+  
   upsertBlock: (data)     => adminApi.put('/system/content', data),
   // Mise à jour bloc existant (avec id)
   updateBlock: (id, data) => adminApi.put(`/system/content/${id}`, data),
@@ -135,7 +137,7 @@ export const contentAPI = {
   },
 };
 
-// ── Settings 
+// Parametres
 export const settingsAPI = {
   getAll:  ()            => adminApi.get('/system/settings'),
   get:     (cle)         => adminApi.get(`/system/settings/${cle}`),
@@ -143,8 +145,7 @@ export const settingsAPI = {
   delete:  (cle)         => adminApi.delete(`/system/settings/${cle}`),
 };
 
-// ── Annonce
-// Réponse: { data: { announcements: [...] } }
+// Annonces
 export const adminAnnouncementsAPI = {
   getAll:  ()            => adminApi.get('/system/announcements'),
   getById: (id)          => adminApi.get(`/system/announcements/${id}`),
@@ -152,9 +153,7 @@ export const adminAnnouncementsAPI = {
   update:  (id, data)    => adminApi.patch(`/system/announcements/${id}`, data),
   delete:  (id)          => adminApi.delete(`/system/announcements/${id}`),
 };
-
-// ── Équipe (Team Members) ─────────────────────────────────────────────────────
-// Réponse: { data: { members: [...] } }
+// Equipes
 export const adminTeamAPI = {
   getAll:  ()            => adminApi.get('/system/team'),
   getById: (id)          => adminApi.get(`/system/team/${id}`),
