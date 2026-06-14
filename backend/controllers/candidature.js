@@ -2,7 +2,7 @@ import { CandidatureModel, ProjetIncubeModel } from '../models/candidature.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
 
-// ── Candidatures ──────────────────────────────────────────────────────────────
+// ── Candidatures 
 export const getAllCandidatures = asyncHandler(async (req, res) => {
   const { page, limit, offset } = buildPagination(req.query);
   const filters = { statut: req.query.statut };

@@ -1,8 +1,11 @@
 import { FormationModel, InscriptionModel } from '../models/formation.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
+import { sendWhatsAppMessage, getInscriptionConfirmationMessage } from '../service/whatsap.js'
 
-// ── Formations ────────────────────────────────────────────────────────────────
+
+
+// ── Formations
 export const getAllFormations = asyncHandler(async (req, res) => {
   const { page, limit, offset } = buildPagination(req.query);
   const filters = {};
@@ -79,14 +82,50 @@ export const createInscription = asyncHandler(async (req, res) => {
   sendCreated(res, { inscription: rows[0] }, 'Inscription enregistrée');
 });
 
+// export const updateInscription = asyncHandler(async (req, res) => {
+//   const { rows: existing } = await InscriptionModel.findById(req.params.id);
+//   if (!existing.length) throw new AppError('Inscription introuvable.', 404);
+
+//   const { rows } = await InscriptionModel.update(req.params.id, req.body.statut);
+//   sendSuccess(res, { inscription: rows[0] }, 'Inscription mise à jour');
+// });
+
+
 export const updateInscription = asyncHandler(async (req, res) => {
   const { rows: existing } = await InscriptionModel.findById(req.params.id);
   if (!existing.length) throw new AppError('Inscription introuvable.', 404);
 
-  const { rows } = await InscriptionModel.update(req.params.id, req.body.statut);
+  const oldStatut = existing[0].statut;
+  const newStatut = req.body.statut;
+  
+  // Mettre à jour le statut
+  const { rows } = await InscriptionModel.update(req.params.id, newStatut);
+  
+  // Si le statut passe à "confirmé" (ou "valide", selon votre système)
+  // et que ce n'était pas déjà confirmé
+  if (newStatut === 'confirmé' && oldStatut !== 'confirmé') {
+    try {
+      // Récupérer les informations de la formation
+      const { rows: formationRows } = await FormationModel.findById(existing[0].formation_id);
+      const formation = formationRows[0];
+      
+      // Envoyer la notification WhatsApp
+      const message = getInscriptionConfirmationMessage(
+        formation.titre,
+        existing[0].nom
+      );
+      
+      await sendWhatsAppMessage(existing[0].tel, message);
+      
+      console.log(` Notification WhatsApp envoyée à ${existing[0].tel} pour la formation ${formation.titre}`);
+    } catch (whatsappError) {
+      // Ne pas bloquer la réponse si WhatsApp échoue, mais logger l'erreur
+      console.error(' Erreur lors de l\'envoi WhatsApp:', whatsappError);
+    }
+  }
+  
   sendSuccess(res, { inscription: rows[0] }, 'Inscription mise à jour');
 });
-
 
 export const exportInscriptionsCSV = asyncHandler(async (req, res) => {
   const { rows: formation } = await FormationModel.findById(req.params.id);

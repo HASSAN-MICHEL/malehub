@@ -1,33 +1,34 @@
 
+
+
 // import { useTranslation } from 'react-i18next';
-// import { Check, Clock, Users, ArrowRight } from 'lucide-react'
+// import { Check, Clock, Users, ArrowRight } from 'lucide-react';
+// import { useSettings } from '../../hooks/usecontet';
 
 // export function JobsWeekSection() {
 //   const { t } = useTranslation();
+//   const { setting } = useSettings();
+
+//   const jobsWeekPrice = setting('jobs_week_price', '30000');
+//   const jobsWeekQuota = setting('jobs_week_quota', '10');
+//   const jobsWeekOpen = setting('jobs_week_open', 'true') === 'true';
+//   const waGeneral = setting('whatsapp_general', '237678111022');
 
 //   const benefits = t('jobsWeek.benefits', { returnObjects: true });
 //   const includedItems = t('jobsWeek.included_items', { returnObjects: true });
 
-//   // Vérification que benefits et includedItems sont des tableaux
 //   const benefitsArray = Array.isArray(benefits) ? benefits : [];
 //   const includedItemsArray = Array.isArray(includedItems) ? includedItems : [];
 
+//   if (!jobsWeekOpen) return null;
+
 //   return (
 //     <section id="jobs-week" className="py-20 lg:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
-//       <div className="absolute top-0 right-0 w-1/2 h-full" style={{ background: 'linear-gradient(to left, color-mix(in oklch, var(--primary) 5%, transparent), transparent)' }} />
-//       <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 5%, transparent)' }} />
-
+//       {/* ... contenu existant ... */}
 //       <div className="container mx-auto px-4 lg:px-8 relative z-10">
 //         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 //           <div>
-//             {/* Badge "Featured Program" - plus grand, texte noir */}
-//             <div
-//               className="inline-flex items-center gap-3 px-6 py-3 rounded-full border text-lg md:text-xl font-medium mb-6"
-//               style={{ 
-//                color: '#000000' ,  backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' 
-            
-//               }}
-//             >
+//             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border text-lg md:text-xl font-medium mb-6" style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
 //               {t('jobsWeek.badge')}
 //             </div>
 //             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>{t('jobsWeek.title')}</h2>
@@ -47,7 +48,7 @@
 //             </ul>
 //             <div className="mt-10">
 //               <a
-//                 href="https://wa.me/237678111022?text=Bonjour, je souhaite m'inscrire à Jobs Week"
+//                 href={`https://wa.me/${waGeneral}?text=${encodeURIComponent("Bonjour, je souhaite m'inscrire à Jobs Week")}`}
 //                 target="_blank"
 //                 rel="noopener noreferrer"
 //                 className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold transition-opacity hover:opacity-90"
@@ -68,14 +69,14 @@
 //               <div className="mb-8">
 //                 <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{t('jobsWeek.price_label')}</span>
 //                 <div className="mt-2 flex items-baseline gap-2">
-//                   <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>{t('jobsWeek.price_value')}</span>
+//                   <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>{parseInt(jobsWeekPrice).toLocaleString()}</span>
 //                   <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>{t('jobsWeek.price_currency')}</span>
 //                 </div>
 //               </div>
 //               <div className="space-y-4 mb-8">
 //                 <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
 //                   <Users className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-//                   <span className="font-medium" style={{ color: 'var(--foreground)' }}>{t('jobsWeek.spots_label')}</span>
+//                   <span className="font-medium" style={{ color: 'var(--foreground)' }}>{jobsWeekQuota} {t('jobsWeek.spots_label')}</span>
 //                 </div>
 //                 <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
 //                   <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
@@ -94,7 +95,7 @@
 //                 </ul>
 //               </div>
 //               <a
-//                 href="https://wa.me/237678111022?text=Bonjour, je souhaite m'inscrire à Jobs Week (30,000 FCFA)"
+//                 href={`https://wa.me/${waGeneral}?text=${encodeURIComponent(`Bonjour, je souhaite m'inscrire à Jobs Week (${jobsWeekPrice} FCFA)`)}`}
 //                 target="_blank"
 //                 rel="noopener noreferrer"
 //                 className="w-full mt-8 flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-opacity hover:opacity-90"
@@ -108,50 +109,53 @@
 //         </div>
 //       </div>
 //     </section>
-//   )
+//   );
 // }
-
-
-
-
-
 
 
 import { useTranslation } from 'react-i18next';
 import { Check, Clock, Users, ArrowRight } from 'lucide-react';
-import { useSettings } from '../../hooks/usecontet';
+import { useContent, useSettings } from '../../hooks/usecontet';
 
 export function JobsWeekSection() {
   const { t } = useTranslation();
   const { setting } = useSettings();
+  const { get, getJSON } = useContent('home');
 
-  const jobsWeekPrice = setting('jobs_week_price', '30000');
-  const jobsWeekQuota = setting('jobs_week_quota', '10');
-  const jobsWeekOpen = setting('jobs_week_open', 'true') === 'true';
-  const waGeneral = setting('whatsapp_general', '237678111022');
+  const jobsWeekPrice    = setting('jobs_week_price', '30000');
+  const jobsWeekQuota    = setting('jobs_week_quota', '10');
+  const jobsWeekOpen     = setting('jobs_week_open', 'true') === 'true';
+  const waGeneral        = setting('whatsapp_general', '237678111022');
 
-  const benefits = t('jobsWeek.benefits', { returnObjects: true });
-  const includedItems = t('jobsWeek.included_items', { returnObjects: true });
+  const badge          = get('jobsweek_badge', t('jobsWeek.badge'));
+  const title          = get('jobsweek_title', t('jobsWeek.title'));
+  const subtitle       = get('jobsweek_subtitle', t('jobsWeek.subtitle'));
+  const description    = get('jobsweek_description', t('jobsWeek.description'));
+  const cardBadge      = get('jobsweek_card_badge', t('jobsWeek.card_badge'));
+  const priceLabel     = get('jobsweek_price_label', t('jobsWeek.price_label'));
+  const priceCurrency  = get('jobsweek_price_currency', t('jobsWeek.price_currency'));
+  const spotsLabel     = get('jobsweek_spots_label', t('jobsWeek.spots_label'));
+  const durationLabel  = get('jobsweek_duration_label', t('jobsWeek.duration_label'));
+  const includedTitle  = get('jobsweek_included_title', t('jobsWeek.included_title'));
+  const ctaButton      = get('jobsweek_cta_button', t('jobsWeek.cta_button'));
+  const reserveButton  = get('jobsweek_reserve_button', t('jobsWeek.reserve_button'));
 
-  const benefitsArray = Array.isArray(benefits) ? benefits : [];
-  const includedItemsArray = Array.isArray(includedItems) ? includedItems : [];
+  const benefitsArray = getJSON('jobsweek_benefits', Array.isArray(t('jobsWeek.benefits', { returnObjects: true })) ? t('jobsWeek.benefits', { returnObjects: true }) : []);
+  const includedItemsArray = getJSON('jobsweek_included_items', Array.isArray(t('jobsWeek.included_items', { returnObjects: true })) ? t('jobsWeek.included_items', { returnObjects: true }) : []);
 
   if (!jobsWeekOpen) return null;
 
   return (
     <section id="jobs-week" className="py-20 lg:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--card)' }}>
-      {/* ... contenu existant ... */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border text-lg md:text-xl font-medium mb-6" style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-              {t('jobsWeek.badge')}
+              {badge}
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>{t('jobsWeek.title')}</h2>
-            <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>{t('jobsWeek.subtitle')}</p>
-            <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-              {t('jobsWeek.description')}
-            </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--foreground)' }}>{title}</h2>
+            <p className="mt-2 text-xl font-medium" style={{ color: 'var(--primary)' }}>{subtitle}</p>
+            <p className="mt-6 text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>{description}</p>
             <ul className="mt-8 space-y-4">
               {benefitsArray.map((benefit, index) => (
                 <li key={benefit || index} className="flex items-center gap-3">
@@ -170,7 +174,7 @@ export function JobsWeekSection() {
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
               >
-                {t('jobsWeek.cta_button')} <ArrowRight className="h-5 w-5" />
+                {ctaButton} <ArrowRight className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -179,28 +183,28 @@ export function JobsWeekSection() {
             <div className="rounded-2xl p-8 lg:p-10 relative overflow-hidden border" style={{ backgroundColor: 'var(--background)', borderColor: 'color-mix(in oklch, var(--primary) 30%, transparent)' }}>
               <div className="absolute top-0 right-0">
                 <div className="text-xs font-bold px-4 py-2 rounded-bl-xl" style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-                  {t('jobsWeek.card_badge')}
+                  {cardBadge}
                 </div>
               </div>
               <div className="mb-8">
-                <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{t('jobsWeek.price_label')}</span>
+                <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{priceLabel}</span>
                 <div className="mt-2 flex items-baseline gap-2">
                   <span className="text-5xl font-bold" style={{ color: 'var(--foreground)' }}>{parseInt(jobsWeekPrice).toLocaleString()}</span>
-                  <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>{t('jobsWeek.price_currency')}</span>
+                  <span className="text-xl" style={{ color: 'var(--muted-foreground)' }}>{priceCurrency}</span>
                 </div>
               </div>
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
                   <Users className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>{jobsWeekQuota} {t('jobsWeek.spots_label')}</span>
+                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>{jobsWeekQuota} {spotsLabel}</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
                   <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span style={{ color: 'var(--muted-foreground)' }}>{t('jobsWeek.duration_label')}</span>
+                  <span style={{ color: 'var(--muted-foreground)' }}>{durationLabel}</span>
                 </div>
               </div>
               <div className="space-y-3">
-                <span className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>{t('jobsWeek.included_title')}</span>
+                <span className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>{includedTitle}</span>
                 <ul className="space-y-2">
                   {includedItemsArray.map((item, index) => (
                     <li key={item || index} className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
@@ -217,7 +221,7 @@ export function JobsWeekSection() {
                 className="w-full mt-8 flex items-center justify-center gap-2 py-4 rounded-lg font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
               >
-                {t('jobsWeek.reserve_button')}
+                {reserveButton}
               </a>
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 border rounded-2xl -z-10" style={{ borderColor: 'color-mix(in oklch, var(--primary) 20%, transparent)' }} />

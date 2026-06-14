@@ -1,6 +1,5 @@
-// import React, { createContext, useState, useContext, useEffect } from 'react';
-// import { adminAuthAPI } from '../services/admin'; // ← Importer adminAuthAPI
 
+<<<<<<< HEAD
 // const AdminAuthContext = createContext(null
 
 // export const useAdminAuth = () => {
@@ -95,6 +94,8 @@
 //     </AdminAuthContext.Provider>
 //   );
 // };
+=======
+>>>>>>> 800752b36005a897bda8cb89dc3abb4882f8fcfa
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';

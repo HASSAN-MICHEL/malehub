@@ -83,11 +83,11 @@
 },
 
 "incubatorCta": {
-  "badge": "MALEA LAB",
+  "badge": "Malea lab",
   "title_prefix": "Rejoignez un",
   "title_highlight": "programme d'accompagnement",
   "subtitle": "Dédié aux porteurs de projets innovants.",
-  "description": "Malea LAB vous accompagne dans la structuration, le développement et le lancement de votre projet.",
+  "description": "Malea lab vous accompagne dans la structuration, le développement et le lancement de votre projet.",
   "benefits": [
     {
       "title": "Structurez votre projet",
@@ -253,7 +253,7 @@
   },
   "cta_button": "Réserver mon espace",
   "gallery": {
-    "title": "Notre Espace"
+    "title": "Nos espaces"
   },
   "features": {
     "title": "Tout ce qu'il vous faut",
@@ -275,8 +275,8 @@
   }
 },"incubator": {
   "hero": {
-    "badge": "Programme Incubateur",
-    "title_prefix": "Rejoignez l'",
+    "badge": "Programme d'incubation",
+    "title_prefix": "Rejoignez l'incubateur",
     "title_highlight": "incubateur",
     "description": "Rejoignez un programme d'accompagnement dédié aux porteurs de projets innovants. Malea Hub vous accompagne dans la structuration, le développement et le lancement de votre projet.",
     "cta_button": "Rejoindre l'incubateur"

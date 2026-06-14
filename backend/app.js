@@ -17,32 +17,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-/* ───────────────────────────────
-   TRUST PROXY (VPS / Nginx)
-─────────────────────────────── */
+
 app.set('trust proxy', 1);
 
-/* ───────────────────────────────
-   UPLOADS
-─────────────────────────────── */
+
 const uploadsDir =
   process.env.UPLOAD_DIR ||
   path.join(__dirname, '..', 'uploads');
 
 app.use('/uploads', express.static(uploadsDir));
 
-/* ───────────────────────────────
-   SECURITY
-─────────────────────────────── */
+
 app.use(
   helmet({
     contentSecurityPolicy: false, // simplifié VPS (tu peux durcir après)
   })
 );
 
-/* ───────────────────────────────
-   CORS
-─────────────────────────────── */
+
 app.use(
   cors({
     origin: config.cors.origins,
@@ -73,14 +65,10 @@ app.use(express.urlencoded({ extended: true }));
 ─────────────────────────────── */
 app.use(morgan('dev'));
 
-/* ───────────────────────────────
-   API ROUTES
-─────────────────────────────── */
+// ROutes de t
 app.use('/api', apiRouter);
 
-/* ───────────────────────────────
-   HEALTH CHECK
-─────────────────────────────── */
+//TESTES SI l'api est disponible
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -89,10 +77,10 @@ app.get('/health', (req, res) => {
   });
 });
 
-/* ───────────────────────────────
-   FRONTEND (React build)
-─────────────────────────────── */
-const frontendPath = path.join(__dirname, '..', 'front', 'dist');
+//FRONTEND
+
+// const frontendPath = path.join(__dirname, '..',  'front ' , 'dist');
+const frontendPath = path.join(__dirname,  'dist');
 
 app.use(express.static(frontendPath));
 
@@ -107,9 +95,7 @@ app.use((req, res, next) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-/* ───────────────────────────────
-   ERROR HANDLER
-─────────────────────────────── */
+// Erreurs 
 app.use(errorHandler);
 
 /* ───────────────────────────────
