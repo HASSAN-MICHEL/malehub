@@ -1,6 +1,6 @@
 // routes/libraryRoutes.js
 import { Router } from 'express';
-import * as libraryCtrl from '../controllers/librarycontrole.js';
+import * as libraryCtrl from '../controllers/librarycontrolle.js';
 import { protect, adminOnly } from '../middlewares/auth.js';
 
 const router = Router();
