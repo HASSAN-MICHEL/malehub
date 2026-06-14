@@ -1,6 +1,6 @@
 // controllers/libraryController.js
 import LibraryBook from '../models/Library.js';
-import { slugify } from '../utils/helpers.js';
+import { slugify } from '../utils/helper.js';
 
 // public
 
