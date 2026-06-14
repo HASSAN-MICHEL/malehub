@@ -80,8 +80,7 @@ app.get('/health', (req, res) => {
 //FRONTEND
 
 // const frontendPath = path.join(__dirname, '..',  'front ' , 'dist');
-const frontendPath = path.join(__dirname,  'dist');
-
+const frontendPath = path.join(__dirname, '..', 'front', 'dist');
 app.use(express.static(frontendPath));
 
 app.use((req, res, next) => {

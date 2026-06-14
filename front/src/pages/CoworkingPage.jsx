@@ -247,12 +247,8 @@ export default function CoworkingPage() {
   const getFullImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-<<<<<<< HEAD
     // Ajoutez le préfixe de votre API ou CDN si nécessaire
-    // return `/api${url}`;
-=======
-    
->>>>>>> 800752b36005a897bda8cb89dc3abb4882f8fcfa
+    // return `/api${url}`;    
     return url; // Suppose que l'URL est déjà complète ou relative et gérée par le dev server
   };
 
