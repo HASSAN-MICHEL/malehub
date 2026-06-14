@@ -1190,88 +1190,293 @@ const PAGES = [
 // Blocs calés exactement sur la structure des composants React clients
 const PAGE_BLOCKS = {
   home: [
-    { key: 'hero_title',    label: 'Titre Hero (H1)',        type: 'text',     hint: 'Ex: Work, Connect, Grow' },
-    { key: 'hero_subtitle', label: 'Sous-titre Hero',        type: 'textarea', hint: "Espace coworking, programme d'accompagnement..." },
-    { key: 'hero_image',    label: 'Image de fond Hero',     type: 'image',    hint: 'Image plein écran en arrière-plan' },
-    { key: 'cta_incubator', label: 'Texte bouton incubateur',type: 'text',     hint: "Rejoindre l'incubateur" },
-    { key: 'about_text',    label: 'Texte section À propos', type: 'textarea', hint: 'Description du fondateur / historique' },
-    { key: 'about_image',   label: 'Photo fondateur (À propos)', type: 'image',hint: 'Portrait du fondateur' },
-    { key: 'why_choose_badge',          label: 'Badge Pourquoi Choisir',       type: 'text',     hint: 'Ex: Nos Avantages' },
-    { key: 'why_choose_title_prefix',   label: 'Début titre Pourquoi Choisir', type: 'text',     hint: 'Ex: Pourquoi choisir' },
-    { key: 'why_choose_title_highlight',label: 'Mot mis en avant',             type: 'text',     hint: 'Ex: Malea Hub' },
-    { key: 'why_choose_subtitle',       label: 'Sous-titre Pourquoi Choisir',  type: 'textarea', hint: 'Ex: Tout ce dont vous avez besoin...' },
-    
-    // Investor CTA section
-    { key: 'investor_title',       label: 'Titre Investisseurs',        type: 'text',     hint: 'Rejoignez le Malea Invest Club' },
-    { key: 'investor_subtitle',    label: 'Sous-titre Investisseurs',   type: 'text',     hint: 'Investissez dans les startups de demain' },
-    { key: 'investor_description', label: 'Description Investisseurs',   type: 'textarea', hint: 'Texte de présentation du club...' },
-    { key: 'investor_cta_text',    label: 'Texte du bouton',            type: 'text',     hint: 'Rejoindre le Malea Invest Club' },
-    { key: 'investor_benefits',    label: 'Avantages (3 cartes)',       type: 'json',     schema: 'benefits', hint: 'Titre + description pour chaque carte (format JSON)' },
-    { key: 'investor_stats',       label: 'Statistiques (chiffres clés)', type: 'json',   schema: 'stats', hint: 'Valeur + label, ex: 500+ / Startups accompagnées' },
-    
-    // Jobs Week section
-    { key: 'jobsweek_badge',           label: 'Badge Jobs Week',          type: 'text',     hint: 'Jobs Week' },
-    { key: 'jobsweek_title',           label: 'Titre Jobs Week',          type: 'text',     hint: 'Devenez prêt pour l\'emploi' },
-    { key: 'jobsweek_subtitle',        label: 'Sous-titre Jobs Week',     type: 'text',     hint: 'En 5 jours intensifs' },
-    { key: 'jobsweek_description',     label: 'Description Jobs Week',    type: 'textarea', hint: 'Un programme intensif...' },
-    { key: 'jobsweek_benefits',        label: 'Liste des points forts',   type: 'json',     schema: 'list', hint: 'Ex: ["CV professionnel", "Simulation entretien"]' },
-    { key: 'jobsweek_card_badge',      label: 'Badge sur la carte',       type: 'text',     hint: 'Places limitées' },
-    { key: 'jobsweek_price_label',     label: 'Label prix',               type: 'text',     hint: 'Tarif unique' },
-    { key: 'jobsweek_price_currency',  label: 'Devise',                   type: 'text',     hint: 'FCFA' },
-    { key: 'jobsweek_spots_label',     label: 'Label places',             type: 'text',     hint: 'places disponibles' },
-    { key: 'jobsweek_duration_label',  label: 'Label durée',              type: 'text',     hint: '5 jours intensifs' },
-    { key: 'jobsweek_included_title',  label: 'Titre "Ce qui est inclus"',type: 'text',     hint: 'Inclus dans le programme' },
-    { key: 'jobsweek_included_items',  label: 'Liste éléments inclus',    type: 'json',     schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]' },
-    { key: 'jobsweek_cta_button',      label: 'Texte bouton principal',   type: 'text',     hint: 'Je m\'inscris' },
-    { key: 'jobsweek_reserve_button',  label: 'Texte bouton réservation', type: 'text',     hint: 'Réserver ma place' },
-    
-    { key: 'jobs_week_price', label:'Prix Jobs Week (FCFA)',  type: 'text',     hint: '30000' },
-    { key: 'jobs_week_quota', label:'Places Jobs Week',       type: 'text',     hint: '10' },
-  ],
-  coworking: [
-    { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: 'Votre espace de coworking premium' },
-    { key: 'description',   label: 'Description principale', type: 'textarea', hint: 'Un espace de travail moderne...' },
-    { key: 'hero_image',    label: 'Image principale',       type: 'image',    hint: "Photo de l'espace de coworking" },
-    { key: 'gallery_1',     label: 'Photo galerie 1',        type: 'image',    hint: 'Salle de réunion' },
-    { key: 'gallery_2',     label: 'Photo galerie 2',        type: 'image',    hint: 'Bureau privé' },
-    { key: 'gallery_3',     label: 'Photo galerie 3',        type: 'image',    hint: 'Zone lounge' },
-    { key: 'rental_hours',  label: 'Horaires location soir', type: 'text',     hint: '18h30 – 22h30' },
-  ],
-  incubator: [
-    { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: "Rejoignez l'incubateur" },
-    { key: 'description',   label: 'Description programme',  type: 'textarea', hint: "Rejoignez un programme d'accompagnement..." },
-    { key: 'hero_image',    label: 'Image hero',             type: 'image',    hint: 'Photo équipe / startup' },
-    { key: 'invest_club',   label: 'Texte Malea Invest Club',type: 'textarea', hint: 'Description du club investisseurs' },
-  ],
-  training: [
-    { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: 'Devenez prêt pour l\'emploi en 5 jours' },
-    { key: 'description',   label: 'Description générale',   type: 'textarea', hint: 'Des programmes de formation...' },
-    { key: 'jobs_week_desc',label: 'Description Jobs Week',  type: 'textarea', hint: 'Un programme intensif de 5 jours...' },
-    { key: 'hero_image',    label: 'Image hero formation',   type: 'image',    hint: 'Photo formation' },
-  ],
-  lounge: [
-    { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: 'Le Lounge' },
-    { key: 'description',   label: 'Description',            type: 'textarea', hint: 'Un espace premium conçu pour...' },
-    { key: 'hero_image',    label: 'Photo principale salon', type: 'image',    hint: 'Photo du salon' },
-    { key: 'gallery_1',     label: 'Photo galerie 1',        type: 'image',    hint: 'Coin café' },
-    { key: 'gallery_2',     label: 'Photo galerie 2',        type: 'image',    hint: 'Assises confortables' },
-  ],
+  // Hero section
+  { key: 'hero_title',    label: 'Titre Hero (H1)',        type: 'text',     hint: 'Ex: Work, Connect, Grow' },
+  { key: 'hero_subtitle', label: 'Sous-titre Hero',        type: 'textarea', hint: "Espace coworking, programme d'accompagnement..." },
+  { key: 'hero_image',    label: 'Image de fond Hero',     type: 'image',    hint: 'Image plein écran en arrière-plan' },
+  
+  // About section - COMPLET
+  { key: 'about_badge',           label: 'Badge À propos',         type: 'text',     hint: 'À propos' },
+  { key: 'about_title_prefix',    label: 'Préfixe titre À propos', type: 'text',     hint: 'Découvrir' },
+  { key: 'about_title_highlight', label: 'Mot mis en avant',       type: 'text',     hint: 'Malea Hub' },
+  { key: 'about_founder_name',    label: 'Nom du fondateur',       type: 'text',     hint: 'Erdman Doumbè' },
+  { key: 'about_founder_title',   label: 'Titre du fondateur',     type: 'text',     hint: 'Fondateur de Malea Hub' },
+  { key: 'about_description',     label: 'Description complète',   type: 'textarea', hint: "À l'origine de Malea Hub..." },
+  { key: 'about_cta_text',        label: 'Texte bouton',           type: 'text',     hint: 'En savoir plus' },
+  { key: 'about_cta_link',        label: 'Lien du bouton',         type: 'text',     hint: '/about' },
+  { key: 'about_image',           label: 'Photo du fondateur',     type: 'image',    hint: 'Portrait du fondateur' },
+  
+  // Services section
+  { key: 'services_badge',           label: 'Badge Services',          type: 'text',     hint: 'Nos services' },
+  { key: 'services_title_prefix',    label: 'Préfixe titre Services',  type: 'text',     hint: 'Découvrez nos' },
+  { key: 'services_title_highlight', label: 'Mot mis en avant',        type: 'text',     hint: 'services' },
+  { key: 'services_mission_description', label: 'Description mission', type: 'textarea', hint: 'Notre mission...' },
+  { key: 'services_items',           label: 'Services (3 cartes)',     type: 'json',     schema: 'services', hint: 'Titre, description, features, href pour chaque service' },
+  { key: 'services_featured_tag',    label: 'Tag "Recommandé"',        type: 'text',     hint: 'Recommandé' },
+  { key: 'services_cta',             label: 'Texte bouton CTA',        type: 'text',     hint: 'En savoir plus' },
+  
+  // Why choose section
+  { key: 'why_choose_badge',          label: 'Badge Pourquoi Choisir',       type: 'text',     hint: 'Ex: Nos Avantages' },
+  { key: 'why_choose_title_prefix',   label: 'Début titre Pourquoi Choisir', type: 'text',     hint: 'Ex: Pourquoi choisir' },
+  { key: 'why_choose_title_highlight',label: 'Mot mis en avant',             type: 'text',     hint: 'Ex: Malea Hub' },
+  { key: 'why_choose_subtitle',       label: 'Sous-titre Pourquoi Choisir',  type: 'textarea', hint: 'Ex: Tout ce dont vous avez besoin...' },
+  { key: 'why_choose_reasons',        label: 'Raisons (cartes)',             type: 'json',     schema: 'benefits', hint: 'Titre, description, icône pour chaque raison' },
+  
+  // Team section
+  { key: 'team_badge',           label: 'Badge Équipe',           type: 'text',     hint: 'Notre équipe' },
+  { key: 'team_title_prefix',    label: 'Préfixe titre Équipe',   type: 'text',     hint: 'Rencontrez' },
+  { key: 'team_title_highlight', label: 'Mot mis en avant',       type: 'text',     hint: 'l\'équipe' },
+  { key: 'team_subtitle',        label: 'Sous-titre Équipe',      type: 'textarea', hint: 'Des professionnels passionnés...' },
+  
+  // Incubator CTA Section
+  { key: 'incubator_badge',              label: 'Badge Incubateur',           type: 'text',     hint: 'MALEA LAB' },
+  { key: 'incubator_title_prefix',       label: 'Préfixe titre Incubateur',   type: 'text',     hint: 'Rejoignez' },
+  { key: 'incubator_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: "l'Incubateur" },
+  { key: 'incubator_subtitle',           label: 'Sous-titre Incubateur',      type: 'textarea', hint: 'Transformez votre idée en startup' },
+  { key: 'incubator_description',        label: 'Description Incubateur',     type: 'textarea', hint: 'Un programme d\'accompagnement intensif...' },
+  { key: 'incubator_cta_button',         label: 'Texte bouton',               type: 'text',     hint: 'Postuler maintenant' },
+  { key: 'incubator_whatsapp_link',      label: 'Lien WhatsApp',              type: 'text',     hint: 'https://wa.me/237678111022?text=...' },
+  { key: 'incubator_benefits',           label: 'Avantages (3 cartes)',       type: 'json',     schema: 'benefits', hint: 'Titre + description pour chaque carte' },
+  { key: 'incubator_stats',              label: 'Statistiques (chiffres clés)', type: 'json',   schema: 'stats', hint: 'Valeur + label' },
+  { key: 'incubator_card_title',         label: 'Titre de la carte',          type: 'text',     hint: 'Prêt à relever le défi ?' },
+  { key: 'incubator_card_description',   label: 'Description de la carte',    type: 'textarea', hint: 'Rejoignez une communauté de startups innovantes' },
+  
+  // Investor CTA section
+  { key: 'investor_badge',         label: 'Badge Investisseurs',      type: 'text',     hint: 'Investissez' },
+  { key: 'investor_title_prefix',  label: 'Préfixe titre Investisseurs', type: 'text',   hint: 'Rejoignez le' },
+  { key: 'investor_title_highlight',label: 'Mot mis en avant',         type: 'text',     hint: 'Malea Invest Club' },
+  { key: 'investor_subtitle',      label: 'Sous-titre Investisseurs',  type: 'text',     hint: 'Investissez dans les startups de demain' },
+  { key: 'investor_description',   label: 'Description Investisseurs', type: 'textarea', hint: 'Texte de présentation du club...' },
+  { key: 'investor_cta_text',      label: 'Texte du bouton',           type: 'text',     hint: 'Rejoindre le Malea Invest Club' },
+  { key: 'investor_benefits',      label: 'Avantages (3 cartes)',      type: 'json',     schema: 'benefits', hint: 'Titre + description pour chaque carte' },
+  { key: 'investor_stats',         label: 'Statistiques (chiffres clés)', type: 'json',  schema: 'stats', hint: 'Valeur + label' },
+  
+  // Jobs Week section
+  { key: 'jobsweek_badge',           label: 'Badge Jobs Week',          type: 'text',     hint: 'Jobs Week' },
+  { key: 'jobsweek_title',           label: 'Titre Jobs Week',          type: 'text',     hint: 'Devenez prêt pour l\'emploi' },
+  { key: 'jobsweek_subtitle',        label: 'Sous-titre Jobs Week',     type: 'text',     hint: 'En 5 jours intensifs' },
+  { key: 'jobsweek_description',     label: 'Description Jobs Week',    type: 'textarea', hint: 'Un programme intensif...' },
+  { key: 'jobsweek_benefits',        label: 'Liste des points forts',   type: 'json',     schema: 'list', hint: 'Ex: ["CV professionnel", "Simulation entretien"]' },
+  { key: 'jobsweek_card_badge',      label: 'Badge sur la carte',       type: 'text',     hint: 'Places limitées' },
+  { key: 'jobsweek_price_label',     label: 'Label prix',               type: 'text',     hint: 'Tarif unique' },
+  { key: 'jobsweek_price_currency',  label: 'Devise',                   type: 'text',     hint: 'FCFA' },
+  { key: 'jobsweek_spots_label',     label: 'Label places',             type: 'text',     hint: 'places disponibles' },
+  { key: 'jobsweek_duration_label',  label: 'Label durée',              type: 'text',     hint: '5 jours intensifs' },
+  { key: 'jobsweek_included_title',  label: 'Titre "Ce qui est inclus"',type: 'text',     hint: 'Inclus dans le programme' },
+  { key: 'jobsweek_included_items',  label: 'Liste éléments inclus',    type: 'json',     schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]' },
+  { key: 'jobsweek_cta_button',      label: 'Texte bouton principal',   type: 'text',     hint: 'Je m\'inscris' },
+  { key: 'jobsweek_reserve_button',  label: 'Texte bouton réservation', type: 'text',     hint: 'Réserver ma place' },
+  
+  // Legacy (pour compatibilité)
+  { key: 'cta_incubator', label: 'Texte bouton incubateur (legacy)', type: 'text', hint: "Rejoindre l'incubateur" },
+  { key: 'jobs_week_price', label:'Prix Jobs Week (FCFA)',  type: 'text',     hint: '30000' },
+  { key: 'jobs_week_quota', label:'Places Jobs Week',       type: 'text',     hint: '10' },
+],
+
+ coworking: [
+  // Hero section
+  { key: 'hero_badge',           label: 'Badge Hero',                 type: 'text',     hint: 'Ex: Espace de travail' },
+  { key: 'hero_title_prefix',    label: 'Préfixe titre Hero',         type: 'text',     hint: 'Votre' },
+  { key: 'hero_title_highlight', label: 'Mot mis en avant',           type: 'text',     hint: 'espace de coworking' },
+  { key: 'hero_title_suffix',    label: 'Suffixe titre Hero',         type: 'text',     hint: 'premium' },
+  { key: 'hero_description',     label: 'Description Hero',           type: 'textarea', hint: 'Un espace de travail moderne et flexible...' },
+  { key: 'hero_image',           label: 'Image Hero',                 type: 'image',    hint: "Photo principale de l'espace de coworking" },
+  { key: 'cta_button',           label: 'Texte bouton CTA',           type: 'text',     hint: 'Réserver un espace' },
+  { key: 'cta_message',          label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite réserver un espace coworking' },
+  
+  // Gallery section
+  { key: 'gallery_title',        label: 'Titre de la galerie',        type: 'text',     hint: 'Notre espace de travail' },
+  { key: 'gallery_1',            label: 'Photo galerie 1',            type: 'image',    hint: 'Espace de travail ouvert' },
+  { key: 'gallery_1_alt',        label: 'Alt galerie 1',              type: 'text',     hint: 'Espace de travail ouvert' },
+  { key: 'gallery_2',            label: 'Photo galerie 2',            type: 'image',    hint: 'Salle de réunion' },
+  { key: 'gallery_2_alt',        label: 'Alt galerie 2',              type: 'text',     hint: 'Salle de réunion' },
+  { key: 'gallery_3',            label: 'Photo galerie 3',            type: 'image',    hint: 'Bureau privé' },
+  { key: 'gallery_3_alt',        label: 'Alt galerie 3',              type: 'text',     hint: 'Bureau privé' },
+  
+  // Features section
+  { key: 'features_title',       label: 'Titre équipements',          type: 'text',     hint: 'Équipements & Services' },
+  { key: 'features_subtitle',    label: 'Sous-titre équipements',     type: 'textarea', hint: 'Tout ce dont vous avez besoin pour travailler' },
+  { key: 'features_items',       label: 'Liste équipements',          type: 'json',     schema: 'features', hint: 'Titre + description pour chaque équipement' },
+  
+  // Rental section
+  { key: 'rental_title',         label: 'Titre location soir',        type: 'text',     hint: 'Location soir & événements' },
+  { key: 'rental_description',   label: 'Description location',       type: 'textarea', hint: 'Vous souhaitez organiser une formation...' },
+  { key: 'rental_availability_label', label: 'Label disponibilité',   type: 'text',     hint: 'Disponible de' },
+  { key: 'rental_hours',         label: 'Horaires location soir',     type: 'text',     hint: '18h30 – 22h30' },
+  { key: 'rental_button',        label: 'Texte bouton location',      type: 'text',     hint: 'Louer l\'espace' },
+  { key: 'rental_message',       label: 'Message WhatsApp location',  type: 'textarea', hint: 'Bonjour, je souhaite louer l\'espace pour organiser une formation/événement' },
+],
+ incubator: [
+  // Hero section
+  { key: 'hero_badge',              label: 'Badge Hero',                 type: 'text',     hint: 'Ex: Programme d\'accompagnement' },
+  { key: 'hero_title_prefix',       label: 'Préfixe titre Hero',         type: 'text',     hint: 'Rejoignez' },
+  { key: 'hero_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: 'l\'incubateur' },
+  { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'de Malea Hub' },
+  { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Un programme d\'accompagnement intensif...' },
+  { key: 'hero_image',              label: 'Image Hero',                 type: 'image',    hint: 'Photo équipe / startup' },
+  { key: 'cta_button',              label: 'Texte bouton CTA',           type: 'text',     hint: 'Postuler maintenant' },
+  { key: 'cta_message',             label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite postuler à l\'incubateur' },
+  
+  // Program section
+  { key: 'program_title',           label: 'Titre du programme',         type: 'text',     hint: 'Notre programme d\'accompagnement' },
+  { key: 'program_subtitle',        label: 'Sous-titre programme',       type: 'textarea', hint: 'Un parcours sur mesure pour les startups' },
+  { key: 'program_features',        label: 'Caractéristiques programme', type: 'json',     schema: 'features', hint: 'Liste des caractéristiques du programme' },
+  
+  // Benefits section
+  { key: 'benefits_title',          label: 'Titre avantages',            type: 'text',     hint: 'Pourquoi rejoindre notre incubateur ?' },
+  { key: 'benefits_subtitle',       label: 'Sous-titre avantages',       type: 'textarea', hint: 'Les clés de votre réussite' },
+  { key: 'benefits_items',          label: 'Liste avantages',            type: 'json',     schema: 'benefits', hint: 'Titre + description pour chaque avantage' },
+  
+  // Stats section
+  { key: 'stats_title',             label: 'Titre statistiques',         type: 'text',     hint: 'Ils nous font confiance' },
+  { key: 'stats_items',             label: 'Statistiques',               type: 'json',     schema: 'stats', hint: 'Valeur + label pour chaque statistique' },
+  
+  // Invest Club section
+  { key: 'invest_club_badge',       label: 'Badge Invest Club',          type: 'text',     hint: 'Malea Invest Club' },
+  { key: 'invest_club_title_prefix',label: 'Préfixe titre Invest Club',  type: 'text',     hint: 'Rejoignez le' },
+  { key: 'invest_club_title_highlight', label: 'Mot mis en avant',       type: 'text',     hint: 'Malea Invest Club' },
+  { key: 'invest_club_description', label: 'Description Invest Club',    type: 'textarea', hint: 'Description du club investisseurs' },
+  { key: 'invest_club_cta',         label: 'Bouton Invest Club',         type: 'text',     hint: 'Devenir investisseur' },
+  { key: 'invest_club_message',     label: 'Message WhatsApp Invest Club', type: 'textarea', hint: 'Bonjour, je souhaite rejoindre le Malea Invest Club' },
+  { key: 'invest_club_image',       label: 'Image Invest Club',          type: 'image',    hint: 'Photo club investisseurs' },
+  
+  // Application section
+  { key: 'application_title',       label: 'Titre candidature',          type: 'text',     hint: 'Prêt à rejoindre l\'aventure ?' },
+  { key: 'application_description', label: 'Description candidature',    type: 'textarea', hint: 'Postulez dès maintenant...' },
+  { key: 'application_button',      label: 'Bouton candidature',         type: 'text',     hint: 'Postuler' },
+  { key: 'application_message',     label: 'Message candidature',        type: 'textarea', hint: 'Bonjour, je souhaite postuler à l\'incubateur' },
+  
+  // Legacy
+  { key: 'invest_club', label: 'Texte Malea Invest Club (legacy)', type: 'textarea', hint: 'Description du club investisseurs' },
+],
+
+training: [
+  // Hero section
+  { key: 'hero_badge',              label: 'Badge Hero',                 type: 'text',     hint: 'Ex: Formations Professionnelles' },
+  { key: 'hero_title_prefix',       label: 'Préfixe titre Hero',         type: 'text',     hint: 'Devenez' },
+  { key: 'hero_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: 'opérationnel' },
+  { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'avec nos formations' },
+  { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Des programmes de formation conçus pour accélérer votre carrière...' },
+  { key: 'hero_image',              label: 'Image Hero',                 type: 'image',    hint: 'Photo formation' },
+  
+  // Jobs Week section
+  { key: 'jobs_week_badge',         label: 'Badge Jobs Week',            type: 'text',     hint: 'Programme Phare' },
+  { key: 'jobs_week_title',         label: 'Titre Jobs Week',            type: 'text',     hint: 'Jobs Week' },
+  { key: 'jobs_week_subtitle',      label: 'Sous-titre Jobs Week',       type: 'text',     hint: 'Programme Intensif de 5 Jours' },
+  { key: 'jobs_week_description',   label: 'Description Jobs Week',      type: 'textarea', hint: 'Un programme intensif de 5 jours...' },
+  { key: 'jobs_week_benefits',      label: 'Bénéfices Jobs Week',        type: 'json',     schema: 'benefits', hint: 'Titre + description pour chaque bénéfice' },
+  { key: 'jobs_week_modules',       label: 'Modules Jobs Week',          type: 'json',     schema: 'modules', hint: 'Jour, titre et description pour chaque module' },
+  { key: 'jobs_week_included_items', label: 'Éléments inclus',           type: 'json',     schema: 'list', hint: 'Liste des éléments inclus dans la formation' },
+  { key: 'jobs_week_places_label',  label: 'Label places',               type: 'text',     hint: 'PLACES SEULEMENT' },
+  { key: 'jobs_week_program_label', label: 'Label programme',            type: 'text',     hint: 'Programme complet' },
+  { key: 'jobs_week_duration',      label: 'Durée',                      type: 'text',     hint: '5 jours intensifs' },
+  { key: 'jobs_week_cta',           label: 'Texte bouton CTA',           type: 'text',     hint: "S'inscrire via WhatsApp" },
+  { key: 'jobs_week_cta_message',   label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite m\'inscrire à Jobs Week' },
+  
+  // Formations section
+  { key: 'formations_title',        label: 'Titre formations',           type: 'text',     hint: 'Nos Formations' },
+  { key: 'formations_subtitle',     label: 'Sous-titre formations',      type: 'textarea', hint: 'Des programmes conçus par des experts...' },
+  
+  // Program overview section
+  { key: 'program_title',           label: 'Titre aperçu programme',     type: 'text',     hint: 'Aperçu du Programme' },
+  { key: 'program_subtitle',        label: 'Sous-titre aperçu programme', type: 'textarea', hint: 'Un parcours complet de 5 jours vers l\'employabilité' },
+  
+  // Trainer section
+  { key: 'trainer_title',           label: 'Titre formateur',            type: 'text',     hint: 'Vous êtes formateur ou organisation ?' },
+  { key: 'trainer_description',     label: 'Description formateur',      type: 'textarea', hint: 'Organisez vos formations à Malea Hub...' },
+  { key: 'trainer_button',          label: 'Bouton formateur',           type: 'text',     hint: 'Organisez votre formation' },
+  { key: 'trainer_message',         label: 'Message WhatsApp formateur', type: 'textarea', hint: 'Bonjour, je suis formateur et souhaite organiser une formation' },
+  
+  // Legacy
+  { key: 'jobs_week_desc', label: 'Description Jobs Week (legacy)', type: 'textarea', hint: 'Un programme intensif de 5 jours...' },
+],
+
+ lounge: [
+  // Hero section
+  { key: 'hero_badge',              label: 'Badge Hero',                 type: 'text',     hint: 'Ex: Espace Premium' },
+  { key: 'hero_title_prefix',       label: 'Préfixe titre Hero',         type: 'text',     hint: "L'espace" },
+  { key: 'hero_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: 'Lounge' },
+  { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'de Malea Hub' },
+  { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Un espace premium conçu pour...' },
+  { key: 'hero_image',              label: 'Photo principale',           type: 'image',    hint: 'Photo principale du lounge' },
+  
+  // Gallery section (images illimitées)
+  { key: 'gallery_title',           label: 'Titre de la galerie',        type: 'text',     hint: 'Notre espace Lounge' },
+  { key: 'gallery_images',          label: 'Images de la galerie',       type: 'json',     schema: 'gallery', hint: 'Liste d\'images avec src et alt' },
+  
+  // Usage section
+  { key: 'usage_title',             label: 'Titre utilisation',          type: 'text',     hint: 'Utilisations du Lounge' },
+  { key: 'usage_items',             label: 'Items utilisation',          type: 'json',     schema: 'usage', hint: 'Titre + description pour chaque utilisation' },
+  { key: 'usage_cta_button',        label: 'Bouton CTA',                 type: 'text',     hint: 'Visiter le Lounge' },
+  { key: 'usage_cta_message',       label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite visiter l\'espace Lounge' },
+  
+  // Features section (optionnelle)
+  { key: 'features_title',          label: 'Titre équipements',          type: 'text',     hint: 'Équipements & Services' },
+  { key: 'features_items',          label: 'Équipements',                type: 'json',     schema: 'features', hint: 'Liste des équipements du lounge' },
+  
+  // Legacy
+  { key: 'description', label: 'Description (legacy)', type: 'textarea', hint: 'Un espace premium conçu pour...' },
+  { key: 'gallery_1',   label: 'Photo galerie 1 (legacy)', type: 'image', hint: 'Coin café' },
+  { key: 'gallery_2',   label: 'Photo galerie 2 (legacy)', type: 'image', hint: 'Assises confortables' },
+],
+
   contact: [
     { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: "Let's connect" },
     { key: 'address',       label: 'Adresse complète',       type: 'text',     hint: 'Bonapriso, Rue Koloko - Douala' },
     { key: 'map_embed',     label: 'Lien Google Maps (URL)', type: 'text',     hint: 'https://maps.google.com/...' },
   ],
-  events: [
-    { key: 'hero_title',    label: 'Titre Hero (H1)',        type: 'text',     hint: 'Ex: Annonces & Événements' },
-    { key: 'hero_badge',    label: 'Badge Hero',             type: 'text',     hint: 'Annonces & Événements' },
-    { key: 'description',   label: 'Description Hero',       type: 'textarea', hint: 'Découvrez nos annonces...' },
-    { key: 'hero_image',    label: 'Image de fond Hero',     type: 'image',    hint: 'Image en arrière-plan' },
-    { key: 'announcements_title',    label: 'Titre section Annonces', type: 'text', hint: 'Nos prochains événements' },
-    { key: 'announcements_subtitle', label: 'Sous-titre Annonces',    type: 'text', hint: 'Ne manquez aucune opportunité' },
-    { key: 'announcements_cta',      label: 'Texte bouton Annonces',  type: 'text', hint: 'En savoir plus' },
-    { key: 'team_title',        label: 'Titre section Équipe',   type: 'text', hint: 'Notre Équipe' },
-    { key: 'team_subtitle',     label: 'Sous-titre Équipe',      type: 'text', hint: 'Des professionnels passionnés...' },
-  ],
+ events: [
+  // Hero section
+  { key: 'hero_badge',              label: 'Badge Hero',                 type: 'text',     hint: 'Annonces & Événements' },
+  { key: 'hero_title_prefix',       label: 'Préfixe titre Hero',         type: 'text',     hint: 'Annonces &' },
+  { key: 'hero_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: 'Événements' },
+  { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'à Malea Hub' },
+  { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Découvrez nos annonces, événements à venir...' },
+  { key: 'hero_image',              label: 'Image de fond Hero',         type: 'image',    hint: 'Image en arrière-plan' },
+  
+  // Announcements section
+  { key: 'announcements_title',     label: 'Titre section Annonces',     type: 'text',     hint: 'Nos prochains événements' },
+  { key: 'announcements_subtitle',  label: 'Sous-titre Annonces',        type: 'text',     hint: 'Ne manquez aucune opportunité' },
+  { key: 'announcements_cta',       label: 'Texte bouton Annonces',      type: 'text',     hint: 'Voir les détails' },
+  
+  // Team section
+  { key: 'team_title',              label: 'Titre section Équipe',       type: 'text',     hint: 'Notre Équipe' },
+  { key: 'team_subtitle',           label: 'Sous-titre Équipe',          type: 'text',     hint: 'Des professionnels passionnés...' },
+  
+  // CTA section
+  { key: 'cta_title',               label: 'Titre CTA',                  type: 'text',     hint: 'Vous souhaitez organiser un événement ?' },
+  { key: 'cta_description',         label: 'Description CTA',            type: 'textarea', hint: 'Contactez-nous pour organiser votre événement' },
+  { key: 'cta_button',              label: 'Bouton CTA',                 type: 'text',     hint: 'Contacter l\'équipe' },
+],
+// Dans PAGE_BLOCKS
+library: [
+  // Hero section
+  { key: 'hero_badge',              label: 'Badge Hero',                 type: 'text',     hint: 'Bibliothèque Sociale' },
+  { key: 'hero_title_prefix',       label: 'Préfixe titre Hero',         type: 'text',     hint: 'Notre' },
+  { key: 'hero_title_highlight',    label: 'Mot mis en avant',           type: 'text',     hint: 'Bibliothèque' },
+  { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'Sociale' },
+  { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Une collection de ressources pour vous aider à grandir' },
+  
+  // Coming soon section
+  { key: 'coming_soon_title',       label: 'Titre Coming Soon',          type: 'text',     hint: 'Bientôt disponible' },
+  { key: 'coming_soon_text',        label: 'Texte Coming Soon',          type: 'textarea', hint: 'Notre bibliothèque sociale ouvrira bientôt ses portes...' },
+  { key: 'coming_soon_button',      label: 'Bouton notification',        type: 'text',     hint: 'Être informé' },
+  { key: 'coming_soon_message',     label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite être informé du lancement' },
+  
+  // Gallery section
+  { key: 'gallery_title',           label: 'Titre galerie',              type: 'text',     hint: 'Nos espaces' },
+  { key: 'gallery_subtitle',        label: 'Sous-titre galerie',         type: 'textarea', hint: 'Découvrez les espaces Malea Hub' },
+  { key: 'gallery_images',          label: 'Images galerie',             type: 'json',     schema: 'gallery', hint: 'Liste des images avec src, alt, label, icon' },
+  
+  // Resources section
+  { key: 'resources_title',         label: 'Titre ressources',           type: 'text',     hint: 'Ressources à venir' },
+  { key: 'resources_items',         label: 'Items ressources',           type: 'json',     schema: 'resources', hint: 'Titre, description, icône pour chaque ressource' },
+  
+  // Books section
+  { key: 'books_title',             label: 'Titre livres',               type: 'text',     hint: 'Nos livres disponibles' },
+  { key: 'books_subtitle',          label: 'Sous-titre livres',          type: 'textarea', hint: 'Une sélection de livres pour vous inspirer' },
+  { key: 'books_cta',               label: 'Bouton livre',               type: 'text',     hint: 'En savoir plus' },
+],
 };
 
 // Configuration du thème
@@ -1323,7 +1528,7 @@ function Toast({ message, type, onClose }) {
   );
 }
 
-// ── Champs génériques ─────────────────────────────────────────────────────────
+// ── Champs génériques
 const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 const iCls   = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors';
 
@@ -1374,6 +1579,79 @@ function FontField({ value, onChange }) {
   );
 }
 
+// function JsonField({ value, onChange, schema, placeholder }) {
+//   const [isValid, setIsValid] = useState(true);
+//   const [textValue, setTextValue] = useState(() => {
+//     if (value && typeof value !== 'string') return JSON.stringify(value, null, 2);
+//     return value || '';
+//   });
+
+//   const handleChange = (newValue) => {
+//     setTextValue(newValue);
+//     try {
+//       if (newValue && newValue.trim()) {
+//         const parsed = JSON.parse(newValue);
+//         onChange(parsed);
+//       } else {
+//         onChange(null);
+//       }
+//       setIsValid(true);
+//     } catch (err) {
+//       setIsValid(false);
+//     }
+//   };
+
+//   const examples = {
+//     benefits: `[
+//   {
+//     "title": "Accès exclusif",
+//     "description": "Investissez dans les meilleures startups"
+//   },
+//   {
+//     "title": "Réseau d'influence",
+//     "description": "Rencontrez des experts et investisseurs"
+//   }
+// ]`,
+//     stats: `[
+//   {
+//     "value": "500+",
+//     "label": "Startups accompagnées"
+//   },
+//   {
+//     "value": "50M FCFA",
+//     "label": "Levés de fonds"
+//   }
+// ]`,
+//     list: `[
+//   "Certificat officiel",
+//   "Coaching personnalisé",
+//   "Accès à vie aux ressources"
+// ]`
+//   };
+
+//   return (
+//     <div className="space-y-2">
+//       <textarea
+//         value={textValue}
+//         onChange={e => handleChange(e.target.value)}
+//         rows={8}
+//         placeholder={placeholder || `Exemple: ${examples[schema] || '[]'}`}
+//         className={`${iCls} font-mono text-sm`}
+//         style={{ ...iStyle, borderColor: isValid ? undefined : '#dc2626' }}
+//       />
+//       {!isValid && (
+//         <p className="text-xs text-red-500">⚠️ JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
+//       )}
+//       {schema && examples[schema] && (
+//         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+//           📋 Exemple: <button onClick={() => handleChange(examples[schema])} className="underline hover:opacity-80">Insérer un exemple</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+
 function JsonField({ value, onChange, schema, placeholder }) {
   const [isValid, setIsValid] = useState(true);
   const [textValue, setTextValue] = useState(() => {
@@ -1381,21 +1659,7 @@ function JsonField({ value, onChange, schema, placeholder }) {
     return value || '';
   });
 
-  const handleChange = (newValue) => {
-    setTextValue(newValue);
-    try {
-      if (newValue && newValue.trim()) {
-        const parsed = JSON.parse(newValue);
-        onChange(parsed);
-      } else {
-        onChange(null);
-      }
-      setIsValid(true);
-    } catch (err) {
-      setIsValid(false);
-    }
-  };
-
+  // Exemples JSON pour différents schemas
   const examples = {
     benefits: `[
   {
@@ -1421,7 +1685,184 @@ function JsonField({ value, onChange, schema, placeholder }) {
   "Certificat officiel",
   "Coaching personnalisé",
   "Accès à vie aux ressources"
-]`
+]`,
+    services: `[
+  {
+    "title": "Incubateur",
+    "description": "Transformez votre idée en startup",
+    "features": ["Mentorat personnalisé", "Accès au réseau d'investisseurs", "Espaces de travail dédiés"],
+    "href": "/incubator"
+  },
+  {
+    "title": "Coworking",
+    "description": "Un espace de travail moderne et flexible",
+    "features": ["Bureaux privatifs", "Salles de réunion", "Espace lounge"],
+    "href": "/coworking"
+  },
+  {
+    "title": "Formations",
+    "description": "Devenez prêt pour l'emploi",
+    "features": ["Jobs Week intensive", "Certifications", "Coaching individuel"],
+    "href": "/training"
+  }
+]`,
+
+gallery: `[
+  {
+    "src": "/malesalon.jpeg",
+    "alt": "Espace salon",
+    "icon": "Coffee",
+    "label": "Espace Salon"
+  },
+  {
+    "src": "/maleSalonthe.jpeg",
+    "alt": "Coin café",
+    "icon": "Coffee",
+    "label": "Coin Café"
+  }
+]`,
+  
+  resources: `[
+  {
+    "title": "Livres & E-books",
+    "description": "Accédez à notre bibliothèque numérique",
+    "icon": "BookOpen"
+  },
+  {
+    "title": "Communauté",
+    "description": "Échangez avec d'autres passionnés",
+    "icon": "Users"
+  }
+]`,
+
+gallery: `[
+  {
+    "src": "/malesalon.jpeg",
+    "alt": "Espace salon"
+  },
+  {
+    "src": "/maleSalonthe.jpeg",
+    "alt": "Coin café"
+  },
+  {
+    "src": "/maleblan.jpeg",
+    "alt": "Espace détente"
+  },
+  {
+    "src": "/malenoir.jpeg",
+    "alt": "Coin lecture"
+  }
+]`,
+  
+  usage: `[
+  {
+    "title": "Événements Networking",
+    "description": "Organisez des rencontres professionnelles dans un cadre convivial"
+  },
+  {
+    "title": "Break Productif",
+    "description": "Faites une pause et revenez plus productif"
+  },
+  {
+    "title": "Réunions Informelles",
+    "description": "Des espaces adaptés pour des échanges décontractés"
+  }
+]`,
+
+ modules: `[
+  {
+    "day": "Jour 1",
+    "title": "CV & Lettre de motivation",
+    "description": "Créez un CV et une lettre de motivation qui se démarquent"
+  },
+  {
+    "day": "Jour 2",
+    "title": "Personal Branding",
+    "description": "Construisez votre image professionnelle et votre présence en ligne"
+  },
+  {
+    "day": "Jour 3",
+    "title": "Techniques d'entretien",
+    "description": "Maîtrisez les questions courantes et le langage corporel"
+  },
+  {
+    "day": "Jour 4",
+    "title": "Entretiens simulés",
+    "description": "Pratiquez avec des scénarios réels et des retours d'experts"
+  },
+  {
+    "day": "Jour 5",
+    "title": "Job Matching",
+    "description": "Connectez-vous avec des opportunités et des employeurs"
+  }
+]`,
+    features: `[
+  {
+    "title": "WiFi Haut Débit",
+    "description": "Connexion fibre optique ultra-rapide dans tout l'espace"
+  },
+  {
+    "title": "Salles de Réunion",
+    "description": "Salles équipées pour vos réunions et présentations"
+  },
+  {
+    "title": "Équipements Modernes",
+    "description": "Imprimantes, scanners et bureaux ergonomiques"
+  },
+  {
+    "title": "Espace Détente",
+    "description": "Café, thé et espace lounge pour vos pauses"
+  },
+  {
+    "title": "Horaires Flexibles",
+    "description": "Accès 24/7 pour les abonnés premium"
+  },
+  {
+    "title": "Espace Sécurisé",
+    "description": "Surveillance et accès sécurisé 24h/24"
+  }
+]`,
+    program_features: `[
+  {
+    "title": "Accompagnement personnalisé",
+    "description": "Mentorat par des experts du secteur"
+  },
+  {
+    "title": "Financement",
+    "description": "Accès à notre réseau d'investisseurs"
+  },
+  {
+    "title": "Formation continue",
+    "description": "Ateliers et masterclasses mensuels"
+  },
+  {
+    "title": "Visibilité",
+    "description": "Mise en relation avec les médias"
+  }
+]`,
+  };
+
+  const handleChange = (newValue) => {
+    setTextValue(newValue);
+    try {
+      if (newValue && newValue.trim()) {
+        const parsed = JSON.parse(newValue);
+        onChange(parsed);
+      } else {
+        onChange(null);
+      }
+      setIsValid(true);
+    } catch (err) {
+      setIsValid(false);
+    }
+  };
+
+  // Détermine l'exemple à afficher en fonction du schema
+  const getExampleForSchema = () => {
+    if (schema && examples[schema]) {
+      return examples[schema];
+    }
+    return null;
   };
 
   return (
@@ -1430,16 +1871,28 @@ function JsonField({ value, onChange, schema, placeholder }) {
         value={textValue}
         onChange={e => handleChange(e.target.value)}
         rows={8}
-        placeholder={placeholder || `Exemple: ${examples[schema] || '[]'}`}
+        placeholder={placeholder || `Entrez votre JSON ici...`}
         className={`${iCls} font-mono text-sm`}
         style={{ ...iStyle, borderColor: isValid ? undefined : '#dc2626' }}
       />
       {!isValid && (
         <p className="text-xs text-red-500">⚠️ JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
       )}
-      {schema && examples[schema] && (
+      {schema && getExampleForSchema() && (
         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-          📋 Exemple: <button onClick={() => handleChange(examples[schema])} className="underline hover:opacity-80">Insérer un exemple</button>
+          📋 Exemple pour "{schema}": 
+          <button 
+            onClick={() => handleChange(getExampleForSchema())} 
+            className="ml-2 underline hover:opacity-80 text-primary"
+            style={{ color: 'var(--primary)' }}
+          >
+            Insérer un exemple
+          </button>
+        </div>
+      )}
+      {!schema && (
+        <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+          💡 Format JSON attendu: tableau d'objets ou tableau de chaînes
         </div>
       )}
     </div>

@@ -82,13 +82,6 @@ export const createInscription = asyncHandler(async (req, res) => {
   sendCreated(res, { inscription: rows[0] }, 'Inscription enregistrée');
 });
 
-// export const updateInscription = asyncHandler(async (req, res) => {
-//   const { rows: existing } = await InscriptionModel.findById(req.params.id);
-//   if (!existing.length) throw new AppError('Inscription introuvable.', 404);
-
-//   const { rows } = await InscriptionModel.update(req.params.id, req.body.statut);
-//   sendSuccess(res, { inscription: rows[0] }, 'Inscription mise à jour');
-// });
 
 
 export const updateInscription = asyncHandler(async (req, res) => {

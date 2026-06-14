@@ -167,9 +167,18 @@ export const adminTeamAPI = {
   },
 };
 
+export const adminLibraryAPI = {
+  getAll:        () => adminApi.get('/library/books'),
+  getById:       (id) => adminApi.get(`/library/books/${id}`),
+  getCategories: () => adminApi.get('/library/categories'),
+  create:        (data) => adminApi.post('/library/admin/books', data),
+  update:        (id, data) => adminApi.put(`/library/admin/books/${id}`, data),
+  delete:        (id) => adminApi.delete(`/library/admin/books/${id}`),
+};
+
 export default {
   adminApi, adminAuthAPI, adminUsersAPI, adminReservationsAPI,
   adminFormationsAPI, adminIncubatorAPI, adminInvestorsAPI,
   adminContactsAPI, adminDashboardAPI, contentAPI, settingsAPI,
-  adminAnnouncementsAPI, adminTeamAPI,
+  adminAnnouncementsAPI, adminTeamAPI, adminLibraryAPI
 };

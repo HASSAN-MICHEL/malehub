@@ -438,3 +438,43 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 -- Index pour recherche rapide
 CREATE INDEX IF NOT EXISTS idx_newsletter_email ON newsletter_subscribers(email);
 CREATE INDEX IF NOT EXISTS idx_newsletter_actif ON newsletter_subscribers(actif);
+
+
+
+
+
+-- pour la library et autres:
+
+-- Table des livres de la bibliothèque
+CREATE TABLE library_books (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    author VARCHAR(255),
+    cover_image VARCHAR(500),
+    category VARCHAR(100),
+    isbn VARCHAR(50),
+    published_year INT,
+    pages INT,
+    download_url VARCHAR(500),
+    preview_url VARCHAR(500),
+    is_available BOOLEAN DEFAULT TRUE,
+    is_featured BOOLEAN DEFAULT FALSE,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_category (category),
+    INDEX idx_is_featured (is_featured),
+    INDEX idx_sort_order (sort_order)
+);
+
+-- Table des catégories de livres (optionnelle)
+CREATE TABLE library_categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

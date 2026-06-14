@@ -11,8 +11,10 @@ import IncubatorPage from './pages/IncubatorPage';
 import TrainingPage from './pages/TrainingPage';
 import LoungePage from './pages/LoungePage';
 import LibraryPage from './pages/LibraryPage';
+import BookDetailPage from './pages/BookDetails';
 import ContactPage from './pages/ContactPage';
 import  EventsPage from './pages/EventsPage';
+import EventDetailPage from './pages/EventDetaills';
 
 // coté admin
 import AdminLayout from './pages/admin/adminLayout';
@@ -24,6 +26,7 @@ import Users from './pages/admin/user';
 import Formations from './pages/admin/formations';
 import Inscriptions from './pages/admin/Inscription';
 import Candidatures from './pages/admin/candidatures';
+import LibraryManager from './pages/admin/Library';
 import Investors from './pages/admin/Investor';
 import Contacts from './pages/admin/contacts';
 import ContentManager from './pages/admin/contentManager';
@@ -48,7 +51,8 @@ export default function App() {
             <Route path="formations" element={<Formations />} />
             <Route path="inscriptions" element={<Inscriptions />} />
             <Route path="candidatures" element={<Candidatures />} />
-            <Route path="investors" element={<Investors />} />       
+            <Route path="investors" element={<Investors />} />   
+            <Route path="library" element={<LibraryManager />} />    
             <Route path="contacts" element={<Contacts />} />
             <Route path="content" element={<ContentManager />} />
           </Route>
@@ -65,8 +69,10 @@ export default function App() {
                   <Route path="/training" element={<TrainingPage />} />
                   <Route path="/lounge" element={<LoungePage />} />
                   <Route path="/library" element={<LibraryPage />} />
+                  <Route path="/library/:slug" element={<BookDetailPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/events" element={< EventsPage />} />
+                  <Route path="/events/:slug" element={<EventDetailPage />} />
                 </Routes>
               </main>
               <Footer />
