@@ -189,12 +189,19 @@ export default function LibraryPage() {
   
   // Helper pour l'URL des images
   const getFullImageUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || '/api';
-    return `${baseUrl}${url}`;
-  };
+  if (!url) return null;
+  if (url.startsWith('https')) return url;
   
+  // Si l'URL commence déjà par /uploads/, ne pas ajouter /api
+  if (url.startsWith('/uploads/')) {
+    const baseUrl = import.meta.env.VITE_API_URL || '';
+    return `${baseUrl}${url}`;
+  }
+  
+  // Pour les images stockées dans uploads
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  return `${baseUrl}/uploads/${url.replace(/^\/uploads\//, '').replace(/^\//, '')}`;
+};  
   // Chargement des livres
   useEffect(() => {
     const fetchData = async () => {

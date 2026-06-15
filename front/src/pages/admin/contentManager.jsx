@@ -1659,9 +1659,10 @@ function JsonField({ value, onChange, schema, placeholder }) {
     return value || '';
   });
 
-  // Exemples JSON pour différents schemas
-  const examples = {
-    benefits: `[
+  // Exemples JSON pour différents schem
+// Exemples JSON pour différents schemas (VERSION CORRIGÉE - SANS DOUBLON)
+const examples = {
+  benefits: `[
   {
     "title": "Accès exclusif",
     "description": "Investissez dans les meilleures startups"
@@ -1671,7 +1672,7 @@ function JsonField({ value, onChange, schema, placeholder }) {
     "description": "Rencontrez des experts et investisseurs"
   }
 ]`,
-    stats: `[
+  stats: `[
   {
     "value": "500+",
     "label": "Startups accompagnées"
@@ -1681,12 +1682,12 @@ function JsonField({ value, onChange, schema, placeholder }) {
     "label": "Levés de fonds"
   }
 ]`,
-    list: `[
+  list: `[
   "Certificat officiel",
   "Coaching personnalisé",
   "Accès à vie aux ressources"
 ]`,
-    services: `[
+  services: `[
   {
     "title": "Incubateur",
     "description": "Transformez votre idée en startup",
@@ -1706,8 +1707,7 @@ function JsonField({ value, onChange, schema, placeholder }) {
     "href": "/training"
   }
 ]`,
-
-gallery: `[
+  gallery: `[
   {
     "src": "/malesalon.jpeg",
     "alt": "Espace salon",
@@ -1719,9 +1719,14 @@ gallery: `[
     "alt": "Coin café",
     "icon": "Coffee",
     "label": "Coin Café"
+  },
+  {
+    "src": "/maleblan.jpeg",
+    "alt": "Espace détente",
+    "icon": "Users",
+    "label": "Espace Détente"
   }
 ]`,
-  
   resources: `[
   {
     "title": "Livres & E-books",
@@ -1734,26 +1739,6 @@ gallery: `[
     "icon": "Users"
   }
 ]`,
-
-gallery: `[
-  {
-    "src": "/malesalon.jpeg",
-    "alt": "Espace salon"
-  },
-  {
-    "src": "/maleSalonthe.jpeg",
-    "alt": "Coin café"
-  },
-  {
-    "src": "/maleblan.jpeg",
-    "alt": "Espace détente"
-  },
-  {
-    "src": "/malenoir.jpeg",
-    "alt": "Coin lecture"
-  }
-]`,
-  
   usage: `[
   {
     "title": "Événements Networking",
@@ -1768,8 +1753,7 @@ gallery: `[
     "description": "Des espaces adaptés pour des échanges décontractés"
   }
 ]`,
-
- modules: `[
+  modules: `[
   {
     "day": "Jour 1",
     "title": "CV & Lettre de motivation",
@@ -1796,7 +1780,7 @@ gallery: `[
     "description": "Connectez-vous avec des opportunités et des employeurs"
   }
 ]`,
-    features: `[
+  features: `[
   {
     "title": "WiFi Haut Débit",
     "description": "Connexion fibre optique ultra-rapide dans tout l'espace"
@@ -1822,7 +1806,7 @@ gallery: `[
     "description": "Surveillance et accès sécurisé 24h/24"
   }
 ]`,
-    program_features: `[
+  program_features: `[
   {
     "title": "Accompagnement personnalisé",
     "description": "Mentorat par des experts du secteur"
@@ -1840,8 +1824,8 @@ gallery: `[
     "description": "Mise en relation avec les médias"
   }
 ]`,
-  };
-
+};
+ 
   const handleChange = (newValue) => {
     setTextValue(newValue);
     try {
@@ -1919,7 +1903,7 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
   };
 
   const previewSrc = value
-    ? (value.startsWith('http') ? value : `${import.meta.env.VITE_API_URL || '/api'}${value}`)
+    ? (value.startsWith('http') ? value : `${'/api'}${value}`)
     : null;
 
   return (
@@ -2153,7 +2137,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── SECTION : Gestion du thème ────────────────────────────────────────────────
+// ── SECTION : Gestion du thème
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
   const [loading, setLoading] = useState(true);
@@ -2306,7 +2290,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── SECTION : Annonces ────────────────────────────────────────────────────────
+// ── SECTION : Annonc
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -2374,7 +2358,7 @@ function AnnouncementsTab() {
   };
 
   const previewUrl = (url) => url
-    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
+    ? (url.startsWith('https') ? url : url)
     : null;
 
   return (
@@ -2572,7 +2556,7 @@ function TeamTab() {
   };
 
   const previewUrl = (url) => url
-    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
+    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || '/api'}${url}`)
     : null;
 
   return (

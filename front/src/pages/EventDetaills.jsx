@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation , useParams, useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowLeft, Share2, Users, Briefcase, CheckCircle, ArrowRight } from 'lucide-react';
 import { useContent, useSettings, useAnnouncements } from '../hooks/usecontet';
 
@@ -10,6 +10,7 @@ export default function EventDetailPage() {
   const { setting } = useSettings();
   const { announcements, loading } = useAnnouncements();
   const theme = getTheme();
+  const location = useLocation();
   
   const [event, setEvent] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -17,35 +18,40 @@ export default function EventDetailPage() {
   const waGeneral = setting('whatsapp_general', '237678111022');
   
   useEffect(() => {
-    // Récupérer l'ID depuis l'URL ou trouver par slug
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('id');
-    
-    if (eventId) {
-      const found = announcements.find(a => a.id === parseInt(eventId));
-      if (found) {
-        setEvent(found);
-      } else {
-        setNotFound(true);
-      }
-    } else if (slug && announcements.length > 0) {
-      // Chercher par slug généré à partir du titre
-      const generateSlug = (title) => {
-        return title
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-|-$/g, '');
-      };
-      const found = announcements.find(a => generateSlug(a.titre) === slug);
-      if (found) {
-        setEvent(found);
-      } else {
-        setNotFound(true);
-      }
-    }
-  }, [slug, announcements]);
+  // Récupérer l'ID depuis l'URL
+  const searchParams = new URLSearchParams(location.search);
+  const eventId = searchParams.get('id');
+
+  if (announcements.length === 0) return;
+
+  let found = null;
+
+  // Chercher par ID d'abord
+  if (eventId) {
+    found = announcements.find(a => String(a.id) === String(eventId));
+  }
+  
+  // Si pas trouvé par ID, chercher par slug
+  if (!found && slug && announcements.length > 0) {
+    const generateSlug = (title) => {
+      return title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    };
+    found = announcements.find(a => generateSlug(a.titre) === slug);
+  }
+
+  if (found) {
+    setEvent(found);
+    setNotFound(false);
+  } else if (!loading && announcements.length > 0) {
+    setNotFound(true);
+  }
+}, [slug, location.search, announcements, loading]);
+
   
   const formatDate = (dateStr) => {
     if (!dateStr) return null;
@@ -61,12 +67,22 @@ export default function EventDetailPage() {
     }
   };
   
-  const getFullImageUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const API_BASE_URL = '/api';
-    return `${API_BASE_URL}${url}`;
-  };
+  // Fonction corrigée pour les détails d'événement
+const getFullImageUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('https://')) return url;
+  if (url.startsWith('http://')) return url;
+  
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  
+  // Si l'URL contient déjà uploads, ne pas dupliquer
+  if (url.includes('/uploads/')) {
+    return `${baseUrl}${url}`;
+  }
+  
+  // Par défaut, ajouter /uploads/
+  return `${baseUrl}/uploads/${url.replace(/^\//, '')}`;
+};
   
   const styles = {
     backgroundColor: theme?.backgroundColor || 'var(--background)',

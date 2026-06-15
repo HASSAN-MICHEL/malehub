@@ -303,11 +303,9 @@ export default function CoworkingPage() {
   const getFullImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-<<<<<<< HEAD
     // Ajoutez le préfixe de votre API ou CDN si nécessaire
     // return `/api${url}`;    
     return url; // Suppose que l'URL est déjà complète ou relative et gérée par le dev server
-=======
     const baseUrl = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
     return `${baseUrl}${url}`;
   };
@@ -317,7 +315,6 @@ export default function CoworkingPage() {
     backgroundColor: theme?.backgroundColor || 'var(--background)',
     color: theme?.foregroundColor || 'var(--foreground)',
     fontFamily: theme?.fontBody || 'Inter',
->>>>>>> 3c29a4019ae9171ea88d25a046fdd1aafa75a1f1
   };
 
   return (
@@ -479,10 +476,6 @@ export default function CoworkingPage() {
         </div>
       </section>
     </div>
-<<<<<<< HEAD
-  )
-}
-=======
   );
 }
->>>>>>> 3c29a4019ae9171ea88d25a046fdd1aafa75a1f1
+

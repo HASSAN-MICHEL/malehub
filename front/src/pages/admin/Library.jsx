@@ -148,12 +148,12 @@ export default function LibraryManager() {
     setEditingBook(null);
   };
 
-  const getFullImageUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
-    return `${baseUrl}${url}`;
-  };
+const getFullImageUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('http')) return url;
+  // Enlever /api/ si présent
+  return url.replace('/api', '');
+};
 
   // Filtrage des livres
   const filteredBooks = books.filter(book => {

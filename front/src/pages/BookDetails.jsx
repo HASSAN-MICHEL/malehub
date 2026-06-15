@@ -18,14 +18,24 @@ export default function BookDetailPage() {
   
   const waGeneral = setting('whatsapp_general', '237678111022');
   
-  // Helper pour l'URL des images
-  const getFullImageUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
-    return `${baseUrl}${url}`;
-  };
+  // Helper pour l'URL des imag
+
+// Helper pour l'URL des images (identique à LibraryPage)
+const getFullImageUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('https://')) return url;
+  if (url.startsWith('http://')) return url;
   
+  // Si l'URL commence déjà par /uploads/, ne pas ajouter /api
+  if (url.startsWith('/uploads/')) {
+    const baseUrl =  '';
+    return `${baseUrl}${url}`;
+  }
+  
+  // Pour les images stockées dans uploads
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  return `${baseUrl}/uploads/${url.replace(/^\/uploads\//, '').replace(/^\//, '')}`;
+};  
   useEffect(() => {
     const loadBook = async () => {
       setLoading(true);

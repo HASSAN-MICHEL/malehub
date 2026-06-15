@@ -13,10 +13,11 @@ import {
   upsertContentBlockSchema,
 } from '../validations/system.js';
 import { upload } from '../config/multer.js';
-
+import path from 'path';
 
 const router = Router();
-// yes
+// ye
+
 
 
 router.post(
@@ -33,17 +34,14 @@ router.post(
         });
       }
 
-      const fileName = `${Date.now()}-${req.file.originalname}`;
-      const filePath = path.join('uploads', 'media', fileName);
+      // Avec diskStorage, le fichier est déjà sauvegardé
+      // req.file.filename contient le nom du fichier
+      // req.file.path contient le chemin complet
 
-      const fs = await import('fs');
-      const fullPath = path.join(process.cwd(), filePath);
 
-      await fs.promises.mkdir(path.dirname(fullPath), { recursive: true });
-
-      await fs.promises.writeFile(fullPath, req.file.buffer);
-
-      const url = `${process.env.BASE_URL || 'http://localhost:5000'}/${filePath}`;
+console.log('File received:', req.file.filename);
+console.log('File path:', req.file.path);      
+      const url = `/uploads/${req.file.filename}`;
 
       return res.json({
         status: 'success',
@@ -59,7 +57,6 @@ router.post(
     }
   }
 );
-
 
 // Dashboard 
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
@@ -85,9 +82,9 @@ router.put('/settings',              protect, adminOnly, validate(upsertSettingS
 router.delete('/settings/:cle',      protect, adminOnly, miscCtrl.deleteSetting);
 
 // ── Content Blocks
-
+router.put('/content',               protect, adminOnly , miscCtrl.upsertContentBlock);
 router.get('/content',    miscCtrl.getAllContentBlocks);
-router.put('/content',               protect, adminOnly, validate(upsertContentBlockSchema), miscCtrl.upsertContentBlock);
+//router.put('/content',               protect, adminOnly, validate(upsertContentBlockSchema), miscCtrl.upsertContentBlock);
 router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentBlockById);
 router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentBlock);
 

@@ -129,7 +129,7 @@ export function HeroSection() {
   const ctaIncubator = get('cta_incubator', t('hero.join_incubator'));
 
   return (
-    <section className="relative py-24 md:py-28 lg:py-32 flex items-center justify-center overflow-hidden min-h-[40vh] md:min-h-0">
+    <section className="relative py-24 md:py-28 lg:py-32 flex items-center justify-center overflow-hidden min-h-[60vh] md:min-[10vh]-0">
       <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"

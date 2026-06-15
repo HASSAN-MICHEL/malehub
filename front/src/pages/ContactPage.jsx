@@ -277,7 +277,7 @@ export default function ContactPage() {
   const { t } = useTranslation()
 
   const [formData, setFormData] = useState({
-    name: '',
+    nom: '',
     email: '',
     subject: '',
     message: '',

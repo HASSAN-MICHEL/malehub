@@ -343,18 +343,24 @@ export default function EventsPage() {
     fontFamily: theme?.fontBody || 'Inter',
   };
   
-  // Fonction pour obtenir l'URL complète d'une image
-  const getFullImageUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    if (url.startsWith('/')) {
-      return `${API_BASE_URL}${url}`;
-    }
-    return url;
-  };
+  // Fonction pour les photos des annoncs
+ // Fonction corrigée pour les images des annonces
+const getFullImageUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('https://')) return url;
+  if (url.startsWith('http://')) return url;
   
+  const baseUrl = import.meta.env.VITE_API_URL || '';
+  
+  // Si l'URL contient déjà uploads, ne pas dupliquer
+  if (url.includes('/uploads/')) {
+    return `${baseUrl}${url}`;
+  }
+  
+  // Par défaut, ajouter /uploads/
+  return `${baseUrl}/uploads/${url.replace(/^\//, '')}`;
+};  
+   
   // Fonction pour générer le slug à partir du titre
   const generateSlug = (title) => {
     return title
@@ -371,32 +377,33 @@ export default function EventsPage() {
     : [];
 
   // Séparer les événements passés et à venir
-  const now = new Date();
-  const upcomingEvents = apiAnnouncements.filter(event => {
-    if (!event.date_event) return true;
-    const eventDate = new Date(event.date_event);
-    return eventDate >= now;
-  });
-  const pastEvents = apiAnnouncements.filter(event => {
-    if (!event.date_event) return false;
-    const eventDate = new Date(event.date_event);
-    return eventDate < now;
-  });
+  // Helper pour vérifier si une date est valide
+const isValidDate = (d) => d instanceof Date && !isNaN(d.getTime());
 
-  // Helper pour formater la date
-  const formatEventDate = (dateStr) => {
-    if (!dateStr) return null;
-    try {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    } catch {
-      return dateStr;
-    }
-  };
+const now = new Date();
+const upcomingEvents = apiAnnouncements.filter(event => {
+  if (!event.date_event) return true;
+  const eventDate = new Date(event.date_event);
+  // Si la date n'est pas reconnaissable (texte libre type "15-19 Juillet 2024"),
+  // on considère l'événement comme à venir par défaut
+  if (!isValidDate(eventDate)) return true;
+  return eventDate >= now;
+});
+const pastEvents = apiAnnouncements.filter(event => {
+  if (!event.date_event) return false;
+  const eventDate = new Date(event.date_event);
+  if (!isValidDate(eventDate)) return false;
+  return eventDate < now;
+});
+
+// Pour assuré l'affichage des dates:
+
+const formatEventDate = (dateStr) => {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr; // texte libre → on l'affiche tel quel
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+};
 
   return (
     <div className="pt-16 lg:pt-20" style={styles}>
