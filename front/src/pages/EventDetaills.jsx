@@ -53,19 +53,22 @@ export default function EventDetailPage() {
 }, [slug, location.search, announcements, loading]);
 
   
-  const formatDate = (dateStr) => {
-    if (!dateStr) return null;
-    try {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    } catch {
-      return dateStr;
-    }
-  };
+  
+const formatDate = (dateStr) => {
+  if (!dateStr) return null;
+  try {
+    const date = new Date(dateStr);
+    // Vérifier si la date est valide
+    if (isNaN(date.getTime())) return null;
+    return date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  } catch {
+    return null;
+  }
+};
   
   // Fonction corrigée pour les détails d'événement
 const getFullImageUrl = (url) => {
@@ -148,12 +151,12 @@ const getFullImageUrl = (url) => {
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               {eventDate && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm"
-                  style={{ backgroundColor: `color-mix(in oklch, ${theme?.primaryColor || 'var(--primary)'} 10%, transparent)`, color: theme?.primaryColor || 'var(--primary)' }}>
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm"
+                 style={{ backgroundColor: `color-mix(in oklch, ${theme?.primaryColor || 'var(--primary)'} 10%, transparent)`, color: theme?.primaryColor || 'var(--primary)' }}>
                   <Calendar className="h-4 w-4" />
-                  {eventDate}
-                </span>
-              )}
+                 {eventDate}
+                 </span>
+               )}
               {isUpcoming ? (
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm" style={{ backgroundColor: '#10B98120', color: '#10B981' }}>
                   À venir
