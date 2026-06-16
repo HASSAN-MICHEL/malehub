@@ -1252,25 +1252,26 @@ const PAGE_BLOCKS = {
   { key: 'investor_stats',         label: 'Statistiques (chiffres clés)', type: 'json',  schema: 'stats', hint: 'Valeur + label' },
   
   // Jobs Week section
-  { key: 'jobsweek_badge',           label: 'Badge Jobs Week',          type: 'text',     hint: 'Jobs Week' },
-  { key: 'jobsweek_title',           label: 'Titre Jobs Week',          type: 'text',     hint: 'Devenez prêt pour l\'emploi' },
-  { key: 'jobsweek_subtitle',        label: 'Sous-titre Jobs Week',     type: 'text',     hint: 'En 5 jours intensifs' },
-  { key: 'jobsweek_description',     label: 'Description Jobs Week',    type: 'textarea', hint: 'Un programme intensif...' },
-  { key: 'jobsweek_benefits',        label: 'Liste des points forts',   type: 'json',     schema: 'list', hint: 'Ex: ["CV professionnel", "Simulation entretien"]' },
-  { key: 'jobsweek_card_badge',      label: 'Badge sur la carte',       type: 'text',     hint: 'Places limitées' },
-  { key: 'jobsweek_price_label',     label: 'Label prix',               type: 'text',     hint: 'Tarif unique' },
-  { key: 'jobsweek_price_currency',  label: 'Devise',                   type: 'text',     hint: 'FCFA' },
-  { key: 'jobsweek_spots_label',     label: 'Label places',             type: 'text',     hint: 'places disponibles' },
-  { key: 'jobsweek_duration_label',  label: 'Label durée',              type: 'text',     hint: '5 jours intensifs' },
-  { key: 'jobsweek_included_title',  label: 'Titre "Ce qui est inclus"',type: 'text',     hint: 'Inclus dans le programme' },
-  { key: 'jobsweek_included_items',  label: 'Liste éléments inclus',    type: 'json',     schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]' },
-  { key: 'jobsweek_cta_button',      label: 'Texte bouton principal',   type: 'text',     hint: 'Je m\'inscris' },
-  { key: 'jobsweek_reserve_button',  label: 'Texte bouton réservation', type: 'text',     hint: 'Réserver ma place' },
-  
-  // Legacy (pour compatibilité)
-  { key: 'cta_incubator', label: 'Texte bouton incubateur (legacy)', type: 'text', hint: "Rejoindre l'incubateur" },
-  { key: 'jobs_week_price', label:'Prix Jobs Week (FCFA)',  type: 'text',     hint: '30000' },
-  { key: 'jobs_week_quota', label:'Places Jobs Week',       type: 'text',     hint: '10' },
+
+  // Jobs Week section
+{ key: 'jobsweek_badge',           label: 'Badge Jobs Week',          type: 'text',     hint: 'Jobs Week' },
+{ key: 'jobsweek_title',           label: 'Titre Jobs Week',          type: 'text',     hint: 'Devenez prêt pour l\'emploi' },
+{ key: 'jobsweek_subtitle',        label: 'Sous-titre Jobs Week',     type: 'text',     hint: 'En 5 jours intensifs' },
+{ key: 'jobsweek_description',     label: 'Description Jobs Week',    type: 'textarea', hint: 'Un programme intensif...' },
+{ key: 'jobsweek_benefits',        label: 'Liste des points forts',   type: 'json',     schema: 'list', hint: 'Ex: ["CV professionnel", "Simulation entretien"]' },
+{ key: 'jobsweek_card_badge',      label: 'Badge sur la carte',       type: 'text',     hint: 'Places limitées' },
+{ key: 'jobsweek_price_label',     label: 'Label prix',               type: 'text',     hint: 'Tarif unique' },
+{ key: 'jobsweek_price_currency',  label: 'Devise',                   type: 'text',     hint: 'FCFA' },
+{ key: 'jobsweek_spots_label',     label: 'Label places',             type: 'text',     hint: 'places disponibles' },
+{ key: 'jobsweek_duration_label',  label: 'Label durée',              type: 'text',     hint: '5 jours intensifs' },
+{ key: 'jobsweek_included_title',  label: 'Titre "Ce qui est inclus"',type: 'text',     hint: 'Inclus dans le programme' },
+{ key: 'jobsweek_included_items',  label: 'Liste éléments inclus',    type: 'json',     schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]' },
+{ key: 'jobsweek_cta_button',      label: 'Texte bouton principal',   type: 'text',     hint: 'Je m\'inscris' },
+{ key: 'jobsweek_reserve_button',  label: 'Texte bouton réservation', type: 'text',     hint: 'Réserver ma place' },
+// Prix et quota - AJOUTER CES DEUX LIGNES
+{ key: 'jobsweek_price',           label: 'Prix Jobs Week (FCFA)',    type: 'text',     hint: '30000' },
+{ key: 'jobsweek_quota',           label: 'Quota de places',          type: 'number',   hint: '10' },
+{ key: 'jobsweek_open',            label: 'Jobs Week ouvert',         type: 'checkbox', hint: 'Activer les inscriptions' },  
 ],
 
  coworking: [

@@ -122,7 +122,7 @@ export function JobsWeekSection() {
   const { setting } = useSettings();
   const { get, getJSON } = useContent('home');
 
-  const jobsWeekPrice    = setting('jobs_week_price', '30000');
+  const jobsWeekPrice    = setting('jobs_week_price', '30000' );
   const jobsWeekQuota    = setting('jobs_week_quota', '10');
   const jobsWeekOpen     = setting('jobs_week_open', 'true') === 'true';
   const waGeneral        = setting('whatsapp_general', '237678111022');
