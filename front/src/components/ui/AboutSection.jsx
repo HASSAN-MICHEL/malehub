@@ -160,8 +160,6 @@
 // }
 
 
-
-
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react';
 import { useContent } from '../../hooks/usecontet';
@@ -180,42 +178,86 @@ export function AboutSection() {
   const ctaLink = get('about_cta_link', '/about');
   const aboutImage = getMedia('about_image') || '/malesalon.jpeg';
 
+  // Récupération de la citation depuis le CMS
+  const quoteText = get('about_quote_text', t('about.quote'));
+  const quoteAuthor = get('about_quote_author', t('about.quote_author'));
+
   // Fonction pour rendre le texte avec les retours à la ligne
   const renderDescription = (text) => {
     if (!text) return null;
+    
     // Diviser le texte par les retours à la ligne
-    const paragraphs = text.split('\n\n').filter(p => p.trim());
-    const lines = text.split('\n').filter(line => line.trim());
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
 
+    // Si le texte contient des double sauts de ligne (paragraphes)
     if (paragraphs.length > 1) {
-      // Si plusieurs paragraphes (séparés par \n\n)
-      return paragraphs.map((para, index) => (
-        <p key={index} className="text-lg leading-relaxed mb-4" style={{ color: 'var(--muted-foreground)' }}>
-          {para.replace(/\n/g, '<br/>')}
-        </p>
-      ));
-    } else if (lines.length > 1) {
-      // Si plusieurs lignes mais pas de double saut
-      return lines.map((line, index) => {
-        // Détecter si la ligne est un point de liste (-, •, etc.)
-        if (line.trim().startsWith('-') || line.trim().startsWith('•')) {
+      return paragraphs.map((para, index) => {
+        // Vérifier si le paragraphe contient des listes
+        const paraLines = para.split('\n').filter(line => line.trim() !== '');
+        const hasList = paraLines.some(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
+        
+        if (hasList) {
           return (
-            <div key={index} className="flex items-start gap-2 mb-2" style={{ color: 'var(--muted-foreground)' }}>
-              <span className="text-primary">•</span>
-              <span className="text-lg leading-relaxed">{line.replace(/^[-•]\s*/, '')}</span>
+            <div key={index} className="mb-4">
+              {paraLines.map((line, idx) => {
+                if (line.trim().startsWith('-') || line.trim().startsWith('•')) {
+                  return (
+                    <div key={idx} className="flex items-start gap-2 mb-1.5" style={{ color: 'var(--muted-foreground)' }}>
+                      <span className="text-primary mt-1">•</span>
+                      <span className="text-lg leading-relaxed">{line.replace(/^[-•]\s*/, '')}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <p key={idx} className="text-lg leading-relaxed mb-2" style={{ color: 'var(--muted-foreground)' }}>
+                    {line}
+                  </p>
+                );
+              })}
             </div>
           );
         }
         return (
-          <p key={index} className="text-lg leading-relaxed mb-2" style={{ color: 'var(--muted-foreground)' }}>
-            {line}
+          <p key={index} className="text-lg leading-relaxed mb-4" style={{ color: 'var(--muted-foreground)' }}>
+            {para}
           </p>
         );
       });
-    } else {
-      // Texte simple
-      return <p className="text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>{text}</p>;
     }
+    
+    // Si c'est une liste simple (sans double saut)
+    if (lines.length > 1) {
+      const hasList = lines.some(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
+      
+      if (hasList) {
+        return lines.map((line, index) => {
+          if (line.trim().startsWith('-') || line.trim().startsWith('•')) {
+            return (
+              <div key={index} className="flex items-start gap-2 mb-1.5" style={{ color: 'var(--muted-foreground)' }}>
+                <span className="text-primary mt-1">•</span>
+                <span className="text-lg leading-relaxed">{line.replace(/^[-•]\s*/, '')}</span>
+              </div>
+            );
+          }
+          return (
+            <p key={index} className="text-lg leading-relaxed mb-2" style={{ color: 'var(--muted-foreground)' }}>
+              {line}
+            </p>
+          );
+        });
+      }
+      
+      // Texte multi-lignes sans liste
+      return lines.map((line, index) => (
+        <p key={index} className="text-lg leading-relaxed mb-2" style={{ color: 'var(--muted-foreground)' }}>
+          {line}
+        </p>
+      ));
+    }
+    
+    // Texte simple
+    return <p className="text-lg leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>{text}</p>;
   };
 
   return (
@@ -251,12 +293,13 @@ export function AboutSection() {
               {renderDescription(description)}
             </div>
 
+            {/* Citation modifiable depuis le CMS */}
             <blockquote className="mt-8 pl-6 border-l-2" style={{ borderColor: 'var(--primary)' }}>
               <p className="text-xl italic font-light" style={{ color: 'var(--foreground)' }}>
-                &quot;{t('about.quote')}&quot;
+                &quot;{quoteText}&quot;
               </p>
               <footer className="mt-3 text-sm font-medium" style={{ color: 'var(--primary)' }}>
-                {t('about.quote_author')}
+                {quoteAuthor}
               </footer>
             </blockquote>
 
