@@ -297,20 +297,20 @@ export default function ContactPage() {
     : []
 
   // WhatsApp
-  const sendToWhatsApp = () => {
-    const phoneNumber = '237678111022'
+  //const sendToWhatsApp = () => {
+  // const phoneNumber = '237678111022'
+//
+  //  const text =
+  //    `*Nouveau message Malea Hub*%0A%0A` +
+  //  `*Nom:* ${formData.name}%0A` +
+ //`*Email:* ${formData.email}%0A` +
+//  `*Objet:* ${formData.subject}%0A` +
+//`*Message:* ${formData.message}`
+//
+//    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`
 
-    const text =
-      `*Nouveau message Malea Hub*%0A%0A` +
-      `*Nom:* ${formData.name}%0A` +
-      `*Email:* ${formData.email}%0A` +
-      `*Objet:* ${formData.subject}%0A` +
-      `*Message:* ${formData.message}`
-
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`
-
-    window.open(whatsappUrl, '_blank')
-  }
+//  window.open(whatsappUrl, '_blank')
+//  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -339,7 +339,7 @@ export default function ContactPage() {
       })
 
       // WhatsApp
-      sendToWhatsApp()
+//      sendToWhatsApp()
 
       setSubmitSuccess(t('contact.form.success_message'))
 
