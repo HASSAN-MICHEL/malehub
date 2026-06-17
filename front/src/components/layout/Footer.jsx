@@ -360,7 +360,7 @@
 
 
 
-import { Link } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 import { MapPin, Mail } from 'lucide-react'
 import { SiInstagram } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
@@ -370,6 +370,7 @@ import Newsletter from '../../components/Newsletter';
 export function Footer() {
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const footerLinks = {
     services: [
@@ -388,6 +389,15 @@ export function Footer() {
     ],
   }
 
+
+const handleLinkClick = (e, href) => {
+  e.preventDefault();
+  navigate(href);
+  // Forcer le scroll en haut après la navigation
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 50);
+};
   const logoSrc = theme === 'dark' ? '/maleblan.jpeg' : '/logowhite.png';
 
   return (
@@ -476,6 +486,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       to={link.href}
+                      onClick={(e) => handleLinkClick(e, link.href)}
                       className="text-sm transition-colors"
                       style={{ color: 'var(--muted-foreground)' }}
                       onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
@@ -498,6 +509,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       to={link.href}
+                      onClick={(e) => handleLinkClick(e, link.href)}
                       className="text-sm transition-colors"
                       style={{ color: 'var(--muted-foreground)' }}
                       onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}

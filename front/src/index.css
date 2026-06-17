@@ -82,19 +82,19 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
-    font-size: 16px;
+    font-size: 18px;
   }
   
   /* Ajustement de la taille de police sur mobile */
   @media (max-width: 768px) {
     html {
-      font-size: 14px;
+      font-size: 17px;
     }
   }
   
   @media (max-width: 480px) {
     html {
-      font-size: 13px;
+      font-size: 15px;
     }
   }
   
@@ -143,22 +143,22 @@
   
   /* Ajustement des titres pour mobile */
   h1 {
-    font-size: clamp(1.75rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 6vw, 3.5rem);
     line-height: 1.2;
   }
   
   h2 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     line-height: 1.25;
   }
   
   h3 {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(1.5rem, 3vw, 1.75rem);
     line-height: 1.3;
   }
   
   p {
-    font-size: clamp(0.875rem, 2vw, 1rem);
+    font-size: clamp(1rem, 2vw, 1.125rem);
     line-height: 1.6;
   }
 }
@@ -403,24 +403,24 @@ body, #root {
 /* Ajustement des polices pour une meilleure lisibilité */
 @media (max-width: 480px) {
   .text-xs {
-    font-size: 0.7rem;
-  }
-  .text-sm {
     font-size: 0.8rem;
   }
-  .text-base {
-    font-size: 0.875rem;
+  .text-sm {
+    font-size: 0.9rem;
   }
-  .text-lg {
+  .text-base {
     font-size: 1rem;
   }
-  .text-xl {
+  .text-lg {
     font-size: 1.125rem;
   }
-  .text-2xl {
+  .text-xl {
     font-size: 1.25rem;
   }
-  .text-3xl {
+  .text-2xl {
     font-size: 1.5rem;
+  }
+  .text-3xl {
+    font-size: 1.75rem;
   }
 }
