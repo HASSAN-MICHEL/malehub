@@ -276,14 +276,32 @@ export default function LoungePage() {
   const heroDescription = get('hero_description', getText('description', 'Un espace premium conçu pour la détente et les échanges professionnels'));
   const heroImageUrl = getMedia('hero_image');
 
-  // Gallery section
+  // Gallery section - Utilise des champs individuels pour les images
   const galleryTitle = get('gallery_title', 'Notre espace Lounge');
-  const galleryImages = getJSON('gallery_images', [
-    { src: '/malesalon.jpeg', alt: 'Espace salon' },
-    { src: '/maleSalonthe.jpeg', alt: 'Coin café' },
-    { src: '/maleblan.jpeg', alt: 'Espace détente' },
-    { src: '/malenoir.jpeg', alt: 'Coin lecture' },
-  ]);
+  
+  // Récupération des 4 images de la galerie avec leurs légendes
+  const galleryImages = [
+    { 
+      src: getMedia('gallery_image_1'), 
+      alt: get('gallery_image_1_alt', 'Espace salon'),
+      label: get('gallery_image_1_alt', 'Espace salon')
+    },
+    { 
+      src: getMedia('gallery_image_2'), 
+      alt: get('gallery_image_2_alt', 'Coin café'),
+      label: get('gallery_image_2_alt', 'Coin café')
+    },
+    { 
+      src: getMedia('gallery_image_3'), 
+      alt: get('gallery_image_3_alt', 'Espace détente'),
+      label: get('gallery_image_3_alt', 'Espace détente')
+    },
+    { 
+      src: getMedia('gallery_image_4'), 
+      alt: get('gallery_image_4_alt', 'Coin lecture'),
+      label: get('gallery_image_4_alt', 'Coin lecture')
+    },
+  ].filter(img => img.src); // Filtre les images qui n'ont pas d'URL
 
   // Usage section
   const usageTitle = get('usage_title', 'Utilisations du Lounge');
@@ -306,12 +324,10 @@ export default function LoungePage() {
   // WhatsApp number
   const waGeneral = setting('whatsapp_general', '237678111022');
 
-  // Helper pour l'URL complète - CORRIGÉ
+  // Helper pour l'URL complète
   const getFullImageUrl = (url) => {
     if (!url) return null;
-    // Si c'est déjà une URL complète, la retourner
     if (url.startsWith('http')) return url;
-    // Sinon, retourner l'URL relative telle quelle
     return url;
   };
 
@@ -368,29 +384,37 @@ export default function LoungePage() {
             {galleryTitle}
           </h2>
           
-          <div className={`grid gap-6 max-w-6xl mx-auto ${
-            galleryImages.length === 1 ? 'grid-cols-1' :
-            galleryImages.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
-            galleryImages.length === 3 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' :
-            galleryImages.length >= 4 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' :
-            'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-          }`}>
-            {galleryImages.map((image, index) => (
-              <div key={index} className="relative rounded-2xl overflow-hidden group aspect-[4/3]">
-                <img 
-                  src={getFullImageUrl(image.src) || image.src} 
-                  alt={image.alt || `Image ${index + 1}`} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.src = '/malesalon.jpeg';
-                  }}
-                />
-                <div className="absolute inset-0 flex items-end p-4 md:p-6" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }}>
-                  <span className="text-white font-medium text-sm md:text-lg">{image.alt || `Espace ${index + 1}`}</span>
+          {galleryImages.length === 0 ? (
+            <div className="text-center py-12">
+              <p style={{ color: theme?.mutedForegroundColor || 'var(--muted-foreground)' }}>
+                Aucune image disponible. Ajoutez des images dans la galerie via le CMS.
+              </p>
+            </div>
+          ) : (
+            <div className={`grid gap-6 max-w-6xl mx-auto ${
+              galleryImages.length === 1 ? 'grid-cols-1' :
+              galleryImages.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
+              galleryImages.length === 3 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' :
+              galleryImages.length >= 4 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' :
+              'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            }`}>
+              {galleryImages.map((image, index) => (
+                <div key={index} className="relative rounded-2xl overflow-hidden group aspect-[4/3]">
+                  <img 
+                    src={getFullImageUrl(image.src) || image.src} 
+                    alt={image.alt || `Image ${index + 1}`} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.src = '/malesalon.jpeg';
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-end p-4 md:p-6" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }}>
+                    <span className="text-white font-medium text-sm md:text-lg">{image.label || image.alt || `Espace ${index + 1}`}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
