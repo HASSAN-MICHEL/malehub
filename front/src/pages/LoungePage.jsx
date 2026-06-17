@@ -306,12 +306,13 @@ export default function LoungePage() {
   // WhatsApp number
   const waGeneral = setting('whatsapp_general', '237678111022');
 
-  // Helper pour l'URL complète
+  // Helper pour l'URL complète - CORRIGÉ
   const getFullImageUrl = (url) => {
     if (!url) return null;
+    // Si c'est déjà une URL complète, la retourner
     if (url.startsWith('http')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
-    return `${baseUrl}${url}`;
+    // Sinon, retourner l'URL relative telle quelle
+    return url;
   };
 
   // Helper pour l'image hero
@@ -370,6 +371,8 @@ export default function LoungePage() {
           <div className={`grid gap-6 max-w-6xl mx-auto ${
             galleryImages.length === 1 ? 'grid-cols-1' :
             galleryImages.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
+            galleryImages.length === 3 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' :
+            galleryImages.length >= 4 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' :
             'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
           }`}>
             {galleryImages.map((image, index) => (
@@ -382,8 +385,8 @@ export default function LoungePage() {
                     e.currentTarget.src = '/malesalon.jpeg';
                   }}
                 />
-                <div className="absolute inset-0 flex items-end p-6" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }}>
-                  <span className="text-white font-medium text-lg">{image.alt || `Espace ${index + 1}`}</span>
+                <div className="absolute inset-0 flex items-end p-4 md:p-6" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5), transparent)' }}>
+                  <span className="text-white font-medium text-sm md:text-lg">{image.alt || `Espace ${index + 1}`}</span>
                 </div>
               </div>
             ))}
