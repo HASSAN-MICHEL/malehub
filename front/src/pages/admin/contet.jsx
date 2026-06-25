@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback , useRef } from 'react';
 import {
   Save, Upload, X, CheckCircle, Mail, AlertCircle, RefreshCw,
   Plus, Trash2, Edit3, Eye, EyeOff,
@@ -256,16 +256,61 @@ const PAGE_BLOCKS = {
   ],
 };
 
-// ── Configuration du thème
 const THEME_CONFIG = [
-  { key: 'primaryColor', label: 'Couleur principale', type: 'color', default: '#3B82F6', hint: 'Boutons, liens, accents' },
-  { key: 'backgroundColor', label: 'Couleur de fond', type: 'color', default: '#FFFFFF', hint: 'Fond principal de la page' },
-  { key: 'foregroundColor', label: 'Couleur du texte', type: 'color', default: '#1F2937', hint: 'Couleur du texte principal' },
-  { key: 'cardColor', label: 'Couleur des cartes', type: 'color', default: '#F9FAFB', hint: 'Fond des cartes / sections' },
-  { key: 'mutedForegroundColor', label: 'Couleur texte secondaire', type: 'color', default: '#6B7280', hint: 'Texte moins important' },
-  { key: 'fontHeading', label: 'Police des titres', type: 'font', default: 'Inter', hint: 'Google Font ou système' },
-  { key: 'fontBody', label: 'Police du texte', type: 'font', default: 'Inter', hint: 'Google Font ou système' },
-];
+    // Couleurs
+    { key: 'primaryColor', label: 'Couleur principale', type: 'color', default: '#3B82F6', hint: 'Boutons, liens, accents', category: 'colors' },
+    { key: 'backgroundColor', label: 'Couleur de fond', type: 'color', default: '#FFFFFF', hint: 'Fond principal de la page', category: 'colors' },
+    { key: 'foregroundColor', label: 'Couleur du texte principal', type: 'color', default: '#1F2937', hint: 'Texte principal', category: 'colors' },
+    { key: 'secondaryColor', label: 'Couleur secondaire', type: 'color', default: '#6B7280', hint: 'Texte secondaire, sous-titres', category: 'colors' },
+    { key: 'cardColor', label: 'Couleur des cartes', type: 'color', default: '#F9FAFB', hint: 'Fond des cartes / sections', category: 'colors' },
+    { key: 'borderColor', label: 'Couleur des bordures', type: 'color', default: '#E5E7EB', hint: 'Bordures, séparateurs', category: 'colors' },
+    { key: 'successColor', label: 'Couleur succès', type: 'color', default: '#10B981', hint: 'Messages de succès', category: 'colors' },
+    { key: 'errorColor', label: 'Couleur erreur', type: 'color', default: '#EF4444', hint: 'Messages d\'erreur', category: 'colors' },
+    
+    // Polices
+    { key: 'fontHeading', label: 'Police des titres', type: 'font', default: 'Inter', hint: 'Google Font ou système', category: 'fonts' },
+    { key: 'fontBody', label: 'Police du texte', type: 'font', default: 'Inter', hint: 'Google Font ou système', category: 'fonts' },
+    
+    // Tailles de texte
+    { key: 'fontSizeBase', label: 'Taille de texte de base', type: 'textSize', default: '16px', hint: 'Taille du texte normal', category: 'typography' },
+    { key: 'fontSizeH1', label: 'Taille H1', type: 'textSize', default: '48px', hint: 'Titre principal', category: 'typography' },
+    { key: 'fontSizeH2', label: 'Taille H2', type: 'textSize', default: '36px', hint: 'Sous-titre', category: 'typography' },
+    { key: 'fontSizeH3', label: 'Taille H3', type: 'textSize', default: '28px', hint: 'Titre de section', category: 'typography' },
+    { key: 'fontSizeH4', label: 'Taille H4', type: 'textSize', default: '22px', hint: 'Titre de carte', category: 'typography' },
+    { key: 'fontSizeSmall', label: 'Taille petit texte', type: 'textSize', default: '12px', hint: 'Texte secondaire', category: 'typography' },
+    
+    // Espacements
+    { key: 'spacingSection', label: 'Espacement des sections', type: 'spacing', default: '80px', hint: 'Espace vertical entre les sections', category: 'spacing' },
+    { key: 'spacingElement', label: 'Espacement des éléments', type: 'spacing', default: '24px', hint: 'Espace entre les éléments', category: 'spacing' },
+    { key: 'spacingPadding', label: 'Padding du conteneur', type: 'spacing', default: '20px', hint: 'Padding interne des conteneurs', category: 'spacing' },
+    
+    // Styles de texte
+    { key: 'textWeight', label: 'Poids du texte', type: 'select', default: 'normal', options: [
+      { value: 'normal', label: 'Normal' },
+      { value: 'medium', label: 'Moyen' },
+      { value: 'semibold', label: 'Semi-gras' },
+      { value: 'bold', label: 'Gras' },
+    ], category: 'typography' },
+    { key: 'textTransform', label: 'Transformation du texte', type: 'select', default: 'none', options: [
+      { value: 'none', label: 'Normal' },
+      { value: 'uppercase', label: 'MAJUSCULES' },
+      { value: 'lowercase', label: 'minuscules' },
+      { value: 'capitalize', label: 'Première Lettre Majuscule' },
+    ], category: 'typography' },
+    { key: 'textAlign', label: 'Alignement du texte', type: 'select', default: 'left', options: [
+      { value: 'left', label: 'Gauche' },
+      { value: 'center', label: 'Centre' },
+      { value: 'right', label: 'Droite' },
+      { value: 'justify', label: 'Justifié' },
+    ], category: 'typography' },
+    
+    // Arrondis
+    { key: 'borderRadius', label: 'Arrondi des bordures', type: 'spacing', default: '8px', hint: 'Arrondi des cartes et boutons', category: 'shapes' },
+    
+    // Ombres
+    { key: 'shadowEnabled', label: 'Activer les ombres', type: 'checkbox', default: true, hint: 'Ajoute des ombres aux cartes', category: 'shapes' },
+  ];
+  
 
 const SETTINGS_CONFIG = {
   whatsapp_general: { label: 'WhatsApp général', type: 'tel', hint: 'Ex: 237678111022' },
@@ -303,6 +348,58 @@ function EmailField({ value, onChange, placeholder }) {
 function TelField({ value, onChange, placeholder }) {
   return <input type="tel" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className={iCls} style={iStyle} />;
 }
+
+function TextSizeField({ value, onChange, placeholder }) {
+    const sizes = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '40px', '48px', '56px', '64px', '72px'];
+    return (
+      <div className="flex items-center gap-2">
+        <select
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 text-sm"
+          style={iStyle}
+        >
+          {sizes.map(size => (
+            <option key={size} value={size}>{size}</option>
+          ))}
+        </select>
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          placeholder="px, em, rem..."
+          className="flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 text-sm"
+          style={iStyle}
+        />
+      </div>
+    );
+  }
+  
+  function SpacingField({ value, onChange, placeholder }) {
+    const spacings = ['0', '4px', '8px', '12px', '16px', '20px', '24px', '32px', '40px', '48px', '64px', '80px', '100px', '120px'];
+    return (
+      <div className="flex items-center gap-2">
+        <select
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 text-sm"
+          style={iStyle}
+        >
+          {spacings.map(size => (
+            <option key={size} value={size}>{size}</option>
+          ))}
+        </select>
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          placeholder="px, em, rem..."
+          className="flex-1 px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 text-sm"
+          style={iStyle}
+        />
+      </div>
+    );
+  }
 
 function CheckboxField({ value, onChange, label }) {
   return (
@@ -843,155 +940,254 @@ function ContentTab({ selectedPage, onPageChange }) {
       </div>
     );
   }
+  function ThemeTab({ selectedPage, onPageChange }) {
+    const [theme, setTheme] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [toast, setToast] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('colors');
+    const scrollRef = useRef(null);
   
-function ThemeTab({ selectedPage, onPageChange }) {
-  const [theme, setTheme] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [toast, setToast] = useState(null);
-
-  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
-
-  const fetchTheme = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await contentAPI.getBlocks(selectedPage);
-      const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
-      const themeBlock = arr.find(b => b.bloc_key === '_theme');
-      if (themeBlock && themeBlock.valeur_texte) {
-        try {
-          const parsed = JSON.parse(themeBlock.valeur_texte);
-          setTheme(parsed);
-        } catch (e) {
-          console.warn('Erreur parsing thème:', e);
+    const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+  
+    const fetchTheme = useCallback(async () => {
+      setLoading(true);
+      try {
+        const res = await contentAPI.getBlocks(selectedPage);
+        const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
+        const themeBlock = arr.find(b => b.bloc_key === '_theme');
+        if (themeBlock && themeBlock.valeur_texte) {
+          try {
+            const parsed = JSON.parse(themeBlock.valeur_texte);
+            setTheme(parsed);
+          } catch (e) {
+            console.warn('Erreur parsing thème:', e);
+          }
+        } else {
+          const defaults = {};
+          THEME_CONFIG.forEach(cfg => { defaults[cfg.key] = cfg.default; });
+          setTheme(defaults);
         }
-      } else {
-        const defaults = {};
-        THEME_CONFIG.forEach(cfg => { defaults[cfg.key] = cfg.default; });
-        setTheme(defaults);
+      } catch (err) {
+        showToast('Erreur de chargement du thème', 'error');
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      showToast('Erreur de chargement du thème', 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedPage]);
-
-  useEffect(() => { fetchTheme(); }, [fetchTheme]);
-
-  const handleThemeChange = (key, value) => {
-    setTheme(prev => ({ ...prev, [key]: value, dirty: true }));
-  };
-
-  const handleSave = async () => {
-    setSaving(true);
-    try {
-      const themeToSave = { ...theme };
-      delete themeToSave.dirty;
-      await contentAPI.upsertBlock({
-        page_slug: selectedPage,
-        bloc_key: '_theme',
-        valeur_texte: JSON.stringify(themeToSave, null, 2),
-        actif: true,
-      });
-      showToast('Thème sauvegardé ✓');
-      setTheme(prev => ({ ...prev, dirty: false }));
-    } catch (err) {
-      showToast('Erreur lors de la sauvegarde', 'error');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const hasDirty = theme.dirty === true;
-
-  const renderThemeField = (cfg) => {
-    const value = theme[cfg.key] || cfg.default;
+    }, [selectedPage]);
+  
+    useEffect(() => { fetchTheme(); }, [fetchTheme]);
+  
+    const handleThemeChange = (key, value) => {
+      setTheme(prev => ({ ...prev, [key]: value, dirty: true }));
+    };
+  
+    const handleSave = async () => {
+      setSaving(true);
+      try {
+        const themeToSave = { ...theme };
+        delete themeToSave.dirty;
+        await contentAPI.upsertBlock({
+          page_slug: selectedPage,
+          bloc_key: '_theme',
+          valeur_texte: JSON.stringify(themeToSave, null, 2),
+          actif: true,
+        });
+        showToast('Thème sauvegardé ✓');
+        setTheme(prev => ({ ...prev, dirty: false }));
+      } catch (err) {
+        showToast('Erreur lors de la sauvegarde', 'error');
+      } finally {
+        setSaving(false);
+      }
+    };
+  
+    const hasDirty = theme.dirty === true;
+  
+    const categories = {
+      colors: { label: '🎨 Couleurs', icon: '🎨' },
+      fonts: { label: '🔤 Polices', icon: '🔤' },
+      typography: { label: '📝 Typographie', icon: '📝' },
+      spacing: { label: '📏 Espacements', icon: '📏' },
+      shapes: { label: '🔲 Formes & Ombres', icon: '🔲' },
+    };
+  
+    const renderThemeField = (cfg) => {
+      const value = theme[cfg.key] ?? cfg.default;
+      
+      return (
+        <div key={cfg.key} className="space-y-2 py-2 border-b border-border/50 last:border-0">
+          <label className="block text-sm font-medium" style={{ color: 'var(--foreground)' }}>
+            {cfg.label}
+            <span className="ml-2 text-xs font-normal" style={{ color: 'var(--muted-foreground)' }}>{cfg.hint}</span>
+            {theme.dirty && (
+              <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
+                modifié
+              </span>
+            )}
+          </label>
+          {cfg.type === 'color' && <ColorField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
+          {cfg.type === 'font' && <FontField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
+          {cfg.type === 'textSize' && <TextSizeField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
+          {cfg.type === 'spacing' && <SpacingField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
+          {cfg.type === 'select' && (
+            <select
+              value={value}
+              onChange={e => handleThemeChange(cfg.key, e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 text-sm"
+              style={iStyle}
+            >
+              {cfg.options.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          )}
+          {cfg.type === 'checkbox' && (
+            <CheckboxField 
+              value={String(value)} 
+              label={cfg.label} 
+              onChange={v => handleThemeChange(cfg.key, v === 'true')} 
+            />
+          )}
+        </div>
+      );
+    };
+  
+    // Prévisualisation en direct avec toutes les variables
+    const previewStyles = {
+      backgroundColor: theme.backgroundColor || '#FFFFFF',
+      color: theme.foregroundColor || '#1F2937',
+      fontFamily: theme.fontBody || 'Inter',
+      fontSize: theme.fontSizeBase || '16px',
+      borderColor: theme.borderColor || '#E5E7EB',
+      borderRadius: theme.borderRadius || '8px',
+      textAlign: theme.textAlign || 'left',
+      textTransform: theme.textTransform || 'none',
+      fontWeight: theme.textWeight || 'normal',
+      padding: theme.spacingPadding || '20px',
+    };
+  
     return (
-      <div key={cfg.key} className="space-y-2">
-        <label className="block text-sm font-medium" style={{ color: 'var(--foreground)' }}>
-          {cfg.label}
-          <span className="ml-2 text-xs font-normal" style={{ color: 'var(--muted-foreground)' }}>{cfg.hint}</span>
-        </label>
-        {cfg.type === 'color' && <ColorField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
-        {cfg.type === 'font' && <FontField value={value} onChange={v => handleThemeChange(cfg.key, v)} />}
-      </div>
-    );
-  };
-
-  return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Personnalisation visuelle</h2>
-          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-            Personnalisez les couleurs et polices de la page {PAGES.find(p => p.slug === selectedPage)?.name}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={fetchTheme} disabled={loading}
-            className="p-2 rounded-lg border hover:opacity-80"
-            style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-          <button onClick={handleSave} disabled={saving || !hasDirty}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
-            style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-            <Save className="h-4 w-4" />
-            {saving ? 'Sauvegarde...' : 'Sauvegarder'}
-          </button>
-        </div>
-      </div>
-
-      <div className="rounded-xl p-6 border space-y-4"
-        style={{
-          backgroundColor: theme.backgroundColor || '#FFFFFF',
-          color: theme.foregroundColor || '#1F2937',
-          fontFamily: theme.fontBody || 'Inter',
-          borderColor: 'var(--border)'
-        }}>
-        <h3 className="text-xl font-bold" style={{
-          fontFamily: theme.fontHeading || 'Inter',
-          color: theme.primaryColor || '#3B82F6'
-        }}>
-          Aperçu en direct
-        </h3>
-        <p style={{ color: theme.mutedForegroundColor || '#6B7280' }}>
-          Voici à quoi ressemblera votre page avec ces réglages.
-        </p>
-        <div className="flex gap-3">
-          <button className="px-4 py-2 rounded-lg text-sm font-semibold"
-            style={{ backgroundColor: theme.primaryColor || '#3B82F6', color: '#FFFFFF' }}>
-            Bouton principal
-          </button>
-          <div className="px-4 py-2 rounded-lg border"
-            style={{ borderColor: theme.primaryColor || '#3B82F6', color: theme.primaryColor || '#3B82F6' }}>
-            Bouton secondaire
+      <div className="space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
+              Personnalisation visuelle
+            </h2>
+            <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+              Personnalisez les couleurs, polices et styles de la page {PAGES.find(p => p.slug === selectedPage)?.name}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={fetchTheme} disabled={loading}
+              className="p-2 rounded-lg border hover:opacity-80"
+              style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            </button>
+            <button onClick={handleSave} disabled={saving || !hasDirty}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              <Save className="h-4 w-4" />
+              {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+            </button>
           </div>
         </div>
-        <div className="p-4 rounded-lg" style={{ backgroundColor: theme.cardColor || '#F9FAFB' }}>
-          <p className="text-sm">Exemple de carte avec fond personnalisé</p>
+  
+        {/* Catégories de thème - Scroll horizontal */}
+        <div className="relative">
+          <div 
+            ref={scrollRef}
+            className="flex gap-1.5 md:gap-2 overflow-x-auto overflow-y-hidden pb-2"
+            style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'thin' }}
+          >
+            {Object.entries(categories).map(([key, cat]) => (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium border transition-all whitespace-nowrap"
+                style={{
+                  backgroundColor: activeCategory === key ? 'var(--primary)' : 'transparent',
+                  color: activeCategory === key ? 'var(--primary-foreground)' : 'var(--muted-foreground)',
+                  borderColor: activeCategory === key ? 'var(--primary)' : 'var(--border)',
+                }}
+              >
+                {cat.icon} {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
+  
+        {/* Aperçu en direct avec toutes les variables */}
+        <div className="rounded-xl p-4 md:p-6 border space-y-4 transition-all"
+          style={previewStyles}>
+          <h3 className="text-2xl font-bold" style={{
+            fontFamily: theme.fontHeading || 'Inter',
+            color: theme.primaryColor || '#3B82F6',
+            fontSize: theme.fontSizeH2 || '36px',
+            fontWeight: 'bold',
+          }}>
+            Aperçu en direct
+          </h3>
+          <p className="text-base" style={{
+            fontSize: theme.fontSizeBase || '16px',
+            color: theme.secondaryColor || '#6B7280',
+          }}>
+            Voici à quoi ressemblera votre page avec ces réglages.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+              style={{
+                backgroundColor: theme.primaryColor || '#3B82F6',
+                color: '#FFFFFF',
+                borderRadius: theme.borderRadius || '8px',
+                fontSize: theme.fontSizeBase || '16px',
+                boxShadow: theme.shadowEnabled ? '0 4px 6px -1px rgba(0,0,0,0.1)' : 'none',
+              }}>
+              Bouton principal
+            </button>
+            <div className="px-4 py-2 rounded-lg border"
+              style={{
+                borderColor: theme.primaryColor || '#3B82F6',
+                color: theme.primaryColor || '#3B82F6',
+                borderRadius: theme.borderRadius || '8px',
+              }}>
+              Bouton secondaire
+            </div>
+          </div>
+          <div className="p-4 rounded-lg" style={{
+            backgroundColor: theme.cardColor || '#F9FAFB',
+            borderRadius: theme.borderRadius || '8px',
+            boxShadow: theme.shadowEnabled ? '0 4px 6px -1px rgba(0,0,0,0.1)' : 'none',
+            border: `1px solid ${theme.borderColor || '#E5E7EB'}`,
+          }}>
+            <h4 className="font-semibold" style={{
+              fontSize: theme.fontSizeH4 || '22px',
+              color: theme.foregroundColor || '#1F2937',
+              fontFamily: theme.fontHeading || 'Inter',
+            }}>
+              Exemple de carte
+            </h4>
+            <p className="text-sm" style={{
+              color: theme.secondaryColor || '#6B7280',
+              fontSize: theme.fontSizeBase || '16px',
+            }}>
+              Cette carte utilise tous vos paramètres de thème
+            </p>
+          </div>
+        </div>
+  
+        {loading ? (
+          <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" /></div>
+        ) : (
+          <div className="rounded-xl p-4 md:p-5 border space-y-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+            {THEME_CONFIG.filter(cfg => cfg.category === activeCategory).map(renderThemeField)}
+          </div>
+        )}
+  
+        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       </div>
-
-      {loading ? (
-        <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" /></div>
-      ) : (
-        <div className="rounded-xl p-5 border space-y-6"
-          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-          <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Couleurs</h3>
-          {THEME_CONFIG.filter(cfg => cfg.type === 'color').map(renderThemeField)}
-          <div className="h-px" style={{ backgroundColor: 'var(--border)' }} />
-          <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Polices</h3>
-          {THEME_CONFIG.filter(cfg => cfg.type === 'font').map(renderThemeField)}
-        </div>
-      )}
-
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
-    </div>
-  );
-}
-
+    );
+  }
 // ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
@@ -1615,47 +1811,103 @@ function NewsletterTab() {
 
 // ── COMPOSANT PRINCIPAL ────────────────────────────────────────────────────────
 export default function ContentManage() {
-  const [activeTab, setActiveTab] = useState('content');
-  const [selectedPage, setSelectedPage] = useState('home');
-
-  const TABS = [
-    { id: 'content', label: 'Pages', icon: Globe },
-    { id: 'theme', label: 'Thème', icon: Palette },
-    { id: 'announcements', label: 'Annonces', icon: Megaphone },
-    { id: 'team', label: 'Équipe', icon: Users },
-    { id: 'newsletter', label: 'Newsletter', icon: Mail },
-    { id: 'settings', label: 'Paramètres', icon: Settings },
-  ];
-
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>Gestion du contenu</h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
-          Textes, images, thème, annonces, équipe et paramètres du site
-        </p>
-      </div>
-
-      <div className="flex gap-1 border-b overflow-x-auto" style={{ borderColor: 'var(--border)' }}>
-        {TABS.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors"
-            style={{
-              borderColor: activeTab === tab.id ? 'var(--primary)' : 'transparent',
-              color: activeTab === tab.id ? 'var(--primary)' : 'var(--muted-foreground)',
-            }}>
-            <tab.icon className="h-4 w-4" />
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {activeTab === 'content' && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-      {activeTab === 'theme' && <ThemeTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-      {activeTab === 'announcements' && <AnnouncementsTab />}
-      {activeTab === 'team' && <TeamTab />}
-      {activeTab === 'newsletter' && <NewsletterTab />}
-      {activeTab === 'settings' && <SettingsTab />}
-    </div>
-  );
-}
+    
+        const [activeTab, setActiveTab] = useState('content');
+        const [selectedPage, setSelectedPage] = useState('home');
+        const tabsScrollRef = useRef(null);
+      
+        const TABS = [
+          { id: 'content', label: 'Pages', icon: Globe },
+          { id: 'theme', label: 'Thème', icon: Palette },
+          { id: 'announcements', label: 'Annonces', icon: Megaphone },
+          { id: 'team', label: 'Équipe', icon: Users },
+          { id: 'newsletter', label: 'Newsletter', icon: Mail },
+          { id: 'settings', label: 'Paramètres', icon: Settings },
+        ];
+      
+        return (
+          <div className="space-y-4 md:space-y-6">
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--foreground)' }}>Gestion du contenu</h1>
+              <p className="text-xs md:text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
+                Textes, images, thème, annonces, équipe et paramètres du site
+              </p>
+            </div>
+      
+            {/* Tabs - Scroll horizontal responsive */}
+            <div className="relative">
+              <div 
+                ref={tabsScrollRef}
+                className="flex gap-1 border-b overflow-x-auto overflow-y-hidden pb-1"
+                style={{ 
+                  borderColor: 'var(--border)',
+                  WebkitOverflowScrolling: 'touch',
+                  scrollbarWidth: 'thin',
+                  msOverflowStyle: 'none',
+                }}
+              >
+                {TABS.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors flex-shrink-0"
+                    style={{
+                      borderColor: activeTab === tab.id ? 'var(--primary)' : 'transparent',
+                      color: activeTab === tab.id ? 'var(--primary)' : 'var(--muted-foreground)',
+                    }}
+                  >
+                    <tab.icon className="h-3.5 w-3.5 md:h-4 md:w-4 flex-shrink-0" />
+                    <span className="hidden xs:inline">{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+      
+            {/* Contenu des tabs */}
+            <div className="overflow-x-hidden">
+              {activeTab === 'content' && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
+              {activeTab === 'theme' && <ThemeTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
+              {activeTab === 'announcements' && <AnnouncementsTab />}
+              {activeTab === 'team' && <TeamTab />}
+              {activeTab === 'newsletter' && <NewsletterTab />}
+              {activeTab === 'settings' && <SettingsTab />}
+            </div>
+      
+            <style>{`
+              /* Scrollbar personnalisée */
+              .scrollbar-thin::-webkit-scrollbar {
+                height: 3px;
+              }
+              .scrollbar-thin::-webkit-scrollbar-track {
+                background: transparent;
+              }
+              .scrollbar-thin::-webkit-scrollbar-thumb {
+                background: color-mix(in oklch, var(--primary) 30%, transparent);
+                border-radius: 2px;
+              }
+              
+              /* Masquer la scrollbar sur Firefox */
+              .scrollbar-thin {
+                scrollbar-width: thin;
+              }
+              
+              /* Cacher la scrollbar sur IE/Edge */
+              .scrollbar-thin {
+                -ms-overflow-style: none;
+              }
+      
+              /* Afficher le label sur les petits écrans */
+              @media (min-width: 480px) {
+                .xs\\:inline {
+                  display: inline !important;
+                }
+              }
+              @media (max-width: 479px) {
+                .xs\\:inline {
+                  display: none !important;
+                }
+              }
+            `}</style>
+          </div>
+        );
+      }
