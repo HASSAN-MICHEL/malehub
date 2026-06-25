@@ -15,6 +15,7 @@ import BookDetailPage from './pages/BookDetails';
 import ContactPage from './pages/ContactPage';
 import  EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetaills';
+import ContentManage from './pages/admin/contet';
 
 // coté admin
 import AdminLayout from './pages/admin/adminLayout';
@@ -54,7 +55,7 @@ export default function App() {
             <Route path="investors" element={<Investors />} />   
             <Route path="library" element={<LibraryManager />} />    
             <Route path="contacts" element={<Contacts />} />
-            <Route path="content" element={<ContentManager />} />
+            <Route path="content" element={<ContentManage />} />
           </Route>
 
           {/* Routes client */}
