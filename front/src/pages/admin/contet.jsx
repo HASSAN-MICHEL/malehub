@@ -1,5 +1,5 @@
 // <<<<<<< HEAD
-import React, { useRef , useState, useEffect, useCallback } from 'react';
+// import React, { useRef , useState, useEffect, useCallback } from 'react';
 // =======
 import React, { useState, useEffect, useCallback , useRef } from 'react';
 // >>>>>>> 8d60f9718218acd7455d16ec1350b424a6fe2427
@@ -673,9 +673,9 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
   };
 
   const previewSrc = value
-    ? (value.startsWith('http') ? value : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${value}`)
-    : null;
-
+      ? (value.startsWith('http') ? value : `${'/api'}${value}`)
+      : null;
+  
   return (
     <div className="space-y-3">
       {previewSrc && (
@@ -1259,10 +1259,16 @@ function AnnouncementsTab() {
     } catch { showToast('Erreur', 'error'); }
   };
 
-  const previewUrl = (url) => url
-    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
-    : null;
+//  const previewUrl = (url) => url
+ 
+//   ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
+//    : null;
 
+
+ const previewSrc = value
+      ? (value.startsWith('https') ? value : `${'/api'}${value}`)
+      : null;
+  
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
@@ -1457,9 +1463,13 @@ function TeamTab() {
     } catch { showToast('Erreur', 'error'); }
   };
 
-  const previewUrl = (url) => url
-    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
-    : null;
+// const previewUrl = (url) => url//    ? (url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app'}${url}`)
+//   : null;
+
+ const previewSrc = value
+      ? (value.startsWith('https') ? value : `${'/api'}${value}`)
+      : null;
+  
 
   return (
     <div className="space-y-5">
@@ -1810,14 +1820,16 @@ function NewsletterTab() {
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
-  );
+);
 }
 
-// ── COMPOSANT PRINCIPAL ────────────────────────────────────────────────────────
+
+
+// ── COMPOSANT PRINCIPAL
 export default function ContentManage() {
-// <<<<<<< HEAD
   const [activeTab, setActiveTab] = useState('content');
   const [selectedPage, setSelectedPage] = useState('home');
+  const tabsScrollRef = useRef(null);
 
   const TABS = [
     { id: 'content', label: 'Pages', icon: Globe },
@@ -1829,136 +1841,80 @@ export default function ContentManage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>Gestion du contenu</h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
+        <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
+          Gestion du contenu
+        </h1>
+        <p className="text-xs md:text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
           Textes, images, thème, annonces, équipe et paramètres du site
         </p>
       </div>
 
-      <div className="flex gap-1 border-b overflow-x-auto" style={{ borderColor: 'var(--border)' }}>
-        {TABS.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors"
-            style={{
-              borderColor: activeTab === tab.id ? 'var(--primary)' : 'transparent',
-              color: activeTab === tab.id ? 'var(--primary)' : 'var(--muted-foreground)',
-            }}>
-            <tab.icon className="h-4 w-4" />
-            {tab.label}
-          </button>
-        ))}
+      {/* Tabs - Scroll horizontal responsive */}
+      <div className="relative">
+        <div
+          ref={tabsScrollRef}
+          className="flex gap-1 border-b overflow-x-auto overflow-y-hidden pb-1 scrollbar-thin"
+          style={{
+            borderColor: 'var(--border)',
+            WebkitOverflowScrolling: 'touch',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'thin',
+          }}
+        >
+          {TABS.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors flex-shrink-0"
+              style={{
+                borderColor: activeTab === tab.id ? 'var(--primary)' : 'transparent',
+                color: activeTab === tab.id ? 'var(--primary)' : 'var(--muted-foreground)',
+              }}
+            >
+              <tab.icon className="h-3.5 w-3.5 md:h-4 md:w-4 flex-shrink-0" />
+              <span className="hidden xs:inline">{tab.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      {activeTab === 'content' && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-      {activeTab === 'theme' && <ThemeTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-      {activeTab === 'announcements' && <AnnouncementsTab />}
-      {activeTab === 'team' && <TeamTab />}
-      {activeTab === 'newsletter' && <NewsletterTab />}
-      {activeTab === 'settings' && <SettingsTab />}
+      {/* Contenu des tabs */}
+      <div className="overflow-x-hidden">
+        {activeTab === 'content' && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
+        {activeTab === 'theme' && <ThemeTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
+        {activeTab === 'announcements' && <AnnouncementsTab />}
+        {activeTab === 'team' && <TeamTab />}
+        {activeTab === 'newsletter' && <NewsletterTab />}
+        {activeTab === 'settings' && <SettingsTab />}
+      </div>
+
+      <style>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          height: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: color-mix(in oklch, var(--primary) 30%, transparent);
+          border-radius: 2px;
+        }
+        .scrollbar-thin {
+          scrollbar-width: thin;
+        }
+        @media (min-width: 480px) {
+          .xs\\:inline {
+            display: inline !important;
+          }
+        }
+        @media (max-width: 479px) {
+          .xs\\:inline {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
-// =======
-    
-        const [activeTab, setActiveTab] = useState('content');
-        const [selectedPage, setSelectedPage] = useState('home');
-        const tabsScrollRef = useRef(null);
-      
-        const TABS = [
-          { id: 'content', label: 'Pages', icon: Globe },
-          { id: 'theme', label: 'Thème', icon: Palette },
-          { id: 'announcements', label: 'Annonces', icon: Megaphone },
-          { id: 'team', label: 'Équipe', icon: Users },
-          { id: 'newsletter', label: 'Newsletter', icon: Mail },
-          { id: 'settings', label: 'Paramètres', icon: Settings },
-        ];
-      
-        return (
-          <div className="space-y-4 md:space-y-6">
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--foreground)' }}>Gestion du contenu</h1>
-              <p className="text-xs md:text-sm mt-1" style={{ color: 'var(--muted-foreground)' }}>
-                Textes, images, thème, annonces, équipe et paramètres du site
-              </p>
-            </div>
-      
-            {/* Tabs - Scroll horizontal responsive */}
-            <div className="relative">
-              <div 
-                ref={tabsScrollRef}
-                className="flex gap-1 border-b overflow-x-auto overflow-y-hidden pb-1"
-                style={{ 
-                  borderColor: 'var(--border)',
-                  WebkitOverflowScrolling: 'touch',
-                  scrollbarWidth: 'thin',
-                  msOverflowStyle: 'none',
-                }}
-              >
-                {TABS.map(tab => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors flex-shrink-0"
-                    style={{
-                      borderColor: activeTab === tab.id ? 'var(--primary)' : 'transparent',
-                      color: activeTab === tab.id ? 'var(--primary)' : 'var(--muted-foreground)',
-                    }}
-                  >
-                    <tab.icon className="h-3.5 w-3.5 md:h-4 md:w-4 flex-shrink-0" />
-                    <span className="hidden xs:inline">{tab.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-      
-            {/* Contenu des tabs */}
-            <div className="overflow-x-hidden">
-              {activeTab === 'content' && <ContentTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-              {activeTab === 'theme' && <ThemeTab selectedPage={selectedPage} onPageChange={setSelectedPage} />}
-              {activeTab === 'announcements' && <AnnouncementsTab />}
-              {activeTab === 'team' && <TeamTab />}
-              {activeTab === 'newsletter' && <NewsletterTab />}
-              {activeTab === 'settings' && <SettingsTab />}
-            </div>
-      
-            <style>{`
-              /* Scrollbar personnalisée */
-              .scrollbar-thin::-webkit-scrollbar {
-                height: 3px;
-              }
-              .scrollbar-thin::-webkit-scrollbar-track {
-                background: transparent;
-              }
-              .scrollbar-thin::-webkit-scrollbar-thumb {
-                background: color-mix(in oklch, var(--primary) 30%, transparent);
-                border-radius: 2px;
-              }
-              
-              /* Masquer la scrollbar sur Firefox */
-              .scrollbar-thin {
-                scrollbar-width: thin;
-              }
-              
-              /* Cacher la scrollbar sur IE/Edge */
-              .scrollbar-thin {
-                -ms-overflow-style: none;
-              }
-      
-              /* Afficher le label sur les petits écrans */
-              @media (min-width: 480px) {
-                .xs\\:inline {
-                  display: inline !important;
-                }
-              }
-              @media (max-width: 479px) {
-                .xs\\:inline {
-                  display: none !important;
-                }
-              }
-            `}</style>
-          </div>
-        );
-      }
-// >>>>>>> 8d60f9718218acd7455d16ec1350b424a6fe2427
