@@ -996,35 +996,60 @@ function ThemeTab({ selectedPage, onPageChange }) {
       setSaving(false);
     }
   };
-
   const resetToDefault = async () => {
     if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
     
     setSaving(true);
     try {
-      await contentAPI.deleteBlock(`_theme_${selectedPage}`);
+      // ✅ Supprimer le thème spécifique à la page avec la bonne méthode
+      await contentAPI.deleteBlockByKey(selectedPage, '_theme');
+      
+      // Si on est en mode global, supprimer aussi le thème global
+      if (isGlobal) {
+        await contentAPI.deleteBlockByKey('__global__', '_global_theme');
+      }
+      
+      // Réinitialiser avec les valeurs par défaut
       setTheme({ ...defaultTheme, dirty: false });
       setIsGlobal(true);
       showToast('Thème réinitialisé aux valeurs par défaut ✓');
+      
+      // Recharger le thème
       fetchTheme();
     } catch (err) {
+      console.error('Reset error:', err);
       showToast('Erreur lors de la réinitialisation', 'error');
     } finally {
       setSaving(false);
     }
   };
-
   const switchToGlobal = async () => {
-    if (!confirm('Passer au thème global ? Les modifications locales seront perdues.')) return;
+    // Si la page a un thème personnalisé, demander confirmation
+    const hasPageTheme = await checkIfPageHasTheme(selectedPage);
+    if (hasPageTheme && !confirm('Passer au thème global ? Les modifications locales seront perdues.')) {
+      return;
+    }
     setIsGlobal(true);
     fetchTheme();
   };
-
+  
   const switchToPage = async () => {
     setIsGlobal(false);
+    // Créer un thème de page basé sur le thème global si pas encore de thème page
     const currentTheme = { ...theme };
     delete currentTheme.dirty;
-    setTheme(prev => ({ ...prev, dirty: true }));
+    setTheme(prev => ({ ...currentTheme, dirty: true }));
+  };
+  
+  // Fonction utilitaire pour vérifier si une page a un thème
+  const checkIfPageHasTheme = async (pageSlug) => {
+    try {
+      const res = await contentAPI.getBlocks(pageSlug);
+      const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
+      return arr.some(b => b.bloc_key === '_theme');
+    } catch {
+      return false;
+    }
   };
 
   const hasDirty = theme.dirty === true;

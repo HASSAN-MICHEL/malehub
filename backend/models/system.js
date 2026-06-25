@@ -87,6 +87,32 @@ export const SettingModel = {
   delete: (cle) => query('DELETE FROM settings WHERE cle = $1 RETURNING cle', [cle]),
 };
 
+// // ── Content Blocks 
+// export const ContentBlockModel = {
+//   findAll: ({ page_slug } = {}) => {
+//     const conds = []; const vals = [];
+//     if (page_slug) { vals.push(page_slug); conds.push(`page_slug = $${vals.length}`); }
+//     const where = conds.length ? `WHERE ${conds.join(' AND ')}` : '';
+//     return query(`SELECT * FROM content_blocks ${where} ORDER BY page_slug, bloc_key`, vals);
+//   },
+//   findByKey: (page_slug, bloc_key) =>
+//     query('SELECT * FROM content_blocks WHERE page_slug=$1 AND bloc_key=$2', [page_slug, bloc_key]),
+//   upsert: ({ page_slug, bloc_key, valeur_texte, media_url, actif }) =>
+//     query(
+//       `INSERT INTO content_blocks (page_slug, bloc_key, valeur_texte, media_url, actif, updated_at)
+//        VALUES ($1, $2, $3, $4, $5, NOW())
+//        ON CONFLICT (page_slug, bloc_key) DO UPDATE
+//          SET valeur_texte = EXCLUDED.valeur_texte,
+//              media_url    = COALESCE(EXCLUDED.media_url, content_blocks.media_url),
+//              actif        = EXCLUDED.actif,
+//              updated_at   = NOW()
+//        RETURNING *`,
+//       [page_slug, bloc_key, valeur_texte, media_url, actif]
+//     ),
+//   delete: (id) => query('DELETE FROM content_blocks WHERE id = $1 RETURNING id', [id]),
+// };
+
+
 // ── Content Blocks 
 export const ContentBlockModel = {
   findAll: ({ page_slug } = {}) => {
@@ -95,8 +121,10 @@ export const ContentBlockModel = {
     const where = conds.length ? `WHERE ${conds.join(' AND ')}` : '';
     return query(`SELECT * FROM content_blocks ${where} ORDER BY page_slug, bloc_key`, vals);
   },
+  
   findByKey: (page_slug, bloc_key) =>
     query('SELECT * FROM content_blocks WHERE page_slug=$1 AND bloc_key=$2', [page_slug, bloc_key]),
+  
   upsert: ({ page_slug, bloc_key, valeur_texte, media_url, actif }) =>
     query(
       `INSERT INTO content_blocks (page_slug, bloc_key, valeur_texte, media_url, actif, updated_at)
@@ -109,5 +137,10 @@ export const ContentBlockModel = {
        RETURNING *`,
       [page_slug, bloc_key, valeur_texte, media_url, actif]
     ),
+  
+  // ✅ AJOUTER CETTE MÉTHODE
+  deleteByKey: (page_slug, bloc_key) =>
+    query('DELETE FROM content_blocks WHERE page_slug=$1 AND bloc_key=$2 RETURNING id', [page_slug, bloc_key]),
+  
   delete: (id) => query('DELETE FROM content_blocks WHERE id = $1 RETURNING id', [id]),
 };
