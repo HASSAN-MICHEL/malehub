@@ -1205,6 +1205,9 @@ const PAGE_BLOCKS = {
   { key: 'about_cta_text',        label: 'Texte bouton',           type: 'text',     hint: 'En savoir plus' },
   { key: 'about_cta_link',        label: 'Lien du bouton',         type: 'text',     hint: '/about' },
   { key: 'about_image',           label: 'Photo du fondateur',     type: 'image',    hint: 'Portrait du fondateur' },
+  { key: 'about_quote_text',      label: 'Texte de la citation',   type: 'textarea', hint: 'Le succès n\'est pas une destination...' },
+  { key: 'about_quote_author',    label: 'Auteur de la citation',  type: 'text',     hint: 'Erdman Doumbè, Fondateur' }, 
+
   
   // Services section
   { key: 'services_badge',           label: 'Badge Services',          type: 'text',     hint: 'Nos services' },
@@ -1400,26 +1403,34 @@ training: [
   { key: 'hero_title_suffix',       label: 'Suffixe titre Hero',         type: 'text',     hint: 'de Malea Hub' },
   { key: 'hero_description',        label: 'Description Hero',           type: 'textarea', hint: 'Un espace premium conçu pour...' },
   { key: 'hero_image',              label: 'Photo principale',           type: 'image',    hint: 'Photo principale du lounge' },
-  
-  // Gallery section (images illimitées)
+
+  // Gallery section - MODIFIÉ pour utiliser des champs image individuels
   { key: 'gallery_title',           label: 'Titre de la galerie',        type: 'text',     hint: 'Notre espace Lounge' },
-  { key: 'gallery_images',          label: 'Images de la galerie',       type: 'json',     schema: 'gallery', hint: 'Liste d\'images avec src et alt' },
-  
+  { key: 'gallery_image_1',         label: 'Image 1',                    type: 'image',    hint: 'Photo de la galerie 1' },
+  { key: 'gallery_image_1_alt',     label: 'Légende image 1',            type: 'text',     hint: 'Espace salon' },
+  { key: 'gallery_image_2',         label: 'Image 2',                    type: 'image',    hint: 'Photo de la galerie 2' },
+  { key: 'gallery_image_2_alt',     label: 'Légende image 2',            type: 'text',     hint: 'Coin café' },
+  { key: 'gallery_image_3',         label: 'Image 3',                    type: 'image',    hint: 'Photo de la galerie 3' },
+  { key: 'gallery_image_3_alt',     label: 'Légende image 3',            type: 'text',     hint: 'Espace détente' },
+  { key: 'gallery_image_4',         label: 'Image 4',                    type: 'image',    hint: 'Photo de la galerie 4' },
+  { key: 'gallery_image_4_alt',     label: 'Légende image 4',            type: 'text',     hint: 'Coin lecture' },
+
   // Usage section
   { key: 'usage_title',             label: 'Titre utilisation',          type: 'text',     hint: 'Utilisations du Lounge' },
   { key: 'usage_items',             label: 'Items utilisation',          type: 'json',     schema: 'usage', hint: 'Titre + description pour chaque utilisation' },
   { key: 'usage_cta_button',        label: 'Bouton CTA',                 type: 'text',     hint: 'Visiter le Lounge' },
   { key: 'usage_cta_message',       label: 'Message WhatsApp',           type: 'textarea', hint: 'Bonjour, je souhaite visiter l\'espace Lounge' },
-  
+
   // Features section (optionnelle)
   { key: 'features_title',          label: 'Titre équipements',          type: 'text',     hint: 'Équipements & Services' },
   { key: 'features_items',          label: 'Équipements',                type: 'json',     schema: 'features', hint: 'Liste des équipements du lounge' },
-  
+
   // Legacy
   { key: 'description', label: 'Description (legacy)', type: 'textarea', hint: 'Un espace premium conçu pour...' },
   { key: 'gallery_1',   label: 'Photo galerie 1 (legacy)', type: 'image', hint: 'Coin café' },
   { key: 'gallery_2',   label: 'Photo galerie 2 (legacy)', type: 'image', hint: 'Assises confortables' },
-],
+],  
+
 
   contact: [
     { key: 'hero_title',    label: 'Titre de la page',       type: 'text',     hint: "Let's connect" },
