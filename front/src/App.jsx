@@ -15,7 +15,7 @@ import BookDetailPage from './pages/BookDetails';
 import ContactPage from './pages/ContactPage';
 import  EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetaills';
-import ContentManage from './pages/admin/contet';
+import ContentManage from './pages/admin/conti';
 
 // coté admin
 import AdminLayout from './pages/admin/adminLayout';
