@@ -623,209 +623,227 @@ function Toast({ message, type, onClose }) {
     </div>
   );
 }
-
-// ── CONTENT TAB ─────────────────────────────────────────────────────────────────
 function ContentTab({ selectedPage, onPageChange }) {
-  const [contentBlocks, setContentBlocks] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [toast, setToast] = useState(null);
-
-  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
-
-  const fetchBlocks = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await contentAPI.getBlocks(selectedPage);
-      const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
-      const map = {};
-      arr.forEach(b => {
-        let value = b.valeur_texte;
-        const blockDef = PAGE_BLOCKS[selectedPage]?.find(def => def.key === b.bloc_key);
-        if (blockDef?.type === 'json' && value && typeof value === 'string') {
-          try {
-            value = JSON.parse(value);
-          } catch (e) {
-            console.warn(`JSON invalide pour ${b.bloc_key}:`, e);
-          }
-        }
-        map[b.bloc_key] = { ...b, valeur_texte: value, dirty: false };
-      });
-      setContentBlocks(map);
-    } catch (err) {
-      showToast('Erreur de chargement', 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedPage]);
-
-  useEffect(() => { fetchBlocks(); }, [fetchBlocks]);
-
-  const handleTextChange = (key, value) => {
-    setContentBlocks(prev => ({
-      ...prev,
-      [key]: {
-        page_slug: selectedPage,
-        bloc_key: key,
-        actif: true,
-        ...prev[key],
-        valeur_texte: value,
-        dirty: true,
-      },
-    }));
-  };
-
-  const handleMediaChange = (key, url) => {
-    setContentBlocks(prev => ({
-      ...prev,
-      [key]: {
-        page_slug: selectedPage,
-        bloc_key: key,
-        actif: true,
-        ...prev[key],
-        media_url: url,
-        dirty: true,
-      },
-    }));
-  };
-
-  const handleSave = async () => {
-    setSaving(true);
-    let errors = 0;
-    const dirty = Object.entries(contentBlocks).filter(([, b]) => b.dirty);
-
-    await Promise.all(dirty.map(async ([key, block]) => {
+    const [contentBlocks, setContentBlocks] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [toast, setToast] = useState(null);
+    const scrollRef = useRef(null);
+  
+    const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+  
+    const fetchBlocks = useCallback(async () => {
+      setLoading(true);
       try {
-        let valueToSave = block.valeur_texte;
-        if (valueToSave && typeof valueToSave === 'object') {
-          valueToSave = JSON.stringify(valueToSave);
-        }
-        const payload = {
+        const res = await contentAPI.getBlocks(selectedPage);
+        const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
+        const map = {};
+        arr.forEach(b => {
+          let value = b.valeur_texte;
+          const blockDef = PAGE_BLOCKS[selectedPage]?.find(def => def.key === b.bloc_key);
+          if (blockDef?.type === 'json' && value && typeof value === 'string') {
+            try {
+              value = JSON.parse(value);
+            } catch (e) {
+              console.warn(`JSON invalide pour ${b.bloc_key}:`, e);
+            }
+          }
+          map[b.bloc_key] = { ...b, valeur_texte: value, dirty: false };
+        });
+        setContentBlocks(map);
+      } catch (err) {
+        showToast('Erreur de chargement', 'error');
+      } finally {
+        setLoading(false);
+      }
+    }, [selectedPage]);
+  
+    useEffect(() => { fetchBlocks(); }, [fetchBlocks]);
+  
+    const handleTextChange = (key, value) => {
+      setContentBlocks(prev => ({
+        ...prev,
+        [key]: {
           page_slug: selectedPage,
           bloc_key: key,
-          valeur_texte: valueToSave ?? null,
-          media_url: block.media_url ?? null,
-          actif: block.actif ?? true,
-        };
-        if (block.id) {
-          await contentAPI.updateBlock(block.id, payload);
-        } else {
-          await contentAPI.upsertBlock(payload);
+          actif: true,
+          ...prev[key],
+          valeur_texte: value,
+          dirty: true,
+        },
+      }));
+    };
+  
+    const handleMediaChange = (key, url) => {
+      setContentBlocks(prev => ({
+        ...prev,
+        [key]: {
+          page_slug: selectedPage,
+          bloc_key: key,
+          actif: true,
+          ...prev[key],
+          media_url: url,
+          dirty: true,
+        },
+      }));
+    };
+  
+    const handleSave = async () => {
+      setSaving(true);
+      let errors = 0;
+      const dirty = Object.entries(contentBlocks).filter(([, b]) => b.dirty);
+  
+      await Promise.all(dirty.map(async ([key, block]) => {
+        try {
+          let valueToSave = block.valeur_texte;
+          if (valueToSave && typeof valueToSave === 'object') {
+            valueToSave = JSON.stringify(valueToSave);
+          }
+          const payload = {
+            page_slug: selectedPage,
+            bloc_key: key,
+            valeur_texte: valueToSave ?? null,
+            media_url: block.media_url ?? null,
+            actif: block.actif ?? true,
+          };
+          if (block.id) {
+            await contentAPI.updateBlock(block.id, payload);
+          } else {
+            await contentAPI.upsertBlock(payload);
+          }
+        } catch (err) {
+          console.error(`Bloc ${key}:`, err);
+          errors++;
         }
-      } catch (err) {
-        console.error(`Bloc ${key}:`, err);
-        errors++;
+      }));
+  
+      setSaving(false);
+      if (errors === 0) {
+        showToast('Contenu sauvegardé ✓');
+        fetchBlocks();
+      } else {
+        showToast(`${errors} erreur(s) lors de la sauvegarde`, 'error');
       }
-    }));
-
-    setSaving(false);
-    if (errors === 0) {
-      showToast('Contenu sauvegardé ✓');
-      fetchBlocks();
-    } else {
-      showToast(`${errors} erreur(s) lors de la sauvegarde`, 'error');
-    }
-  };
-
-  const hasDirty = Object.values(contentBlocks).some(b => b.dirty);
-  const currentBlocks = PAGE_BLOCKS[selectedPage] ?? [];
-
-  const renderBlock = (blockDef) => {
-    const { key, label, type, schema, hint } = blockDef;
-    const block = contentBlocks[key];
-    const textVal = block?.valeur_texte ?? '';
-    const mediaVal = block?.media_url ?? '';
-    const dispVal = type === 'image' ? (mediaVal || textVal) :
-                   type === 'json' ? (typeof textVal === 'object' ? textVal : null) : textVal;
-
-    return (
-      <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
-        style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
-              {label}
-              {block?.dirty && (
-                <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
-                  style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
-                  modifié
-                </span>
-              )}
-            </label>
-            {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
+    };
+  
+    const hasDirty = Object.values(contentBlocks).some(b => b.dirty);
+    const currentBlocks = PAGE_BLOCKS[selectedPage] ?? [];
+  
+    const renderBlock = (blockDef) => {
+      const { key, label, type, schema, hint } = blockDef;
+      const block = contentBlocks[key];
+      const textVal = block?.valeur_texte ?? '';
+      const mediaVal = block?.media_url ?? '';
+      const dispVal = type === 'image' ? (mediaVal || textVal) :
+                     type === 'json' ? (typeof textVal === 'object' ? textVal : null) : textVal;
+  
+      return (
+        <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
+          style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
+                {label}
+                {block?.dirty && (
+                  <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
+                    style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
+                    modifié
+                  </span>
+                )}
+              </label>
+              {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
+            </div>
+            <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
           </div>
-          <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
+  
+          {type === 'text' && <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />}
+          {type === 'textarea' && <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />}
+          {type === 'image' && (
+            <ImageField
+              value={dispVal}
+              onTextChange={v => handleTextChange(key, v)}
+              onUpload={url => handleMediaChange(key, url)}
+              placeholder={hint}
+            />
+          )}
+          {type === 'json' && (
+            <JsonField
+              value={dispVal}
+              onChange={v => handleTextChange(key, v)}
+              schema={schema}
+              placeholder={hint}
+            />
+          )}
         </div>
-
-        {type === 'text' && <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />}
-        {type === 'textarea' && <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />}
-        {type === 'image' && (
-          <ImageField
-            value={dispVal}
-            onTextChange={v => handleTextChange(key, v)}
-            onUpload={url => handleMediaChange(key, url)}
-            placeholder={hint}
-          />
+      );
+    };
+  
+    return (
+      <div className="space-y-5">
+        {/* Sélecteur de page - Version responsive corrigée */}
+        <div className="relative">
+          <div 
+            ref={scrollRef}
+            className="flex gap-1.5 md:gap-2 overflow-x-auto overflow-y-hidden pb-2 scrollbar-thin"
+            style={{ 
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'thin',
+              msOverflowStyle: 'none',
+              padding: '2px 0 8px 0',
+            }}
+          >
+            {PAGES.map(p => (
+              <button 
+                key={p.slug} 
+                onClick={() => onPageChange(p.slug)}
+                className="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium border transition-all duration-200 whitespace-nowrap"
+                style={{
+                  backgroundColor: selectedPage === p.slug ? 'var(--primary)' : 'transparent',
+                  color: selectedPage === p.slug ? 'var(--primary-foreground)' : 'var(--muted-foreground)',
+                  borderColor: selectedPage === p.slug ? 'var(--primary)' : 'var(--border)',
+                  minWidth: 'fit-content',
+                }}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+          
+          {/* Indicateurs visuels de défilement */}
+          <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+        </div>
+  
+        <div className="flex items-center justify-between">
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+            {currentBlocks.length} bloc(s) pour cette page
+          </p>
+          <div className="flex items-center gap-2">
+            <button onClick={fetchBlocks} disabled={loading}
+              className="p-2 rounded-lg border hover:opacity-80"
+              style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            </button>
+            <button onClick={handleSave} disabled={saving || !hasDirty}
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50 transition-opacity hover:opacity-90"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              <Save className="h-4 w-4" />
+              {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+            </button>
+          </div>
+        </div>
+  
+        {loading ? (
+          <div className="flex justify-center py-16"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
+        ) : (
+          <div className="space-y-4">{currentBlocks.map(renderBlock)}</div>
         )}
-        {type === 'json' && (
-          <JsonField
-            value={dispVal}
-            onChange={v => handleTextChange(key, v)}
-            schema={schema}
-            placeholder={hint}
-          />
-        )}
+  
+        {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       </div>
     );
-  };
-
-  return (
-    <div className="space-y-5">
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {PAGES.map(p => (
-          <button key={p.slug} onClick={() => onPageChange(p.slug)}
-            className="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap border transition-colors"
-            style={{
-              backgroundColor: selectedPage === p.slug ? 'var(--primary)' : 'transparent',
-              color: selectedPage === p.slug ? 'var(--primary-foreground)' : 'var(--muted-foreground)',
-              borderColor: selectedPage === p.slug ? 'var(--primary)' : 'var(--border)',
-            }}>
-            {p.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex items-center justify-between">
-        <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-          {currentBlocks.length} bloc(s) pour cette page
-        </p>
-        <div className="flex items-center gap-2">
-          <button onClick={fetchBlocks} disabled={loading}
-            className="p-2 rounded-lg border hover:opacity-80"
-            style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
-          <button onClick={handleSave} disabled={saving || !hasDirty}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50 transition-opacity hover:opacity-90"
-            style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
-            <Save className="h-4 w-4" />
-            {saving ? 'Sauvegarde...' : 'Sauvegarder'}
-          </button>
-        </div>
-      </div>
-
-      {loading ? (
-        <div className="flex justify-center py-16"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
-      ) : (
-        <div className="space-y-4">{currentBlocks.map(renderBlock)}</div>
-      )}
-
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
-    </div>
-  );
-}
-
-// ── THEME TAB ──────────────────────────────────────────────────────────────────
+  }
+  
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
   const [loading, setLoading] = useState(true);
