@@ -219,6 +219,21 @@ export const getAllContacts = asyncHandler(async (req, res) => {
   sendPaginated(res, rows, +cnt[0].count, page, limit);
 });
 
+export const deleteContentBlockByKey = asyncHandler(async (req, res) => {
+  const { page_slug, bloc_key } = req.params;
+  
+  // Vérifier que le bloc existe
+  const { rows: existing } = await ContentBlockModel.findByKey(page_slug, bloc_key);
+  if (!existing.length) {
+    throw new AppError('Bloc de contenu introuvable.', 404);
+  }
+  
+  // Supprimer le bloc
+  const { rows } = await ContentBlockModel.deleteByKey(page_slug, bloc_key);
+  
+  sendSuccess(res, { deleted_id: rows[0]?.id }, 'Bloc supprimé avec succès');
+});
+
 export const getContactById = asyncHandler(async (req, res) => {
   const { rows } = await ContactModel.findById(req.params.id);
   if (!rows.length) throw new AppError('Contact introuvable.', 404);

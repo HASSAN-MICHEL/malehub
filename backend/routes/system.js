@@ -32,10 +32,7 @@ router.post(
           status: 'error',
           message: 'Aucun fichier'
         });
-      }
-
-      // Avec diskStorage, le fichier est déjà sauvegardé
-      // req.file.filename contient le nom du fichier
+     }      // req.file.filename contient le nom du fichier
       // req.file.path contient le chemin complet
 
 
@@ -58,24 +55,28 @@ console.log('File path:', req.file.path);
   }
 );
 
+//<<<<<<< HEAD
 // Dashboard 
+
+// Dashboard
+//>>>>>>> 477ee8ab094f306a06e6ef18526d5b2bc95daed1
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
 
-// Investisseurs 
+// Investisseurs
 router.get('/investors',        protect, staffAndAbove, miscCtrl.getAllInvestors);
 router.get('/investors/:id',    protect, staffAndAbove, miscCtrl.getInvestorById);
 router.post('/investors',       protect, adminOnly, validate(createInvestorSchema), miscCtrl.createInvestor);
 router.patch('/investors/:id',  protect, adminOnly, validate(updateInvestorSchema), miscCtrl.updateInvestor);
 router.delete('/investors/:id', protect, adminOnly, miscCtrl.deleteInvestor);
 
-//  Contacts 
-router.post('/contacts',             validate(createContactSchema), miscCtrl.createContact); 
+//  Contacts
+router.post('/contacts',             validate(createContactSchema), miscCtrl.createContact);
 router.get('/contacts',              protect, staffAndAbove, miscCtrl.getAllContacts);
 router.get('/contacts/export',       protect, staffAndAbove, miscCtrl.exportContactsCSV);
 router.get('/contacts/:id',          protect, staffAndAbove, miscCtrl.getContactById);
 router.patch('/contacts/:id',        protect, staffAndAbove, validate(updateContactSchema), miscCtrl.updateContact);
 
-//Settings 
+//Settings
 router.get('/settings',              protect, adminOnly, miscCtrl.getAllSettings);
 router.get('/settings/:cle',         protect, adminOnly, miscCtrl.getSettingByCle);
 router.put('/settings',              protect, adminOnly, validate(upsertSettingSchema), miscCtrl.upsertSetting);
@@ -87,7 +88,38 @@ router.get('/content',    miscCtrl.getAllContentBlocks);
 //router.put('/content',               protect, adminOnly, validate(upsertContentBlockSchema), miscCtrl.upsertContentBlock);
 router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentBlockById);
 router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentBlock);
+router.delete('/content/:page_slug/:bloc_key', protect, adminOnly, miscCtrl.deleteContentBlockByKey);
 
+// Reset theme to default
+router.post('/theme/reset', protect, adminOnly, async (req, res) => {
+  try {
+    const { page_slug } = req.body;
+
+    // Supprimer le thème personnalisé pour cette page
+    await query(
+      'DELETE FROM content_blocks WHERE page_slug = $1 AND bloc_key = $2',
+      [page_slug || '__global__', '_theme']
+    );
+
+    // Pour le thème global
+    if (page_slug === '__global__') {
+      await query(
+        'DELETE FROM content_blocks WHERE page_slug = $1 AND bloc_key = $2',
+        ['__global__', '_global_theme']
+      );
+    }
+
+    res.json({
+      status: 'success',
+      message: 'Thème réinitialisé aux valeurs par défaut'
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message
+    });
+  }
+});
 
 
 // Public lu par EventsPage côté client
