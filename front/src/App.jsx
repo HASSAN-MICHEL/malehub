@@ -30,7 +30,7 @@ import Candidatures from './pages/admin/candidatures';
 import LibraryManager from './pages/admin/Library';
 import Investors from './pages/admin/Investor';
 import Contacts from './pages/admin/contacts';
-import ContentManager from './pages/admin/contentManager';
+// import ContentManager from './pages/admin/contentManager';
 import ProtectedRoute from './components/ProtectedRout';
 
 export default function App() {
