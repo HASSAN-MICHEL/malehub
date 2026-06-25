@@ -125,7 +125,9 @@ export const adminDashboardAPI = {
 export const contentAPI = {
   getBlocks:   (pageSlug) => adminApi.get('/system/content', { params: { page_slug: pageSlug } }),
   getAllBlocks: ()         => adminApi.get('/system/content'),
-  
+  deleteBlockByKey: (pageSlug, blocKey) => {
+    return adminApi.delete(`/system/content/${pageSlug}/${blocKey}`);
+  },
   upsertBlock: (data)     => adminApi.put('/system/content', data),
   // Mise à jour bloc existant (avec id)
   updateBlock: (id, data) => adminApi.put(`/system/content/${id}`, data),
