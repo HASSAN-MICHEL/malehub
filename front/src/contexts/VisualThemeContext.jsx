@@ -216,6 +216,14 @@ export const VisualThemeProvider = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
   const loadingRef = useRef(false);
   const currentPageRef = useRef(null);
+  const isResetInProgress = useRef(false);
+
+  // 🔥 FORCER L'APPLICATION DU THÈME PAR DÉFAUT IMMÉDIATEMENT
+  const applyDefaultTheme = () => {
+    console.log('🎨 Application du thème par défaut immédiat');
+    setVisualTheme(DEFAULT_THEME);
+    applyThemeToDOM(DEFAULT_THEME);
+  };
 
   const loadThemeForPage = async (pageSlug, forceReload = false) => {
     // Si forceReload est true, on ignore les vérifications de cache
@@ -234,6 +242,9 @@ export const VisualThemeProvider = ({ children }) => {
       // Réinitialiser l'état pour permettre un rechargement
       setInitialized(false);
       currentPageRef.current = null;
+      
+      // 🔥 APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT POUR ÉVITER LE FLASH
+      applyDefaultTheme();
     }
 
     loadingRef.current = true;
@@ -243,27 +254,31 @@ export const VisualThemeProvider = ({ children }) => {
       console.log(`📦 Chargement du thème pour: ${pageSlug}`);
 
       let globalTheme = {};
+      let hasGlobalTheme = false;
       try {
         const globalRes = await contentAPI.getBlocks('__global__');
         const globalBlocks = globalRes.data?.data?.blocks || globalRes.data?.blocks || [];
         const globalThemeBlock = globalBlocks.find(b => b.bloc_key === '_global_theme');
         if (globalThemeBlock?.valeur_texte) {
           globalTheme = JSON.parse(globalThemeBlock.valeur_texte);
+          hasGlobalTheme = true;
           console.log('🌍 Thème global chargé');
         } else {
-          console.log('🌍 Aucun thème global trouvé, utilisation des valeurs par défaut');
+          console.log('🌍 Aucun thème global trouvé');
         }
       } catch (e) {
         console.warn('Erreur chargement thème global:', e.message);
       }
 
       let pageTheme = {};
+      let hasPageTheme = false;
       try {
         const pageRes = await contentAPI.getBlocks(pageSlug);
         const pageBlocks = pageRes.data?.data?.blocks || pageRes.data?.blocks || [];
         const pageThemeBlock = pageBlocks.find(b => b.bloc_key === '_theme');
         if (pageThemeBlock?.valeur_texte) {
           pageTheme = JSON.parse(pageThemeBlock.valeur_texte);
+          hasPageTheme = true;
           console.log(`📄 Thème de la page ${pageSlug} chargé`);
         } else {
           console.log(`📄 Aucun thème spécifique trouvé pour ${pageSlug}`);
@@ -272,8 +287,15 @@ export const VisualThemeProvider = ({ children }) => {
         console.warn('Erreur chargement thème page:', e.message);
       }
 
-      // Fusionner : si aucun thème n'est trouvé, on utilise DEFAULT_THEME
-      const mergedTheme = { ...DEFAULT_THEME, ...globalTheme, ...pageTheme };
+      // 🔥 SI AUCUN THÈME N'EST TROUVÉ, UTILISER DEFAULT_THEME
+      let mergedTheme;
+      if (!hasGlobalTheme && !hasPageTheme) {
+        console.log('📌 Aucun thème trouvé, utilisation du thème par défaut');
+        mergedTheme = { ...DEFAULT_THEME };
+      } else {
+        mergedTheme = { ...DEFAULT_THEME, ...globalTheme, ...pageTheme };
+      }
+      
       console.log('✅ Thème fusionné:', mergedTheme);
 
       setVisualTheme(mergedTheme);
@@ -288,8 +310,7 @@ export const VisualThemeProvider = ({ children }) => {
     } catch (error) {
       console.error('❌ Erreur chargement thème:', error);
       // En cas d'erreur, utiliser le thème par défaut
-      setVisualTheme(DEFAULT_THEME);
-      applyThemeToDOM(DEFAULT_THEME);
+      applyDefaultTheme();
     } finally {
       loadingRef.current = false;
       setLoading(false);
@@ -298,24 +319,50 @@ export const VisualThemeProvider = ({ children }) => {
 
   // 🔥 NOUVELLE MÉTHODE : Réinitialiser le thème (forcer le rechargement)
   const resetTheme = async (pageSlug) => {
-    console.log(`🔄 Réinitialisation du thème pour: ${pageSlug}`);
-    
-    // 1. Vider le cache
-    currentPageRef.current = null;
-    setInitialized(false);
-    
-    // 2. Supprimer le cache localStorage
-    try {
-      localStorage.removeItem(`visual_theme_cache_${pageSlug}`);
-      localStorage.removeItem('visual_theme_cache___global__');
-    } catch (e) {
-      // Ignorer
+    if (isResetInProgress.current) {
+      console.log('⏳ Réinitialisation déjà en cours');
+      return;
     }
     
-    // 3. Recharger le thème avec forceReload
-    await loadThemeForPage(pageSlug, true);
+    isResetInProgress.current = true;
+    console.log(`🔄 Réinitialisation du thème pour: ${pageSlug}`);
     
-    console.log('✅ Thème réinitialisé avec succès');
+    try {
+      // 1. 🔥 APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT
+      applyDefaultTheme();
+      
+      // 2. Vider le cache
+      currentPageRef.current = null;
+      setInitialized(false);
+      
+      // 3. Supprimer tous les caches localStorage
+      try {
+        // Supprimer tous les caches de thème
+        const keys = Object.keys(localStorage);
+        keys.forEach(key => {
+          if (key.startsWith('visual_theme_cache_') || key === 'theme_updated') {
+            localStorage.removeItem(key);
+            console.log(`🗑️ Cache supprimé: ${key}`);
+          }
+        });
+      } catch (e) {
+        console.warn('Erreur suppression cache:', e);
+      }
+      
+      // 4. Attendre un court instant pour que le DOM se mette à jour
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // 5. Recharger le thème avec forceReload
+      await loadThemeForPage(pageSlug, true);
+      
+      console.log('✅ Thème réinitialisé avec succès');
+    } catch (error) {
+      console.error('❌ Erreur lors de la réinitialisation:', error);
+      // En cas d'erreur, rester sur le thème par défaut
+      applyDefaultTheme();
+    } finally {
+      isResetInProgress.current = false;
+    }
   };
 
   // Appliquer le thème au DOM
@@ -381,8 +428,14 @@ export const VisualThemeProvider = ({ children }) => {
   useEffect(() => {
     const handleStorageChange = (event) => {
       // Si un changement de thème est détecté dans localStorage
-      if (event.key === 'theme_updated' || event.key === 'visual_theme_cache_home') {
+      if (event.key === 'theme_updated' || event.key === 'theme_reset') {
         console.log('🔄 Détection d\'un changement de thème via localStorage');
+        
+        // Si c'est un reset, appliquer le thème par défaut immédiatement
+        if (event.key === 'theme_reset') {
+          applyDefaultTheme();
+        }
+        
         const path = window.location.pathname;
         let pageSlug = 'home';
         
@@ -405,7 +458,9 @@ export const VisualThemeProvider = ({ children }) => {
         }
         
         // Forcer le rechargement
-        loadThemeForPage(pageSlug, true);
+        setTimeout(() => {
+          loadThemeForPage(pageSlug, true);
+        }, 200);
       }
     };
 
@@ -419,7 +474,8 @@ export const VisualThemeProvider = ({ children }) => {
       loading,
       loadThemeForPage,
       applyThemeToDOM,
-      resetTheme, // 🔥 EXPOSER LA MÉTHODE resetTheme
+      resetTheme,
+      applyDefaultTheme,
       initialized
     }}>
       {children}
