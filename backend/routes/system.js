@@ -82,14 +82,15 @@ router.get('/settings/:cle',         protect, adminOnly, miscCtrl.getSettingByCl
 router.put('/settings',              protect, adminOnly, validate(upsertSettingSchema), miscCtrl.upsertSetting);
 router.delete('/settings/:cle',      protect, adminOnly, miscCtrl.deleteSetting);
 
-// ── Content Blocks
+
+//Content Blocks
+router.delete('/content/page/:page_slug', protect, adminOnly, miscCtrl.deleteAllContentByPage);
 router.put('/content',               protect, adminOnly , miscCtrl.upsertContentBlock);
 router.get('/content',    miscCtrl.getAllContentBlocks);
 //router.put('/content',               protect, adminOnly, validate(upsertContentBlockSchema), miscCtrl.upsertContentBlock);
 router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentBlockById);
-router.delete('/content/:id',        protect, adminOnly, miscCtrl.deleteContentBlock);
 router.delete('/content/:page_slug/:bloc_key', protect, adminOnly, miscCtrl.deleteContentBlockByKey);
-
+router.delete('/content/:id', protect, adminOnly, miscCtrl.deleteContentBlock);
 // Reset theme to default
 router.post('/theme/reset', protect, adminOnly, async (req, res) => {
   try {

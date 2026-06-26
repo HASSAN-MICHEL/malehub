@@ -548,3 +548,20 @@ export const sendNewsletter = asyncHandler(async (req, res) => {
     errorCount: result.errorCount,
   }, `Newsletter envoyée à ${result.successCount}/${result.total} abonnés`);
 });
+export const deleteAllContentByPage = asyncHandler(async (req, res) => {
+  const { page_slug } = req.params;
+
+  const { rows: existing } = await ContentBlockModel.findAll({ page_slug });
+
+  if (!existing.length) {
+    throw new AppError('Aucun bloc trouvé pour cette page.', 404);
+  }
+
+  const { rows } = await ContentBlockModel.deleteAllByPage(page_slug);
+
+  sendSuccess(
+    res,
+    { deleted_count: rows.length },
+    'Tous les blocs supprimés avec succès'
+  );
+});

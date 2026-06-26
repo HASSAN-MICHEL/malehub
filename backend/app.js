@@ -93,6 +93,9 @@ app.use((req, res, next) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
+app.use('/api/uploads', express.static(uploadsDir));
+
+app.use('/uploads', express.static(uploadsDir));
 // Erreurs 
 app.use(errorHandler);
 

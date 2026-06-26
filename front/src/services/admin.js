@@ -128,6 +128,10 @@ export const contentAPI = {
   deleteBlockByKey: (pageSlug, blocKey) => {
     return adminApi.delete(`/system/content/${pageSlug}/${blocKey}`);
   },
+  resetTheme: (pageSlug) =>
+  adminApi.post('/system/theme/reset', {
+    page_slug: pageSlug
+  }),
   upsertBlock: (data)     => adminApi.put('/system/content', data),
   // Mise à jour bloc existant (avec id)
   updateBlock: (id, data) => adminApi.put(`/system/content/${id}`, data),

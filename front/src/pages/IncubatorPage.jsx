@@ -534,7 +534,7 @@ export default function IncubatorPage() {
   const getFullImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    const baseUrl = import.meta.env.VITE_API_URL || 'https://maleahub.vercel.app';
+    const baseUrl ='/api';
     return `${baseUrl}${url}`;
   };
 

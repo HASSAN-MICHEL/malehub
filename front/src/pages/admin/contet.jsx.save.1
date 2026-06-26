@@ -1924,9 +1924,8 @@
 
 
 
-
+// front/src/pages/admin/contentManager.jsx
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-
 import {
   Save, Upload, X, CheckCircle, Mail, AlertCircle, RefreshCw,
   Plus, Trash2, Edit3, Eye, EyeOff,
@@ -2210,7 +2209,7 @@ const SETTINGS_CONFIG = {
   maintenance_mode: { label: 'Mode maintenance', type: 'checkbox', hint: 'Désactive le site public' },
 };
 
-// ── COMPOSANTS UI 
+// ── COMPOSANTS UI ──────────────────────────────────────────────────────────────
 
 const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 const iCls = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors text-sm md:text-base';
@@ -2925,41 +2924,21 @@ function ThemeTab({ selectedPage, onPageChange }) {
   };
 
   const resetToDefault = async () => {
-  if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
-
-  setSaving(true);
-
-  try {
-    const pageHasTheme = await checkIfPageHasTheme(selectedPage);
-
-    if (pageHasTheme) {
-      await contentAPI.deleteBlockByKey(selectedPage, '_theme');
+    if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
+    
+    setSaving(true);
+    try {
+      await contentAPI.deleteBlock(`_theme_${selectedPage}`);
+      setTheme({ ...defaultTheme, dirty: false });
+      setIsGlobal(true);
+      showToast('Thème réinitialisé aux valeurs par défaut ✓');
+      fetchTheme();
+    } catch (err) {
+      showToast('Erreur lors de la réinitialisation', 'error');
+    } finally {
+      setSaving(false);
     }
-
-    if (isGlobal) {
-      const globalBlocks = await contentAPI.getBlocks('__global__');
-      const globalArr = globalBlocks.data?.data?.blocks ?? globalBlocks.data?.blocks ?? [];
-      const hasGlobalTheme = globalArr.some(
-        b => b.bloc_key === '_global_theme'
-      );
-
-      if (hasGlobalTheme) {
-        await contentAPI.deleteBlockByKey('__global__', '_global_theme');
-      }
-    }
-
-    setTheme({ ...defaultTheme, dirty: false });
-    setIsGlobal(true);
-    showToast('Thème réinitialisé ✓');
-
-    await fetchTheme();
-  } catch (err) {
-    console.error('Reset error:', err);
-    showToast('Erreur lors de la réinitialisation', 'error');
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
   const switchToGlobal = async () => {
     if (!confirm('Passer au thème global ? Les modifications locales seront perdues.')) return;
@@ -3788,10 +3767,10 @@ function NewsletterTab() {
 
 // ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
 
-   const previewSrc = value
+  const previewSrc = value
       ? (value.startsWith('http') ? value : `${'/api'}${value}`)
       : null;
-  
+ 
 export default function ContentManage() {
   const [activeTab, setActiveTab] = useState('content');
   const [selectedPage, setSelectedPage] = useState('home');
@@ -3806,7 +3785,7 @@ export default function ContentManage() {
     { id: 'settings', label: 'Paramètres', icon: Settings },
   ];
 
-return (
+  return (
     <div className="space-y-4 md:space-y-6">
       <div>
         <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
@@ -3881,6 +3860,7 @@ return (
       `}</style>
     </div>
   );
+<<<<<<< HEAD
 }
 
 // ── TOAST ──────────────────────────────────────────────────────────────────────
@@ -3897,8 +3877,8 @@ function Toast({ message, type, onClose }) {
       <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100"><X className="h-4 w-4" /></button>
     </div>
   );
+<<<<<<< HEAD
 }
-
 function ContentTab({ selectedPage, onPageChange }) {
     const [contentBlocks, setContentBlocks] = useState({});
     const [loading, setLoading] = useState(true);
@@ -5093,4 +5073,9 @@ export default function ContentManage() {
     </div>
   );
 }
-
+=======
+}
+>>>>>>> 93051857753f80f68366d6064e548bf0fda66389
+=======
+}
+>>>>>>> a553c6ef68b23eb5aa5aa9c446beab6b6087cb09
