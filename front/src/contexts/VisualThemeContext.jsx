@@ -196,15 +196,12 @@ export const VisualThemeProvider = ({ children }) => {
   const loadingRef = useRef(false);
   const currentPageRef = useRef(null);
 
-  // Récupérer le thème pour une page
   const loadThemeForPage = async (pageSlug) => {
-    // 🔥 ÉVITER LES APPELS CONCURRENTIELS
     if (loadingRef.current) {
       console.log(`⏳ Chargement déjà en cours pour ${pageSlug}, ignoré`);
       return;
     }
 
-    // 🔥 ÉVITER DE RECHARGER LA MÊME PAGE
     if (currentPageRef.current === pageSlug && initialized) {
       console.log(`✅ Thème déjà chargé pour ${pageSlug}, ignoré`);
       return;
@@ -216,7 +213,6 @@ export const VisualThemeProvider = ({ children }) => {
     try {
       console.log(`📦 Chargement du thème pour: ${pageSlug}`);
 
-      // 1. Récupérer le thème global
       let globalTheme = {};
       try {
         const globalRes = await contentAPI.getBlocks('__global__');
@@ -228,10 +224,8 @@ export const VisualThemeProvider = ({ children }) => {
         }
       } catch (e) {
         console.warn('Erreur chargement thème global:', e.message);
-        // Ne pas bloquer si le thème global n'existe pas
       }
 
-      // 2. Récupérer le thème de la page
       let pageTheme = {};
       try {
         const pageRes = await contentAPI.getBlocks(pageSlug);
@@ -243,23 +237,20 @@ export const VisualThemeProvider = ({ children }) => {
         }
       } catch (e) {
         console.warn('Erreur chargement thème page:', e.message);
-        // Ne pas bloquer si le thème de la page n'existe pas
       }
 
-      // 3. Fusionner
       const mergedTheme = { ...DEFAULT_THEME, ...globalTheme, ...pageTheme };
       console.log('✅ Thème fusionné');
-      
+
       setVisualTheme(mergedTheme);
       currentPageRef.current = pageSlug;
       setInitialized(true);
-      
-      // 4. Appliquer le thème au DOM
+
+      // 🔥 APPLIQUER LE THÈME AUX DEUX SYSTÈMES DE VARIABLES
       applyThemeToDOM(mergedTheme);
 
     } catch (error) {
       console.error('❌ Erreur chargement thème:', error);
-      // En cas d'erreur, utiliser le thème par défaut
       setVisualTheme(DEFAULT_THEME);
       applyThemeToDOM(DEFAULT_THEME);
     } finally {
@@ -268,23 +259,36 @@ export const VisualThemeProvider = ({ children }) => {
     }
   };
 
-  // Appliquer le thème au DOM via les variables CSS
+  // 🔥 NOUVELLE VERSION : Met à jour les variables Tailwind ET les variables du thème
   const applyThemeToDOM = (theme) => {
     const root = document.documentElement;
     
+    // 1. Mettre à jour les variables du thème admin (préfixées par --theme-)
     Object.entries(theme).forEach(([key, value]) => {
       const cssVar = `--theme-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
       root.style.setProperty(cssVar, value);
     });
 
+    // 🔥 2. METTRE À JOUR LES VARIABLES TAILWIND
+    // Ces variables sont utilisées par les classes Tailwind via @theme inline
+    root.style.setProperty('--primary', theme.primaryColor);
+    root.style.setProperty('--background', theme.backgroundColor);
+    root.style.setProperty('--foreground', theme.foregroundColor);
+    root.style.setProperty('--card', theme.cardColor);
+    root.style.setProperty('--border', theme.borderColor);
+    root.style.setProperty('--secondary', theme.secondaryColor);
+    
+    // 3. Appliquer les polices
     if (theme.fontBody) {
       document.body.style.fontFamily = theme.fontBody;
     }
+
+    // 4. Appliquer la couleur de fond du body
     if (theme.backgroundColor) {
       document.body.style.backgroundColor = theme.backgroundColor;
     }
 
-    console.log('🎨 Thème appliqué au DOM');
+    console.log('🎨 Thème appliqué au DOM (Tailwind + Admin)');
   };
 
   // Charger le thème initial UNE SEULE FOIS
@@ -292,7 +296,7 @@ export const VisualThemeProvider = ({ children }) => {
     if (!initialized) {
       const path = window.location.pathname;
       let pageSlug = 'home';
-      
+
       if (path === '/') {
         pageSlug = 'home';
       } else if (path.startsWith('/coworking')) {
@@ -310,15 +314,15 @@ export const VisualThemeProvider = ({ children }) => {
       } else if (path.startsWith('/library')) {
         pageSlug = 'library';
       }
-      
+
       loadThemeForPage(pageSlug);
     }
   }, [initialized]);
 
   return (
-    <VisualThemeContext.Provider value={{ 
-      visualTheme, 
-      loading, 
+    <VisualThemeContext.Provider value={{
+      visualTheme,
+      loading,
       loadThemeForPage,
       applyThemeToDOM,
       initialized
