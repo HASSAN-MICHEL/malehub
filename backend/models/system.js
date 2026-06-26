@@ -143,9 +143,19 @@ export const ContentBlockModel = {
     query('DELETE FROM content_blocks WHERE page_slug=$1 AND bloc_key=$2 RETURNING id', [page_slug, bloc_key]),
   
   delete: (id) => query('DELETE FROM content_blocks WHERE id = $1 RETURNING id', [id]),
+<<<<<<< HEAD
 deleteAllByPage: (page_slug) =>
   query(
     'DELETE FROM content_blocks WHERE page_slug = $1 RETURNING id',
     [page_slug]
   ),
 };
+=======
+  deleteAllByPage: (page_slug) =>
+    query(
+      'DELETE FROM content_blocks WHERE page_slug = $1 RETURNING id',
+      [page_slug]
+    ),
+};
+
+>>>>>>> d4a8ce9c94f7fd9ca94fe30a6eaf8d76ce61c5a4
