@@ -1,4 +1,8 @@
-// import React, { createContext, useContext, useEffect, useState } from 'react';
+
+
+
+
+// import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 // import { contentAPI } from '../services/admin';
 
 // const VisualThemeContext = createContext();
@@ -32,15 +36,28 @@
 
 // export const VisualThemeProvider = ({ children }) => {
 //   const [visualTheme, setVisualTheme] = useState(DEFAULT_THEME);
-//   const [loading, setLoading] = useState(true);
+//   const [loading, setLoading] = useState(false);
+//   const [initialized, setInitialized] = useState(false);
+//   const loadingRef = useRef(false);
+//   const currentPageRef = useRef(null);
 
-//   // Récupérer le thème pour une page
 //   const loadThemeForPage = async (pageSlug) => {
+//     if (loadingRef.current) {
+//       console.log(`⏳ Chargement déjà en cours pour ${pageSlug}, ignoré`);
+//       return;
+//     }
+
+//     if (currentPageRef.current === pageSlug && initialized) {
+//       console.log(`✅ Thème déjà chargé pour ${pageSlug}, ignoré`);
+//       return;
+//     }
+
+//     loadingRef.current = true;
 //     setLoading(true);
+
 //     try {
 //       console.log(`📦 Chargement du thème pour: ${pageSlug}`);
 
-//       // 1. Récupérer le thème global
 //       let globalTheme = {};
 //       try {
 //         const globalRes = await contentAPI.getBlocks('__global__');
@@ -48,13 +65,12 @@
 //         const globalThemeBlock = globalBlocks.find(b => b.bloc_key === '_global_theme');
 //         if (globalThemeBlock?.valeur_texte) {
 //           globalTheme = JSON.parse(globalThemeBlock.valeur_texte);
-//           console.log('🌍 Thème global chargé:', globalTheme);
+//           console.log('🌍 Thème global chargé');
 //         }
 //       } catch (e) {
-//         console.warn('Erreur chargement thème global:', e);
+//         console.warn('Erreur chargement thème global:', e.message);
 //       }
 
-//       // 2. Récupérer le thème de la page
 //       let pageTheme = {};
 //       try {
 //         const pageRes = await contentAPI.getBlocks(pageSlug);
@@ -62,99 +78,104 @@
 //         const pageThemeBlock = pageBlocks.find(b => b.bloc_key === '_theme');
 //         if (pageThemeBlock?.valeur_texte) {
 //           pageTheme = JSON.parse(pageThemeBlock.valeur_texte);
-//           console.log(`📄 Thème de la page ${pageSlug} chargé:`, pageTheme);
+//           console.log(`📄 Thème de la page ${pageSlug} chargé`);
 //         }
 //       } catch (e) {
-//         console.warn('Erreur chargement thème page:', e);
+//         console.warn('Erreur chargement thème page:', e.message);
 //       }
 
-//       // 3. Fusionner : le thème de la page écrase le thème global
 //       const mergedTheme = { ...DEFAULT_THEME, ...globalTheme, ...pageTheme };
-//       console.log('✅ Thème fusionné:', mergedTheme);
-      
+//       console.log('✅ Thème fusionné');
+
 //       setVisualTheme(mergedTheme);
-      
-//       // 4. Appliquer le thème au DOM
+//       currentPageRef.current = pageSlug;
+//       setInitialized(true);
+
+//       // 🔥 APPLIQUER LE THÈME AUX DEUX SYSTÈMES DE VARIABLES
 //       applyThemeToDOM(mergedTheme);
 
-//       return mergedTheme;
 //     } catch (error) {
 //       console.error('❌ Erreur chargement thème:', error);
 //       setVisualTheme(DEFAULT_THEME);
 //       applyThemeToDOM(DEFAULT_THEME);
 //     } finally {
+//       loadingRef.current = false;
 //       setLoading(false);
 //     }
 //   };
 
-//   // Appliquer le thème au DOM via les variables CSS
+//   // 🔥 NOUVELLE VERSION : Met à jour les variables Tailwind ET les variables du thème
 //   const applyThemeToDOM = (theme) => {
 //     const root = document.documentElement;
     
-//     // Appliquer chaque propriété comme variable CSS
+//     // 1. Mettre à jour les variables du thème admin (préfixées par --theme-)
 //     Object.entries(theme).forEach(([key, value]) => {
-//       // Convertir camelCase en kebab-case
 //       const cssVar = `--theme-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
 //       root.style.setProperty(cssVar, value);
 //     });
 
-//     // Appliquer les polices
+//     // 🔥 2. METTRE À JOUR LES VARIABLES TAILWIND
+//     // Ces variables sont utilisées par les classes Tailwind via @theme inline
+//     root.style.setProperty('--primary', theme.primaryColor);
+//     root.style.setProperty('--background', theme.backgroundColor);
+//     root.style.setProperty('--foreground', theme.foregroundColor);
+//     root.style.setProperty('--card', theme.cardColor);
+//     root.style.setProperty('--border', theme.borderColor);
+//     root.style.setProperty('--secondary', theme.secondaryColor);
+    
+//     // 3. Appliquer les polices
 //     if (theme.fontBody) {
-//       root.style.setProperty('--theme-font-body', theme.fontBody);
 //       document.body.style.fontFamily = theme.fontBody;
 //     }
-//     if (theme.fontHeading) {
-//       root.style.setProperty('--theme-font-heading', theme.fontHeading);
-//     }
 
-//     // Appliquer la couleur de fond
+//     // 4. Appliquer la couleur de fond du body
 //     if (theme.backgroundColor) {
 //       document.body.style.backgroundColor = theme.backgroundColor;
 //     }
 
-//     console.log('🎨 Thème appliqué au DOM');
+//     console.log('🎨 Thème appliqué au DOM (Tailwind + Admin)');
 //   };
 
-//   // Charger le thème initial basé sur l'URL
+//   // Charger le thème initial UNE SEULE FOIS
 //   useEffect(() => {
-//     const path = window.location.pathname;
-//     let pageSlug = 'home';
-    
-//     if (path === '/') {
-//       pageSlug = 'home';
-//     } else if (path.startsWith('/coworking')) {
-//       pageSlug = 'coworking';
-//     } else if (path.startsWith('/incubator')) {
-//       pageSlug = 'incubator';
-//     } else if (path.startsWith('/training')) {
-//       pageSlug = 'training';
-//     } else if (path.startsWith('/lounge')) {
-//       pageSlug = 'lounge';
-//     } else if (path.startsWith('/events')) {
-//       pageSlug = 'events';
-//     } else if (path.startsWith('/contact')) {
-//       pageSlug = 'contact';
-//     } else if (path.startsWith('/library')) {
-//       pageSlug = 'library';
+//     if (!initialized) {
+//       const path = window.location.pathname;
+//       let pageSlug = 'home';
+
+//       if (path === '/') {
+//         pageSlug = 'home';
+//       } else if (path.startsWith('/coworking')) {
+//         pageSlug = 'coworking';
+//       } else if (path.startsWith('/incubator')) {
+//         pageSlug = 'incubator';
+//       } else if (path.startsWith('/training')) {
+//         pageSlug = 'training';
+//       } else if (path.startsWith('/lounge')) {
+//         pageSlug = 'lounge';
+//       } else if (path.startsWith('/events')) {
+//         pageSlug = 'events';
+//       } else if (path.startsWith('/contact')) {
+//         pageSlug = 'contact';
+//       } else if (path.startsWith('/library')) {
+//         pageSlug = 'library';
+//       }
+
+//       loadThemeForPage(pageSlug);
 //     }
-    
-//     loadThemeForPage(pageSlug);
-//   }, []);
+//   }, [initialized]);
 
 //   return (
-//     <VisualThemeContext.Provider value={{ 
-//       visualTheme, 
-//       loading, 
+//     <VisualThemeContext.Provider value={{
+//       visualTheme,
+//       loading,
 //       loadThemeForPage,
-//       applyThemeToDOM
+//       applyThemeToDOM,
+//       initialized
 //     }}>
 //       {children}
 //     </VisualThemeContext.Provider>
 //   );
 // };
-
-
-
 
 
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
@@ -196,15 +217,23 @@ export const VisualThemeProvider = ({ children }) => {
   const loadingRef = useRef(false);
   const currentPageRef = useRef(null);
 
-  const loadThemeForPage = async (pageSlug) => {
-    if (loadingRef.current) {
-      console.log(`⏳ Chargement déjà en cours pour ${pageSlug}, ignoré`);
-      return;
-    }
+  const loadThemeForPage = async (pageSlug, forceReload = false) => {
+    // Si forceReload est true, on ignore les vérifications de cache
+    if (!forceReload) {
+      if (loadingRef.current) {
+        console.log(`⏳ Chargement déjà en cours pour ${pageSlug}, ignoré`);
+        return;
+      }
 
-    if (currentPageRef.current === pageSlug && initialized) {
-      console.log(`✅ Thème déjà chargé pour ${pageSlug}, ignoré`);
-      return;
+      if (currentPageRef.current === pageSlug && initialized) {
+        console.log(`✅ Thème déjà chargé pour ${pageSlug}, ignoré`);
+        return;
+      }
+    } else {
+      console.log(`🔄 Rechargement forcé du thème pour: ${pageSlug}`);
+      // Réinitialiser l'état pour permettre un rechargement
+      setInitialized(false);
+      currentPageRef.current = null;
     }
 
     loadingRef.current = true;
@@ -221,6 +250,8 @@ export const VisualThemeProvider = ({ children }) => {
         if (globalThemeBlock?.valeur_texte) {
           globalTheme = JSON.parse(globalThemeBlock.valeur_texte);
           console.log('🌍 Thème global chargé');
+        } else {
+          console.log('🌍 Aucun thème global trouvé, utilisation des valeurs par défaut');
         }
       } catch (e) {
         console.warn('Erreur chargement thème global:', e.message);
@@ -234,23 +265,29 @@ export const VisualThemeProvider = ({ children }) => {
         if (pageThemeBlock?.valeur_texte) {
           pageTheme = JSON.parse(pageThemeBlock.valeur_texte);
           console.log(`📄 Thème de la page ${pageSlug} chargé`);
+        } else {
+          console.log(`📄 Aucun thème spécifique trouvé pour ${pageSlug}`);
         }
       } catch (e) {
         console.warn('Erreur chargement thème page:', e.message);
       }
 
+      // Fusionner : si aucun thème n'est trouvé, on utilise DEFAULT_THEME
       const mergedTheme = { ...DEFAULT_THEME, ...globalTheme, ...pageTheme };
-      console.log('✅ Thème fusionné');
+      console.log('✅ Thème fusionné:', mergedTheme);
 
       setVisualTheme(mergedTheme);
       currentPageRef.current = pageSlug;
       setInitialized(true);
 
-      // 🔥 APPLIQUER LE THÈME AUX DEUX SYSTÈMES DE VARIABLES
+      // Appliquer le thème aux deux systèmes de variables
       applyThemeToDOM(mergedTheme);
+
+      return mergedTheme;
 
     } catch (error) {
       console.error('❌ Erreur chargement thème:', error);
+      // En cas d'erreur, utiliser le thème par défaut
       setVisualTheme(DEFAULT_THEME);
       applyThemeToDOM(DEFAULT_THEME);
     } finally {
@@ -259,7 +296,29 @@ export const VisualThemeProvider = ({ children }) => {
     }
   };
 
-  // 🔥 NOUVELLE VERSION : Met à jour les variables Tailwind ET les variables du thème
+  // 🔥 NOUVELLE MÉTHODE : Réinitialiser le thème (forcer le rechargement)
+  const resetTheme = async (pageSlug) => {
+    console.log(`🔄 Réinitialisation du thème pour: ${pageSlug}`);
+    
+    // 1. Vider le cache
+    currentPageRef.current = null;
+    setInitialized(false);
+    
+    // 2. Supprimer le cache localStorage
+    try {
+      localStorage.removeItem(`visual_theme_cache_${pageSlug}`);
+      localStorage.removeItem('visual_theme_cache___global__');
+    } catch (e) {
+      // Ignorer
+    }
+    
+    // 3. Recharger le thème avec forceReload
+    await loadThemeForPage(pageSlug, true);
+    
+    console.log('✅ Thème réinitialisé avec succès');
+  };
+
+  // Appliquer le thème au DOM
   const applyThemeToDOM = (theme) => {
     const root = document.documentElement;
     
@@ -269,8 +328,7 @@ export const VisualThemeProvider = ({ children }) => {
       root.style.setProperty(cssVar, value);
     });
 
-    // 🔥 2. METTRE À JOUR LES VARIABLES TAILWIND
-    // Ces variables sont utilisées par les classes Tailwind via @theme inline
+    // 2. METTRE À JOUR LES VARIABLES TAILWIND
     root.style.setProperty('--primary', theme.primaryColor);
     root.style.setProperty('--background', theme.backgroundColor);
     root.style.setProperty('--foreground', theme.foregroundColor);
@@ -319,12 +377,49 @@ export const VisualThemeProvider = ({ children }) => {
     }
   }, [initialized]);
 
+  // 🔥 ÉCOUTER LES CHANGEMENTS DE STORAGE (pour les mises à jour depuis l'admin)
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      // Si un changement de thème est détecté dans localStorage
+      if (event.key === 'theme_updated' || event.key === 'visual_theme_cache_home') {
+        console.log('🔄 Détection d\'un changement de thème via localStorage');
+        const path = window.location.pathname;
+        let pageSlug = 'home';
+        
+        if (path === '/') {
+          pageSlug = 'home';
+        } else if (path.startsWith('/coworking')) {
+          pageSlug = 'coworking';
+        } else if (path.startsWith('/incubator')) {
+          pageSlug = 'incubator';
+        } else if (path.startsWith('/training')) {
+          pageSlug = 'training';
+        } else if (path.startsWith('/lounge')) {
+          pageSlug = 'lounge';
+        } else if (path.startsWith('/events')) {
+          pageSlug = 'events';
+        } else if (path.startsWith('/contact')) {
+          pageSlug = 'contact';
+        } else if (path.startsWith('/library')) {
+          pageSlug = 'library';
+        }
+        
+        // Forcer le rechargement
+        loadThemeForPage(pageSlug, true);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <VisualThemeContext.Provider value={{
       visualTheme,
       loading,
       loadThemeForPage,
       applyThemeToDOM,
+      resetTheme, // 🔥 EXPOSER LA MÉTHODE resetTheme
       initialized
     }}>
       {children}
