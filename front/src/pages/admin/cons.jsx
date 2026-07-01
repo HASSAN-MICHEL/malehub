@@ -531,38 +531,51 @@ function Toast({ message, type, onClose }) {
 }
 
 // ── CHAMP MULTILINGUE ──────────────────────────────────────────────────────────
+// ── CHAMP MULTILINGUE ──────────────────────────────────────────────────────────
 
-function MultilingualField({ value, onChange, type, placeholder, label }) {
-  const [activeLang, setActiveLang] = useState('fr');
+function MultilingualField({ value, onChange, type, placeholder, label, activeLang, onLangChange }) {
+  // Utiliser la langue sélectionnée globalement
+  const currentLang = activeLang || 'fr';
 
-  // Initialiser les valeurs par défaut
-  const getValue = (lang) => {
-    if (value && typeof value === 'object') {
-      return value[lang] || '';
+  // 🔥 CORRECTION : Récupérer la valeur pour la langue courante
+  const getValue = () => {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      return value[currentLang] || '';
     }
-    return value || '';
+    // Si c'est déjà une chaîne, la retourner
+    if (typeof value === 'string') {
+      return value;
+    }
+    return '';
   };
 
-  const handleChange = (lang, newValue) => {
-    const currentValue = typeof value === 'object' && value !== null ? { ...value } : {};
-    currentValue[lang] = newValue;
-    onChange(currentValue);
+  const handleChange = (newValue) => {
+    // Si la valeur actuelle est un objet, on met à jour la langue
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      const updated = { ...value };
+      updated[currentLang] = newValue;
+      onChange(updated);
+    } else {
+      // Sinon, on crée un nouvel objet
+      const newObj = {};
+      newObj[currentLang] = newValue;
+      // Si on a une ancienne valeur string, on la garde comme fallback
+      if (typeof value === 'string' && value) {
+        newObj['fr'] = value;
+        newObj['en'] = value;
+      }
+      onChange(newObj);
+    }
   };
 
-  const renderField = (lang) => {
-    const val = getValue(lang);
-    const commonProps = {
-      value: val,
-      onChange: (e) => handleChange(lang, e.target.value),
-      placeholder: placeholder || `${label} (${lang === 'fr' ? 'Français' : 'English'})`,
-      className: iCls,
-      style: iStyle,
-    };
-
-    if (type === 'textarea') {
-      return <textarea {...commonProps} rows={3} />;
-    }
-    return <input {...commonProps} />;
+  const val = getValue();
+  
+  const commonProps = {
+    value: val,
+    onChange: (e) => handleChange(e.target.value),
+    placeholder: placeholder || `${label} (${currentLang === 'fr' ? 'Français' : 'English'})`,
+    className: iCls,
+    style: iStyle,
   };
 
   return (
@@ -570,44 +583,47 @@ function MultilingualField({ value, onChange, type, placeholder, label }) {
       <div className="flex items-center gap-2">
         <div className="flex gap-1 border rounded-lg overflow-hidden">
           <button
-            onClick={() => setActiveLang('fr')}
-            className={`px-3 py-1 text-xs font-medium transition-colors ${
-              activeLang === 'fr' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
+            onClick={() => onLangChange && onLangChange('fr')}
+            className={`px-2 py-0.5 text-xs font-medium transition-colors ${
+              currentLang === 'fr' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
             }`}
-            style={activeLang === 'fr' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
+            style={currentLang === 'fr' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
           >
-            🇫🇷 FR
+            FR
           </button>
           <button
-            onClick={() => setActiveLang('en')}
-            className={`px-3 py-1 text-xs font-medium transition-colors ${
-              activeLang === 'en' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
+            onClick={() => onLangChange && onLangChange('en')}
+            className={`px-2 py-0.5 text-xs font-medium transition-colors ${
+              currentLang === 'en' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
             }`}
-            style={activeLang === 'en' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
+            style={currentLang === 'en' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
           >
-            🇬🇧 EN
+            EN
           </button>
         </div>
-        <span className="text-xs text-muted-foreground">
-          {activeLang === 'fr' ? 'Français' : 'English'}
+        <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+          {currentLang === 'fr' ? '🇫🇷 Français' : '🇬🇧 English'}
         </span>
-        {value && typeof value === 'object' && (
+        {value && typeof value === 'object' && !Array.isArray(value) && (
           <span className="text-xs text-green-600">
-            ✓ {Object.keys(value).filter(k => value[k]).length} langue(s) renseignée(s)
+            ✓ {Object.keys(value).filter(k => value[k] && value[k].trim()).length} langue(s)
           </span>
         )}
       </div>
-      {renderField(activeLang)}
-      {activeLang === 'fr' && (
-        <div className="text-xs text-muted-foreground">
-          💡 Saisissez le contenu en français, puis passez en anglais pour saisir la traduction
+      {type === 'textarea' ? (
+        <textarea {...commonProps} rows={3} />
+      ) : (
+        <input {...commonProps} />
+      )}
+      {currentLang === 'fr' && (
+        <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+          💡 Saisissez le contenu en français, puis passez en anglais pour la traduction
         </div>
       )}
     </div>
   );
 }
-
-// ── CONTENT TAB ────────────────────────────────────────────────────────────────
+// content
 
 function ContentTab({ selectedPage, onPageChange }) {
   const [contentBlocks, setContentBlocks] = useState({});
@@ -828,6 +844,38 @@ function ContentTab({ selectedPage, onPageChange }) {
 
   return (
     <div className="space-y-5">
+
+         {/* 🔥 SÉLECTEUR DE LANGUE GLOBAL */}
+    <div className="flex items-center gap-3 p-3 rounded-lg border" 
+         style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+      <Languages className="h-4 w-4" style={{ color: 'var(--muted-foreground)' }} />
+      <span className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>
+        Langue d'édition :
+      </span>
+      <div className="flex gap-1 border rounded-lg overflow-hidden">
+        <button
+          onClick={() => setSelectedLang('fr')}
+          className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+            selectedLang === 'fr' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
+          }`}
+          style={selectedLang === 'fr' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
+        >
+          🇫🇷 Français
+        </button>
+        <button
+          onClick={() => setSelectedLang('en')}
+          className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+            selectedLang === 'en' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
+          }`}
+          style={selectedLang === 'en' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
+        >
+          🇬🇧 English
+        </button>
+      </div>
+      <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+        {selectedLang === 'fr' ? 'Saisissez le contenu en français' : 'Enter content in English'}
+      </span>
+    </div>
       {/* Sélecteur de page */}
       <div className="relative">
         <div
