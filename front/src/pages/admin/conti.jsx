@@ -922,7 +922,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       const globalRes = await contentAPI.getBlocks('__global__');
       const globalArr = globalRes.data?.data?.blocks ?? globalRes.data?.blocks ?? [];
       const globalThemeBlock = globalArr.find(b => b.bloc_key === GLOBAL_THEME_KEY);
-      
+
       let globalTheme = {};
       if (globalThemeBlock && globalThemeBlock.valeur_texte) {
         try {
@@ -933,7 +933,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       const pageRes = await contentAPI.getBlocks(selectedPage);
       const pageArr = pageRes.data?.data?.blocks ?? pageRes.data?.blocks ?? [];
       const pageThemeBlock = pageArr.find(b => b.bloc_key === '_theme');
-      
+
       let pageTheme = {};
       if (pageThemeBlock && pageThemeBlock.valeur_texte) {
         try {
@@ -942,7 +942,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       }
 
       const hasPageTheme = Object.keys(pageTheme).length > 0;
-      
+
       if (hasPageTheme) {
         setIsGlobal(false);
         setTheme({ ...defaultTheme, ...pageTheme, dirty: false });
@@ -997,22 +997,38 @@ function ThemeTab({ selectedPage, onPageChange }) {
   };
  // const resetToDefault = async () => {
  //   if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
  //   setSaving(true);
  //  try {
       // ✅ Supprimer le thème spécifique à la page avec la bonne méthode
  //     await contentAPI.deleteBlockByKey(selectedPage, '_theme');
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
       // Si on est en mode global, supprimer aussi le thème global
  //    if (isGlobal) {
  //     await contentAPI.deleteBlockByKey('__global__', '_global_theme');
 //      }
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
       // Réinitialiser avec les valeurs par défaut
 //      setTheme({ ...defaultTheme, dirty: false });
 //     setIsGlobal(true);
 //      showToast('Thème réinitialisé aux valeurs par défaut ✓');
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
 //      // Recharger le thème
 //    fetchTheme();
 //    } catch (err) {
@@ -1032,7 +1048,11 @@ const resetToDefault = async () => {
     // 🔥 SUPPRIMER TOUS LES THÈMES - pas besoin de page_slug
     const result = await contentAPI.resetTheme();
     console.log('🗑️ Tous les thèmes supprimés:', result.data);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
 
     // 🔥 RÉINITIALISER L'ÉTAT LOCAL
     setTheme({ ...defaultTheme, dirty: false });
@@ -1059,7 +1079,7 @@ const resetToDefault = async () => {
     setIsGlobal(true);
     fetchTheme();
   };
-  
+
   const switchToPage = async () => {
     setIsGlobal(false);
     // Créer un thème de page basé sur le thème global si pas encore de thème page
@@ -1067,7 +1087,7 @@ const resetToDefault = async () => {
     delete currentTheme.dirty;
     setTheme(prev => ({ ...currentTheme, dirty: true }));
   };
-  
+
   // Fonction utilitaire pour vérifier si une page a un thème
   const checkIfPageHasTheme = async (pageSlug) => {
     try {
@@ -1149,19 +1169,19 @@ const resetToDefault = async () => {
           >
             📄 Cette page
           </button>
-          
+
           <button onClick={resetToDefault}
             className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border hover:bg-red-50 transition-all"
             style={{ borderColor: '#EF4444', color: '#EF4444' }}>
             <RotateCcw className="h-3.5 w-3.5" /> Réinitialiser
           </button>
-          
+
           <button onClick={fetchTheme} disabled={loading}
             className="p-2 rounded-lg border hover:opacity-80"
             style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
-          
+
           <button onClick={handleSave} disabled={saving || !hasDirty}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
             style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>

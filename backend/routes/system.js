@@ -1,5 +1,3 @@
-
-
 import { Router } from 'express';
 import * as miscCtrl from '../controllers/system.js';
 import { protect, staffAndAbove, adminOnly } from '../middlewares/auth.js';
@@ -54,12 +52,7 @@ console.log('File path:', req.file.path);
     }
   }
 );
-
-//<<<<<<< HEAD
-// Dashboard 
-
-// Dashboard
-//>>>>>>> 477ee8ab094f306a06e6ef18526d5b2bc95daed1
+/>>>>>>> 477ee8ab094f306a06e6ef18526d5b2bc95daed1
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
 
 // Investisseurs
@@ -98,14 +91,16 @@ router.delete('/content/:id', protect, adminOnly, miscCtrl.deleteContentBlock);
 router.post('/theme/reset', protect, adminOnly, async (req, res) => {
   try {
     const { query } = await import('../config/database.js');
-    
     // 🔥 SUPPRIMER TOUS LES THÈMES SANS CONDITION
     const result = await query(
       "DELETE FROM content_blocks WHERE bloc_key IN ('_global_theme', '_theme') RETURNING page_slug, bloc_key"
     );
-    
+ 
     console.log(`🗑️ ${result.rows.length} thèmes supprimés:`, result.rows);
-    
+   
+    console.log(`🗑️ ${result.rows.length} thèmes supprimés:`, result.rows);
+
+// >>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
     res.json({
       status: 'success',
       message: `${result.rows.length} thèmes supprimés`,
