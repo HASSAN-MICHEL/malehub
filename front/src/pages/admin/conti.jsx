@@ -22,13 +22,12 @@ const PAGES = [
 // ── Configuration du thème GLOBAL avec catégories
 const THEME_CONFIG = [
   // Couleurs
-  { key: 'primaryColor', label: 'Couleur principale', type: 'color', default: '#3B82F6', hint: 'Boutons, liens, accents', category: 'colors' },
+   { key: 'primaryColor', label: 'Couleur principale', type: 'color', default: '#3B82F6', hint: 'Boutons, liens, accents', category: 'colors' },
   { key: 'backgroundColor', label: 'Couleur de fond', type: 'color', default: '#FFFFFF', hint: 'Fond principal de la page', category: 'colors' },
   { key: 'foregroundColor', label: 'Couleur du texte principal', type: 'color', default: '#1F2937', hint: 'Texte principal', category: 'colors' },
   { key: 'secondaryColor', label: 'Couleur secondaire', type: 'color', default: '#6B7280', hint: 'Texte secondaire, sous-titres', category: 'colors' },
   { key: 'cardColor', label: 'Couleur des cartes', type: 'color', default: '#F9FAFB', hint: 'Fond des cartes / sections', category: 'colors' },
   { key: 'borderColor', label: 'Couleur des bordures', type: 'color', default: '#E5E7EB', hint: 'Bordures, séparateurs', category: 'colors' },
-
   // Polices
   { key: 'fontHeading', label: 'Police des titres', type: 'font', default: 'Inter', hint: 'Google Font ou système', category: 'fonts' },
   { key: 'fontBody', label: 'Police du texte', type: 'font', default: 'Inter', hint: 'Google Font ou système', category: 'fonts' },
@@ -923,7 +922,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       const globalRes = await contentAPI.getBlocks('__global__');
       const globalArr = globalRes.data?.data?.blocks ?? globalRes.data?.blocks ?? [];
       const globalThemeBlock = globalArr.find(b => b.bloc_key === GLOBAL_THEME_KEY);
-      
+
       let globalTheme = {};
       if (globalThemeBlock && globalThemeBlock.valeur_texte) {
         try {
@@ -934,7 +933,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       const pageRes = await contentAPI.getBlocks(selectedPage);
       const pageArr = pageRes.data?.data?.blocks ?? pageRes.data?.blocks ?? [];
       const pageThemeBlock = pageArr.find(b => b.bloc_key === '_theme');
-      
+
       let pageTheme = {};
       if (pageThemeBlock && pageThemeBlock.valeur_texte) {
         try {
@@ -943,7 +942,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
       }
 
       const hasPageTheme = Object.keys(pageTheme).length > 0;
-      
+
       if (hasPageTheme) {
         setIsGlobal(false);
         setTheme({ ...defaultTheme, ...pageTheme, dirty: false });
@@ -996,33 +995,61 @@ function ThemeTab({ selectedPage, onPageChange }) {
       setSaving(false);
     }
   };
-  const resetToDefault = async () => {
-    if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
-    
-    setSaving(true);
-    try {
+ // const resetToDefault = async () => {
+ //   if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
+
+ //   setSaving(true);
+ //  try {
       // ✅ Supprimer le thème spécifique à la page avec la bonne méthode
-      await contentAPI.deleteBlockByKey(selectedPage, '_theme');
-      
+ //     await contentAPI.deleteBlockByKey(selectedPage, '_theme');
+
       // Si on est en mode global, supprimer aussi le thème global
-      if (isGlobal) {
-        await contentAPI.deleteBlockByKey('__global__', '_global_theme');
-      }
-      
+ //    if (isGlobal) {
+ //     await contentAPI.deleteBlockByKey('__global__', '_global_theme');
+//      }
+
       // Réinitialiser avec les valeurs par défaut
-      setTheme({ ...defaultTheme, dirty: false });
-      setIsGlobal(true);
-      showToast('Thème réinitialisé aux valeurs par défaut ✓');
-      
-      // Recharger le thème
-      fetchTheme();
-    } catch (err) {
-      console.error('Reset error:', err);
-      showToast('Erreur lors de la réinitialisation', 'error');
-    } finally {
-      setSaving(false);
-    }
-  };
+//      setTheme({ ...defaultTheme, dirty: false });
+//     setIsGlobal(true);
+//      showToast('Thème réinitialisé aux valeurs par défaut ✓');
+
+//      // Recharger le thème
+//    fetchTheme();
+//    } catch (err) {
+//     console.error('Reset error:', err);
+//      showToast('Erreur lors de la réinitialisation', 'error');
+//   } finally {
+//      setSaving(false);
+//   }
+//  };
+
+
+const resetToDefault = async () => {
+  if (!confirm('Réinitialiser le thème aux valeurs par défaut ?')) return;
+
+  setSaving(true);
+  try {
+    // 🔥 SUPPRIMER TOUS LES THÈMES - pas besoin de page_slug
+    const result = await contentAPI.resetTheme();
+    console.log('🗑️ Tous les thèmes supprimés:', result.data);
+
+
+    // 🔥 RÉINITIALISER L'ÉTAT LOCAL
+    setTheme({ ...defaultTheme, dirty: false });
+    setIsGlobal(true);
+    showToast('Thème réinitialisé aux valeurs par défaut ✓');
+
+    // 🔥 RECHARGER LE THÈME DANS L'ADMIN
+    await fetchTheme();
+
+  } catch (err) {
+    console.error('Reset error:', err);
+    showToast('Erreur lors de la réinitialisation: ' + (err.response?.data?.message || err.message), 'error');
+  } finally {
+    setSaving(false);
+  }
+};
+
   const switchToGlobal = async () => {
     // Si la page a un thème personnalisé, demander confirmation
     const hasPageTheme = await checkIfPageHasTheme(selectedPage);
@@ -1032,7 +1059,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
     setIsGlobal(true);
     fetchTheme();
   };
-  
+
   const switchToPage = async () => {
     setIsGlobal(false);
     // Créer un thème de page basé sur le thème global si pas encore de thème page
@@ -1040,7 +1067,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
     delete currentTheme.dirty;
     setTheme(prev => ({ ...currentTheme, dirty: true }));
   };
-  
+
   // Fonction utilitaire pour vérifier si une page a un thème
   const checkIfPageHasTheme = async (pageSlug) => {
     try {
@@ -1122,19 +1149,19 @@ function ThemeTab({ selectedPage, onPageChange }) {
           >
             📄 Cette page
           </button>
-          
+
           <button onClick={resetToDefault}
             className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border hover:bg-red-50 transition-all"
             style={{ borderColor: '#EF4444', color: '#EF4444' }}>
             <RotateCcw className="h-3.5 w-3.5" /> Réinitialiser
           </button>
-          
+
           <button onClick={fetchTheme} disabled={loading}
             className="p-2 rounded-lg border hover:opacity-80"
             style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
-          
+
           <button onClick={handleSave} disabled={saving || !hasDirty}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
             style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
