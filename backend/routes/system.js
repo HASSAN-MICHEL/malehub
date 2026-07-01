@@ -52,7 +52,7 @@ console.log('File path:', req.file.path);
     }
   }
 );
-/>>>>>>> 477ee8ab094f306a06e6ef18526d5b2bc95daed1
+//>>>>>>> 477ee8ab094f306a06e6ef18526d5b2bc95daed1
 router.get('/dashboard', protect, staffAndAbove, miscCtrl.getDashboardKPIs);
 
 // Investisseurs

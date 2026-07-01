@@ -104,7 +104,7 @@ import BookDetailPage from './pages/BookDetails';
 import ContactPage from './pages/ContactPage';
 import EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetaills';
-import ContentManage from './pages/admin/conti';
+import ContentManage from './pages/admin/cons';
 
 // coté admin
 import AdminLayout from './pages/admin/adminLayout';

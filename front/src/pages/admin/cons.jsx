@@ -615,6 +615,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const scrollRef = useRef(null);
+  const [selectedLang, setSelectedLang] = useState('fr');
 
   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
 
@@ -731,87 +732,99 @@ function ContentTab({ selectedPage, onPageChange }) {
   const currentBlocks = PAGE_BLOCKS[selectedPage] ?? [];
 
   const renderBlock = (blockDef) => {
-    const { key, label, type, schema, hint, translatable } = blockDef;
-    const block = contentBlocks[key];
-    const textVal = block?.valeur_texte ?? '';
-    const mediaVal = block?.media_url ?? '';
-    const dispVal = type === 'image' ? (mediaVal || textVal) :
-                   type === 'json' ? (typeof textVal === 'object' ? textVal : null) : textVal;
+  const { key, label, type, schema, hint, translatable } = blockDef;
+  const block = contentBlocks[key];
+  const textVal = block?.valeur_texte ?? '';
+  const mediaVal = block?.media_url ?? '';
+  
+  // 🔥 Pour l'affichage, on prend la bonne langue
+  let displayValue = textVal;
+  if (translatable && typeof textVal === 'object' && textVal !== null) {
+    displayValue = textVal[selectedLang] || textVal['fr'] || '';
+  }
+  
+  const dispVal = type === 'image' ? (mediaVal || textVal) :
+                 type === 'json' ? (typeof textVal === 'object' ? textVal : null) : displayValue;
 
-    return (
-      <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
-        style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
-                {label}
-                {translatable && (
-                  <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
-                    🌍 FR/EN
-                  </span>
-                )}
-                {block?.dirty && (
-                  <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
-                    style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
-                    modifié
-                  </span>
-                )}
-              </label>
-            </div>
-            {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
+  return (
+    <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
+      style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
+              {label}
+              {translatable && (
+                <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
+                  🌍 {selectedLang === 'fr' ? 'FR' : 'EN'}
+                </span>
+              )}
+              {block?.dirty && (
+                <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
+                  style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
+                  modifié
+                </span>
+              )}
+            </label>
           </div>
-          <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
+          {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
         </div>
-
-        {type === 'text' && (
-          translatable ? (
-            <MultilingualField
-              value={dispVal}
-              onChange={v => handleTextChange(key, v)}
-              type="text"
-              placeholder={hint}
-              label={label}
-            />
-          ) : (
-            <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
-          )
-        )}
-        
-        {type === 'textarea' && (
-          translatable ? (
-            <MultilingualField
-              value={dispVal}
-              onChange={v => handleTextChange(key, v)}
-              type="textarea"
-              placeholder={hint}
-              label={label}
-            />
-          ) : (
-            <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
-          )
-        )}
-        
-        {type === 'image' && (
-          <ImageField
-            value={dispVal}
-            onTextChange={v => handleTextChange(key, v)}
-            onUpload={url => handleMediaChange(key, url)}
-            placeholder={hint}
-          />
-        )}
-        
-        {type === 'json' && (
-          <JsonField
-            value={dispVal}
-            onChange={v => handleTextChange(key, v)}
-            schema={schema}
-            placeholder={hint}
-          />
-        )}
+        <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
       </div>
-    );
-  };
+
+      {type === 'text' && (
+        translatable ? (
+          // 🔥 PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
+          <MultilingualField
+            value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+            onChange={v => handleTextChange(key, v)}
+            type="text"
+            placeholder={hint}
+            label={label}
+            activeLang={selectedLang}
+            onLangChange={setSelectedLang}
+          />
+        ) : (
+          <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+        )
+      )}
+      
+      {type === 'textarea' && (
+        translatable ? (
+          <MultilingualField
+            value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+            onChange={v => handleTextChange(key, v)}
+            type="textarea"
+            placeholder={hint}
+            label={label}
+            activeLang={selectedLang}
+            onLangChange={setSelectedLang}
+          />
+        ) : (
+          <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+        )
+      )}
+      
+      {type === 'image' && (
+        <ImageField
+          value={dispVal}
+          onTextChange={v => handleTextChange(key, v)}
+          onUpload={url => handleMediaChange(key, url)}
+          placeholder={hint}
+        />
+      )}
+      
+      {type === 'json' && (
+        <JsonField
+          value={textVal}
+          onChange={v => handleTextChange(key, v)}
+          schema={schema}
+          placeholder={hint}
+        />
+      )}
+    </div>
+  );
+};
 
   return (
     <div className="space-y-5">
