@@ -92,7 +92,34 @@ router.put('/content/:id',           protect, adminOnly, miscCtrl.upsertContentB
 router.delete('/content/:page_slug/:bloc_key', protect, adminOnly, miscCtrl.deleteContentBlockByKey);
 router.delete('/content/:id', protect, adminOnly, miscCtrl.deleteContentBlock);
 // Reset theme to default
+
+// Reset theme to default - Supprime TOUS les thèmes
+// Reset theme to default - Supprime TOUS les thèmes (global + toutes les pages)
 router.post('/theme/reset', protect, adminOnly, async (req, res) => {
+  try {
+    const { query } = await import('../config/database.js');
+    
+    // 🔥 SUPPRIMER TOUS LES THÈMES SANS CONDITION
+    const result = await query(
+      "DELETE FROM content_blocks WHERE bloc_key IN ('_global_theme', '_theme') RETURNING page_slug, bloc_key"
+    );
+    
+    console.log(`🗑️ ${result.rows.length} thèmes supprimés:`, result.rows);
+    
+    res.json({
+      status: 'success',
+      message: `${result.rows.length} thèmes supprimés`,
+      data: { deleted: result.rows }
+    });
+  } catch (error) {
+    console.error('Erreur reset thèmes:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message
+    });
+  }
+});
+router.post('/theme/reset2', protect, adminOnly, async (req, res) => {
   try {
     const { page_slug } = req.body;
 
