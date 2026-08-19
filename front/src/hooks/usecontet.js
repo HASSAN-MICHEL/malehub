@@ -23,7 +23,7 @@ export function useContent(pageSlug) {
         
         let textValue = b.valeur_texte ?? '';
         
-        // 🔥 SI LA VALEUR EST UN JSON STRINGIFIÉ, LA PARSER
+        //  SI LA VALEUR EST UN JSON STRINGIFIÉ, LA PARSER
         if (typeof textValue === 'string') {
           try {
             const parsed = JSON.parse(textValue);
@@ -55,7 +55,7 @@ export function useContent(pageSlug) {
   useEffect(() => { fetchBlocks(); }, [fetchBlocks]);
 
   /**
-   * 🔥 get(key, fallback) - Retourne la valeur dans la bonne langue
+   *  get(key, fallback) - Retourne la valeur dans la bonne langue
    * Si la valeur est un objet {fr, en}, retourne la langue actuelle
    * Sinon retourne la valeur telle quelle
    */
@@ -66,7 +66,7 @@ export function useContent(pageSlug) {
       
       let value = b.text;
       
-      // 🔥 Si la valeur est un objet multilingue
+      //  Si la valeur est un objet multilingue
       if (value && typeof value === 'object' && !Array.isArray(value)) {
         const currentLang = i18n.language || 'fr';
         return value[currentLang] || value['fr'] || fallback;
@@ -144,7 +144,7 @@ export function useContent(pageSlug) {
       
       const currentLang = i18n.language || 'fr';
       
-      // 🔥 Traduire chaque élément du tableau si nécessaire
+      //  Traduire chaque élément du tableau si nécessaire
       return data.map(item => {
         if (item && typeof item === 'object') {
           const translated = {};

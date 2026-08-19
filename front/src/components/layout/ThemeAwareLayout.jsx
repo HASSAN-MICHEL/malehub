@@ -28,7 +28,7 @@
 //       pageSlug = 'library';
 //     }
     
-//     console.log(`🔄 Changement de page: ${path} -> ${pageSlug}`);
+//     console.log(` Changement de page: ${path} -> ${pageSlug}`);
 //     loadThemeForPage(pageSlug);
 //   }, [location, loadThemeForPage]);
 
@@ -70,9 +70,9 @@ export const ThemeAwareLayout = ({ children }) => {
       return;
     }
 
-    // 🔥 ÉVITER LES APPELS EN BOUCLE : ne charger que si la page a changé
+    //  ÉVITER LES APPELS EN BOUCLE : ne charger que si la page a changé
     if (lastLoadedPage.current !== pageSlug) {
-      console.log(`🔄 Chargement du thème pour: ${pageSlug}`);
+      console.log(` Chargement du thème pour: ${pageSlug}`);
       lastLoadedPage.current = pageSlug;
       loadThemeForPage(pageSlug);
     }

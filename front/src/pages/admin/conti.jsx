@@ -1045,7 +1045,7 @@ const resetToDefault = async () => {
 
   setSaving(true);
   try {
-    // 🔥 SUPPRIMER TOUS LES THÈMES - pas besoin de page_slug
+    //  SUPPRIMER TOUS LES THÈMES - pas besoin de page_slug
     const result = await contentAPI.resetTheme();
     console.log('🗑️ Tous les thèmes supprimés:', result.data);
 <<<<<<< HEAD
@@ -1054,12 +1054,12 @@ const resetToDefault = async () => {
 
 >>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
 
-    // 🔥 RÉINITIALISER L'ÉTAT LOCAL
+    //  RÉINITIALISER L'ÉTAT LOCAL
     setTheme({ ...defaultTheme, dirty: false });
     setIsGlobal(true);
     showToast('Thème réinitialisé aux valeurs par défaut ✓');
 
-    // 🔥 RECHARGER LE THÈME DANS L'ADMIN
+    //  RECHARGER LE THÈME DANS L'ADMIN
     await fetchTheme();
 
   } catch (err) {

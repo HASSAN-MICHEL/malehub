@@ -537,7 +537,7 @@ function MultilingualField({ value, onChange, type, placeholder, label, activeLa
   // Utiliser la langue sélectionnée globalement
   const currentLang = activeLang || 'fr';
 
-  // 🔥 CORRECTION : Récupérer la valeur pour la langue courante
+  //  CORRECTION : Récupérer la valeur pour la langue courante
   const getValue = () => {
     if (value && typeof value === 'object' && !Array.isArray(value)) {
       return value[currentLang] || '';
@@ -753,7 +753,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   const textVal = block?.valeur_texte ?? '';
   const mediaVal = block?.media_url ?? '';
   
-  // 🔥 Pour l'affichage, on prend la bonne langue
+  //  Pour l'affichage, on prend la bonne langue
   let displayValue = textVal;
   if (translatable && typeof textVal === 'object' && textVal !== null) {
     displayValue = textVal[selectedLang] || textVal['fr'] || '';
@@ -790,7 +790,7 @@ function ContentTab({ selectedPage, onPageChange }) {
 
       {type === 'text' && (
         translatable ? (
-          // 🔥 PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
+          //  PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
           <MultilingualField
             value={textVal}  // ← ici on passe l'objet complet, pas dispVal
             onChange={v => handleTextChange(key, v)}
@@ -845,7 +845,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   return (
     <div className="space-y-5">
 
-         {/* 🔥 SÉLECTEUR DE LANGUE GLOBAL */}
+         {/*  SÉLECTEUR DE LANGUE GLOBAL */}
     <div className="flex items-center gap-3 p-3 rounded-lg border" 
          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
       <Languages className="h-4 w-4" style={{ color: 'var(--muted-foreground)' }} />

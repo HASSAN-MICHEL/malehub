@@ -41,14 +41,14 @@
 //   const isResetInProgress = useRef(false);
 //   const themeVersionRef = useRef(0);
 
-//   // 🔥 FORCER L'APPLICATION DU THÈME PAR DÉFAUT IMMÉDIATEMENT
+//   //  FORCER L'APPLICATION DU THÈME PAR DÉFAUT IMMÉDIATEMENT
 //   const applyDefaultTheme = () => {
 //     console.log('🎨 Application du thème par défaut immédiat');
 //     setVisualTheme({ ...DEFAULT_THEME });
 //     applyThemeToDOM(DEFAULT_THEME);
 //   };
 
-//   // 🔥 NETTOYER COMPLÈTEMENT LE CACHE
+//   //  NETTOYER COMPLÈTEMENT LE CACHE
 //   const clearAllThemeCache = () => {
 //     try {
 //       const keys = Object.keys(localStorage);
@@ -96,15 +96,15 @@
 //         return;
 //       }
 //     } else {
-//       console.log(`🔄 Rechargement forcé du thème pour: ${pageSlug} (v${themeVersionRef.current + 1})`);
+//       console.log(` Rechargement forcé du thème pour: ${pageSlug} (v${themeVersionRef.current + 1})`);
 //       // Réinitialiser l'état pour permettre un rechargement
 //       setInitialized(false);
 //       currentPageRef.current = null;
       
-//       // 🔥 NETTOYER LE CACHE AVANT DE CHARGER
+//       //  NETTOYER LE CACHE AVANT DE CHARGER
 //       clearAllThemeCache();
       
-//       // 🔥 APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT POUR ÉVITER LE FLASH
+//       //  APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT POUR ÉVITER LE FLASH
 //       applyDefaultTheme();
       
 //       // Attendre que le DOM se mette à jour
@@ -117,7 +117,7 @@
 //     try {
 //       console.log(`📦 Chargement du thème pour: ${pageSlug}`);
 
-//       // 🔥 AJOUTER UN TIMESTAMP POUR ÉVITER LE CACHE HTTP
+//       //  AJOUTER UN TIMESTAMP POUR ÉVITER LE CACHE HTTP
 //       const timestamp = Date.now();
       
 //       let globalTheme = {};
@@ -154,7 +154,7 @@
 //         console.warn('Erreur chargement thème page:', e.message);
 //       }
 
-//       // 🔥 SI AUCUN THÈME N'EST TROUVÉ, UTILISER DEFAULT_THEME
+//       //  SI AUCUN THÈME N'EST TROUVÉ, UTILISER DEFAULT_THEME
 //       let mergedTheme;
 //       if (!hasGlobalTheme && !hasPageTheme) {
 //         console.log('📌 Aucun thème trouvé, utilisation du thème par défaut');
@@ -185,7 +185,7 @@
 //     }
 //   };
 
-//   // 🔥 MÉTHODE : Réinitialiser le thème
+//   //  MÉTHODE : Réinitialiser le thème
 //   const resetTheme = async (pageSlug) => {
 //     if (isResetInProgress.current) {
 //       console.log('⏳ Réinitialisation déjà en cours');
@@ -193,13 +193,13 @@
 //     }
 
 //     isResetInProgress.current = true;
-//     console.log(`🔄 RÉINITIALISATION COMPLÈTE du thème pour: ${pageSlug}`);
+//     console.log(` RÉINITIALISATION COMPLÈTE du thème pour: ${pageSlug}`);
 
 //     try {
-//       // 1. 🔥 NETTOYER TOUT LE CACHE
+//       // 1.  NETTOYER TOUT LE CACHE
 //       clearAllThemeCache();
       
-//       // 2. 🔥 APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT
+//       // 2.  APPLIQUER LE THÈME PAR DÉFAUT IMMÉDIATEMENT
 //       applyDefaultTheme();
       
 //       // 3. Réinitialiser les références
@@ -214,9 +214,9 @@
 
 //       console.log('✅ Thème réinitialisé avec succès');
       
-//       // 6. 🔥 FORCER UN DEUXIÈME RAFFRAÎCHISSEMENT APRÈS 500ms
+//       // 6.  FORCER UN DEUXIÈME RAFFRAÎCHISSEMENT APRÈS 500ms
 //       setTimeout(() => {
-//         console.log('🔄 Second rafraîchissement du thème');
+//         console.log(' Second rafraîchissement du thème');
 //         applyThemeToDOM(visualTheme);
 //       }, 500);
 
@@ -289,11 +289,11 @@
 //     }
 //   }, [initialized]);
 
-//   // 🔥 ÉCOUTER LES CHANGEMENTS DE STORAGE
+//   //  ÉCOUTER LES CHANGEMENTS DE STORAGE
 //   useEffect(() => {
 //     const handleStorageChange = (event) => {
 //       if (event.key === 'theme_reset' || event.key === 'theme_updated') {
-//         console.log('🔄 Détection d\'un changement de thème via localStorage:', event.key);
+//         console.log(' Détection d\'un changement de thème via localStorage:', event.key);
         
 //         const path = window.location.pathname;
 //         let pageSlug = 'home';
@@ -316,7 +316,7 @@
 //           pageSlug = 'library';
 //         }
         
-//         // 🔥 FORCER LE REBOOT COMPLET
+//         //  FORCER LE REBOOT COMPLET
 //         setTimeout(() => {
 //           resetTheme(pageSlug);
 //         }, 100);
@@ -325,10 +325,10 @@
 
 //     window.addEventListener('storage', handleStorageChange);
     
-//     // 🔥 ÉCOUTER AUSSI LES MESSAGES POST (pour communication inter-onglets)
+//     //  ÉCOUTER AUSSI LES MESSAGES POST (pour communication inter-onglets)
 //     const handleMessage = (event) => {
 //       if (event.data?.type === 'THEME_RESET') {
-//         console.log('🔄 Réinitialisation du thème détectée via BroadcastChannel');
+//         console.log(' Réinitialisation du thème détectée via BroadcastChannel');
 //         const path = window.location.pathname;
 //         let pageSlug = 'home';
 //         // ... même logique que ci-dessus
@@ -424,12 +424,12 @@ function applyThemeToDOM(theme) {
     root.style.setProperty(cssVar, value);
   });
 
-  root.style.setProperty('--primary', theme.primaryColor);
-  root.style.setProperty('--background', theme.backgroundColor);
-  root.style.setProperty('--foreground', theme.foregroundColor);
-  root.style.setProperty('--card', theme.cardColor);
-  root.style.setProperty('--border', theme.borderColor);
-  root.style.setProperty('--secondary', theme.secondaryColor);
+  // root.style.setProperty('--primary', theme.primaryColor);
+  // root.style.setProperty('--background', theme.backgroundColor);
+  // root.style.setProperty('--foreground', theme.foregroundColor);
+  // root.style.setProperty('--card', theme.cardColor);
+  // root.style.setProperty('--border', theme.borderColor);
+  // root.style.setProperty('--secondary', theme.secondaryColor);
 
   if (theme.fontBody) document.body.style.fontFamily = theme.fontBody;
   if (theme.backgroundColor) document.body.style.backgroundColor = theme.backgroundColor;

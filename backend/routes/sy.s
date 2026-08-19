@@ -91,7 +91,7 @@ router.post('/theme/reset', protect, adminOnly, async (req, res) => {
   try {
     const { query } = await import('../config/database.js');
     
-    // 🔥 SUPPRIMER TOUS LES THÈMES SANS CONDITION
+    //  SUPPRIMER TOUS LES THÈMES SANS CONDITION
     const result = await query(
       "DELETE FROM content_blocks WHERE bloc_key IN ('_global_theme', '_theme') RETURNING page_slug, bloc_key"
     );
