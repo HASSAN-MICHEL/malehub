@@ -269,13 +269,22 @@ const PAGE_BLOCKS = {
     { key: 'cta_description', label: 'Description CTA', type: 'textarea', hint: 'Contactez-nous pour organiser votre événement à Malea Hub', translatable: true },
     { key: 'cta_button', label: 'Texte bouton CTA', type: 'text', hint: "Contacter l'équipe", translatable: true },
   ],
-  // NOTE : la page "contact" n'a volontairement aucun bloc ici. ContactPage.jsx
-  // n'utilise pas useContent()/le ContentManager : ses textes viennent des
-  // fichiers de traduction i18n (t('contact...')), pas de la base de contenu.
-  // C'est donc normal qu'elle affiche "0 bloc(s) pour cette page".
+  
 };
 
-// ── COMPOSANTS UI ──────────────────────────────────────────────────────────────
+const SETTINGS_CONFIG = {
+  whatsapp_general: { label: 'WhatsApp général', type: 'tel', hint: 'Ex: 237678111022' },
+  whatsapp_reservations: { label: 'WhatsApp Réservations', type: 'tel', hint: 'Numéro pour les réservations' },
+  whatsapp_investors: { label: 'WhatsApp Investisseurs', type: 'tel', hint: 'Numéro pour les investisseurs' },
+  address: { label: 'Adresse du hub', type: 'text', hint: 'Bonapriso, Rue Koloko - Douala' },
+  email: { label: 'Email de contact', type: 'email', hint: 'info@maleahub.com' },
+  instagram: { label: 'Instagram (@handle)', type: 'text', hint: '@maleahub' },
+  jobs_week_open: { label: 'Jobs Week ouvert', type: 'checkbox', hint: 'Activer les inscriptions' },
+  jobs_week_price: { label: 'Prix Jobs Week (FCFA)', type: 'number', hint: '30000' },
+  jobs_week_quota: { label: 'Quota de places', type: 'number', hint: '10' },
+  maintenance_mode: { label: 'Mode maintenance', type: 'checkbox', hint: 'Désactive le site public' },
+};
+
 
 const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 const iCls = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors text-sm md:text-base';
@@ -651,9 +660,7 @@ function Toast({ message, type, onClose }) {
     </div>
   );
 }
-
-// ── CHAMP MULTILINGUE ──────────────────────────────────────────────────────────
-// ── CHAMP MULTILINGUE ──────────────────────────────────────────────────────────
+// pour mes champs multilignes
 
 function MultilingualField({ value, onChange, type, placeholder, label, activeLang, onLangChange }) {
   // Utiliser la langue sélectionnée globalement
