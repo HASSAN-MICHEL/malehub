@@ -2776,6 +2776,425 @@ function ThemeTab({ selectedPage, onPageChange }) {
   );
 }
 
+function TeamTab() {
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+  const freshMember = { nom: '', role: '', image_url: '', bio: '', actif: true, ordre: 0 };
+
+  const fetchAll = async () => {
+    setLoading(true);
+    try {
+      const res = await adminTeamAPI.getAll();
+      setMembers(res.data?.data?.members ?? res.data?.members ?? []);
+    } catch { showToast('Erreur chargement', 'error'); }
+    finally { setLoading(false); }
+  };
+
+  useEffect(() => { fetchAll(); }, []);
+
+  const handleSave = async () => {
+    if (!editing?.nom || !editing?.role) { showToast('Nom et rôle requis', 'error'); return; }
+    setSaving(true);
+    try {
+      const payload = {
+        nom: editing.nom,
+        role: editing.role,
+        image_url: editing.image_url || null,
+        bio: editing.bio || null,
+        actif: editing.actif !== false,
+        ordre: Number(editing.ordre) || 0,
+      };
+      if (editing.id) {
+        await adminTeamAPI.update(editing.id, payload);
+        showToast('Membre mis à jour ✓');
+      } else {
+        await adminTeamAPI.create(payload);
+        showToast('Membre créé ✓');
+      }
+      setEditing(null);
+      fetchAll();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Erreur', 'error');
+    } finally { setSaving(false); }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Supprimer ce membre ?')) return;
+    try {
+      await adminTeamAPI.delete(id);
+      showToast('Membre supprimé');
+      fetchAll();
+    } catch { showToast('Erreur', 'error'); }
+  };
+
+  const handleToggle = async (m) => {
+    try {
+      await adminTeamAPI.update(m.id, { actif: !m.actif });
+      fetchAll();
+    } catch { showToast('Erreur', 'error'); }
+  };
+
+  const previewSrc = (url) => url
+    ? (url.startsWith('https') ? url : `${'/api'}${url}`)
+    : null;
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Notre Équipe</h2>
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Membres affichés sur la page Annonces & Équipe</p>
+        </div>
+        <button onClick={() => setEditing({ ...freshMember })}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold"
+          style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+          <Plus className="h-4 w-4" /> Ajouter un membre
+        </button>
+      </div>
+
+      {editing && (
+        <div className="rounded-xl border p-6 space-y-4"
+          style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--primary) 40%, transparent)' }}>
+          <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>
+            {editing.id ? 'Modifier le membre' : 'Nouveau membre'}
+          </h3>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Nom *</label>
+              <TextField value={editing.nom} onChange={v => setEditing(p => ({ ...p, nom: v }))} />
+            </div>
+            <div>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Rôle / Poste *</label>
+              <TextField value={editing.role} placeholder="Ex: Fondateur & CEO"
+                onChange={v => setEditing(p => ({ ...p, role: v }))} />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Photo</label>
+            <ImageField
+              value={editing.image_url || ''}
+              onTextChange={v => setEditing(p => ({ ...p, image_url: v }))}
+              onUpload={url => setEditing(p => ({ ...p, image_url: url }))}
+              placeholder="URL ou upload d'une photo"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Bio (optionnel)</label>
+            <TextareaField value={editing.bio || ''} placeholder="Courte biographie..."
+              onChange={v => setEditing(p => ({ ...p, bio: v }))} />
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Ordre d'affichage</label>
+              <NumberField value={editing.ordre || 0} onChange={v => setEditing(p => ({ ...p, ordre: v }))} />
+            </div>
+            <div className="flex items-end pb-1">
+              <CheckboxField value={String(editing.actif !== false)} label="Visible sur le site"
+                onChange={v => setEditing(p => ({ ...p, actif: v === 'true' }))} />
+            </div>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button onClick={handleSave} disabled={saving}
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              <Save className="h-4 w-4" /> {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+            </button>
+            <button onClick={() => setEditing(null)}
+              className="px-5 py-2 rounded-lg text-sm border"
+              style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
+              Annuler
+            </button>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" /></div>
+      ) : members.length === 0 ? (
+        <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+          <Users className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
+          <p style={{ color: 'var(--muted-foreground)' }}>Aucun membre. Ajoutez votre équipe !</p>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {members.map(m => (
+            <div key={m.id} className="rounded-xl border overflow-hidden text-center p-4"
+              style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', opacity: m.actif ? 1 : 0.6 }}>
+              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3 border-2"
+                style={{ borderColor: 'color-mix(in oklch, var(--primary) 40%, transparent)' }}>
+                {m.image_url ? (
+                  <img src={previewSrc(m.image_url)} alt={m.nom} className="w-full h-full object-cover"
+                    onError={e => { e.currentTarget.src = 'https://via.placeholder.com/80?text=👤'; }} />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-2xl"
+                    style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>👤</div>
+                )}
+              </div>
+              <h3 className="font-semibold text-sm" style={{ color: 'var(--foreground)' }}>{m.nom}</h3>
+              <p className="text-xs mt-0.5 mb-3" style={{ color: 'var(--primary)' }}>{m.role}</p>
+              <div className="flex items-center gap-1.5 justify-center">
+                <button onClick={() => setEditing({ ...m })}
+                  className="flex-1 py-1.5 rounded-lg border text-xs"
+                  style={{ borderColor: 'var(--border)', color: 'var(--foreground)' }}>
+                  Modifier
+                </button>
+                <button onClick={() => handleToggle(m)} className="p-1.5 rounded-lg border"
+                  style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
+                  {m.actif ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                </button>
+                <button onClick={() => handleDelete(m.id)}
+                  className="p-1.5 rounded-lg border border-red-200 text-red-500">
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </div>
+  );
+}
+
+function SettingsTab() {
+  const [settings, setSettings] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+
+  const fetchSettings = async () => {
+    setLoading(true);
+    try {
+      const res = await settingsAPI.getAll();
+      const arr = res.data?.data?.settings ?? res.data?.settings ?? [];
+      const map = {};
+      arr.forEach(s => { map[s.cle] = { ...s, dirty: false }; });
+      setSettings(map);
+    } catch { showToast('Erreur chargement', 'error'); }
+    finally { setLoading(false); }
+  };
+
+  useEffect(() => { fetchSettings(); }, []);
+
+  const handleChange = (cle, valeur) => {
+    setSettings(prev => ({ ...prev, [cle]: { cle, ...prev[cle], valeur, dirty: true } }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    let errors = 0;
+    const dirty = Object.entries(settings).filter(([, s]) => s.dirty);
+    await Promise.all(dirty.map(async ([cle, s]) => {
+      try { await settingsAPI.update(cle, s.valeur); }
+      catch { errors++; }
+    }));
+    setSaving(false);
+    if (errors === 0) { showToast('Paramètres sauvegardés ✓'); fetchSettings(); }
+    else showToast(`${errors} erreur(s)`, 'error');
+  };
+
+  const hasDirty = Object.values(settings).some(s => s.dirty);
+
+  const renderSetting = (cle, config) => {
+    const s = settings[cle];
+    const val = s?.valeur ?? '';
+    return (
+      <div key={cle}>
+        {config.type !== 'checkbox' && (
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>
+            {config.label}
+            {config.hint && <span className="ml-2 text-xs font-normal" style={{ color: 'var(--muted-foreground)' }}>{config.hint}</span>}
+            {s?.dirty && <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>modifié</span>}
+          </label>
+        )}
+        {config.type === 'text' && <TextField value={val} onChange={v => handleChange(cle, v)} placeholder={config.hint} />}
+        {config.type === 'email' && <EmailField value={val} onChange={v => handleChange(cle, v)} placeholder={config.hint} />}
+        {config.type === 'tel' && <TelField value={val} onChange={v => handleChange(cle, v)} placeholder={config.hint} />}
+        {config.type === 'number' && <NumberField value={val} onChange={v => handleChange(cle, v)} placeholder={config.hint} />}
+        {config.type === 'checkbox' && (
+          <div className="flex items-center justify-between">
+            <CheckboxField value={val} label={config.label} onChange={v => handleChange(cle, v)} />
+            {s?.dirty && <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>modifié</span>}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const groups = [
+    { title: 'Contact & WhatsApp', keys: ['whatsapp_general', 'whatsapp_reservations', 'whatsapp_investors', 'address', 'email', 'instagram'] },
+    { title: 'Jobs Week', keys: ['jobs_week_open', 'jobs_week_price', 'jobs_week_quota'] },
+    { title: 'Système', keys: ['maintenance_mode'] },
+  ];
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Paramètres du site</h2>
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>WhatsApp, tarifs, mode maintenance…</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={fetchSettings} disabled={loading}
+            className="p-2 rounded-lg border hover:opacity-80"
+            style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}>
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+          <button onClick={handleSave} disabled={saving || !hasDirty}
+            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+            style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+            <Save className="h-4 w-4" /> {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+          </button>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" /></div>
+      ) : (
+        <div className="space-y-5">
+          {groups.map(g => (
+            <div key={g.title} className="rounded-xl p-5 border space-y-4"
+              style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+              <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>{g.title}</h3>
+              {g.keys.map(cle => SETTINGS_CONFIG[cle] ? renderSetting(cle, SETTINGS_CONFIG[cle]) : null)}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </div>
+  );
+}
+
+// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+
+function NewsletterTab() {
+  const [subscribers, setSubscribers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
+  const [total, setTotal] = useState(0);
+  const [sending, setSending] = useState(false);
+  const [emailForm, setEmailForm] = useState({ subject: '', content: '' });
+
+  const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+
+  const fetchSubscribers = async () => {
+    setLoading(true);
+    try {
+      const res = await adminApi.get('/system/newsletter/subscribers');
+      setSubscribers(res.data?.data?.subscribers || []);
+      const countRes = await adminApi.get('/system/newsletter/count');
+      setTotal(countRes.data?.data?.total || 0);
+    } catch { showToast('Erreur chargement', 'error'); }
+    finally { setLoading(false); }
+  };
+
+  useEffect(() => { fetchSubscribers(); }, []);
+
+  const exportSubscribers = () => {
+    const csv = [['Email', "Date d'inscription"], ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])].map(row => row.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `newsletter-subscribers-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleSendNewsletter = async (e) => {
+    e.preventDefault();
+    if (!emailForm.subject || !emailForm.content) { showToast('Veuillez remplir le sujet et le contenu', 'error'); return; }
+    if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
+    setSending(true);
+    try {
+      const res = await adminApi.post('/system/newsletter/send', { subject: emailForm.subject, content: emailForm.content, isHtml: false });
+      showToast(res.data?.message || 'Newsletter envoyée avec succès !');
+      setEmailForm({ subject: '', content: '' });
+    } catch (error) { showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error'); }
+    finally { setSending(false); }
+  };
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Newsletter</h2>
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{total} abonné(s) actif(s)</p>
+        </div>
+        <button onClick={exportSubscribers} disabled={subscribers.length === 0}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+          style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+          Exporter CSV
+        </button>
+      </div>
+
+      <div className="rounded-xl border p-6 space-y-4" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+        <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Envoyer une newsletter</h3>
+        <form onSubmit={handleSendNewsletter} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet *</label>
+            <input type="text" value={emailForm.subject} onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+              placeholder="Ex: Nouveaux événements chez Malea Hub"
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message *</label>
+            <textarea value={emailForm.content} onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
+              rows={10} placeholder="Bonjour,..."
+              className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button type="submit" disabled={sending || total === 0}
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              {sending ? <>Envoi en cours...</> : <>Envoyer à {total} abonné(s)</>}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
+      ) : subscribers.length === 0 ? (
+        <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+          <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
+          <p style={{ color: 'var(--muted-foreground)' }}>Aucun abonné pour le moment.</p>
+        </div>
+      ) : (
+        <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
+          <table className="w-full text-sm">
+            <thead style={{ backgroundColor: 'var(--muted)' }}>
+              <tr><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th></tr>
+            </thead>
+            <tbody>
+              {subscribers.map((sub) => (
+                <tr key={sub.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
+                  <td className="p-3" style={{ color: 'var(--foreground)' }}>{sub.email}</td>
+                  <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>{new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </div>
+  );
+}
+
 // ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
 
 export default function ContentManage() {
