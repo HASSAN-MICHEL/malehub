@@ -2,7 +2,7 @@
 
 
 
-// front/src/pages/admin/contentManager.jsx
+//contentManager.jsx
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   Save, Upload, X, CheckCircle, Mail, AlertCircle, RefreshCw,
@@ -901,7 +901,7 @@ function ContentTab({ selectedPage, onPageChange }) {
               {label}
               {translatable && (
                 <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
-                  🌍 {selectedLang === 'fr' ? 'FR' : 'EN'}
+                   {selectedLang === 'fr' ? 'FR' : 'EN'}
                 </span>
               )}
               {block?.dirty && (
@@ -1265,7 +1265,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
             Personnalisation visuelle
           </h2>
           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-            {isGlobal ? '🌍 Thème global (appliqué à toutes les pages)' : `📄 Thème spécifique à ${PAGES.find(p => p.slug === selectedPage)?.name}`}
+            {isGlobal ? ' Thème global (appliqué à toutes les pages)' : `📄 Thème spécifique à ${PAGES.find(p => p.slug === selectedPage)?.name}`}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -1278,7 +1278,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
               borderColor: isGlobal ? 'var(--primary)' : 'var(--border)',
             }}
           >
-            🌍 Global
+             Global
           </button>
           <button
             onClick={switchToPage}

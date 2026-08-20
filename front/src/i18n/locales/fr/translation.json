@@ -225,7 +225,7 @@
   "form": {
     "title": "Envoyez un message",
     "name_label": "Nom complet",
-    "name_placeholder": "John Doe",
+    "name_placeholder": "Votre nom .....",
     "email_label": "Adresse Email",
     "email_placeholder": "john@example.com",
     "subject_label": "Objet",

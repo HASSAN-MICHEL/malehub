@@ -129,9 +129,9 @@
 //         if (globalThemeBlock?.valeur_texte) {
 //           globalTheme = JSON.parse(globalThemeBlock.valeur_texte);
 //           hasGlobalTheme = true;
-//           console.log('🌍 Thème global chargé:', globalTheme);
+//           console.log(' Thème global chargé:', globalTheme);
 //         } else {
-//           console.log('🌍 Aucun thème global trouvé');
+//           console.log(' Aucun thème global trouvé');
 //         }
 //       } catch (e) {
 //         console.warn('Erreur chargement thème global:', e.message);

@@ -230,7 +230,7 @@
   "form": {
     "title": "Send a message",
     "name_label": "Full name",
-    "name_placeholder": "John Doe",
+    "name_placeholder": "Your name",
     "email_label": "Email address",
     "email_placeholder": "john@example.com",
     "subject_label": "Subject",
