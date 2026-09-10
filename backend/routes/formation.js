@@ -11,7 +11,7 @@ import {
 
 const router = Router();
 
-// ── Public ────────────────────────────────────────────────────────────────────
+// ── Public ────
 router.get('/',     formCtrl.getAllFormations);
 router.get('/:id',  formCtrl.getFormationById);
 

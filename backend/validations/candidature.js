@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-// ── Candidatures ──────────────────────────────────────────────────────────────
+// ── Candidatures ───────
 export const createCandidatureSchema = Joi.object({
   nom:         Joi.string().min(2).max(150).required(),
   email:       Joi.string().email().required(),
@@ -16,7 +16,7 @@ export const updateCandidatureSchema = Joi.object({
   notes:  Joi.string().allow('', null),
 }).min(1);
 
-// ── Projets Incubés ───────────────────────────────────────────────────────────
+// ── Projets Incubés ────
 export const createProjetIncubeSchema = Joi.object({
   candidature_id: Joi.string().uuid().required(),
   mentor_id:      Joi.string().uuid().allow(null),

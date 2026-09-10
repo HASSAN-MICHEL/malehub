@@ -21,7 +21,7 @@ router.get('/stats',  staffAndAbove, candCtrl.getCandidatureStats);
 router.get('/:id',    staffAndAbove, candCtrl.getCandidatureById);
 router.patch('/:id',  staffAndAbove, validate(updateCandidatureSchema), candCtrl.updateCandidature);
 
-// ── Projets Incubés ───────────────────────────────────────────────────────────
+// ── Projets Incubés ────
 router.get('/projets',       mentorAndAbove, candCtrl.getAllProjetsIncubes);
 router.get('/projets/:id',   mentorAndAbove, candCtrl.getProjetIncubeById);
 router.post('/projets',      staffAndAbove,  validate(createProjetIncubeSchema), candCtrl.createProjetIncube);

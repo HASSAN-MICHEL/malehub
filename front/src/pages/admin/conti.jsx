@@ -282,7 +282,7 @@ const SETTINGS_CONFIG = {
   maintenance_mode: { label: 'Mode maintenance', type: 'checkbox', hint: 'Désactive le site public' },
 };
 
-// ── COMPOSANTS UI ──────────────────────────────────────────────────────────────
+// ── COMPOSANTS UI ───────
 
 const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 const iCls = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors text-sm md:text-base';
@@ -679,7 +679,7 @@ function Toast({ message, type, onClose }) {
   );
 }
 
-// ── CONTENT TAB ────────────────────────────────────────────────────────────────
+// ── CONTENT TAB 
 
 function ContentTab({ selectedPage, onPageChange }) {
   const [contentBlocks, setContentBlocks] = useState({});
@@ -1286,7 +1286,7 @@ const resetToDefault = async () => {
   );
 }
 
-// ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// ── ANNOUNCEMENTS TAB ───
 
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
@@ -1488,7 +1488,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// ── TEAM TAB ──
 
 function TeamTab() {
   const [members, setMembers] = useState([]);
@@ -1676,7 +1676,7 @@ function TeamTab() {
   );
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// ── SETTINGS TAB ───────
 
 function SettingsTab() {
   const [settings, setSettings] = useState({});
@@ -1791,7 +1791,7 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// ── NEWSLETTER TAB ─────
 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
@@ -1911,7 +1911,7 @@ function NewsletterTab() {
   );
 }
 
-// ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
+// ── COMPOSANT PRINCIPAL ──
 
 export default function ContentManage() {
   const [activeTab, setActiveTab] = useState('content');

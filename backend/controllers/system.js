@@ -43,7 +43,7 @@
 //   sendSuccess(res, {}, 'Investisseur supprimé');
 // });
 
-// // ── Contacts ──────────────────────────────────────────────────────────────────
+// // ── Contacts ──
 // export const getAllContacts = asyncHandler(async (req, res) => {
 //   const { page, limit, offset } = buildPagination(req.query);
 //   const filters = { statut: req.query.statut, source: req.query.source };
@@ -96,7 +96,7 @@
 //   res.send(csv);
 // });
 
-// // ── Settings ──────────────────────────────────────────────────────────────────
+// // ── Settings ──
 // export const getAllSettings = asyncHandler(async (req, res) => {
 //   const { rows } = await SettingModel.findAll();
 //   sendSuccess(res, { settings: rows });
@@ -113,7 +113,7 @@
 //   sendSuccess(res, {}, 'Paramètre supprimé');
 // });
 
-// // ── Content Blocks ────────────────────────────────────────────────────────────
+// // ── Content Blocks ─────
 // export const getAllContentBlocks = asyncHandler(async (req, res) => {
 //   const { rows } = await ContentBlockModel.findAll({ page_slug: req.query.page_slug });
 //   sendSuccess(res, { blocks: rows });
@@ -130,7 +130,7 @@
 //   sendSuccess(res, {}, 'Bloc supprimé');
 // });
 
-// // ── Dashboard KPIs ────────────────────────────────────────────────────────────
+// // ── Dashboard KPIs ─────
 // import { query } from '../config/database.js';
 
 // export const getDashboardKPIs = asyncHandler(async (req, res) => {

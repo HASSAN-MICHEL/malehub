@@ -65,7 +65,7 @@ export const changePassword = asyncHandler(async (req, res) => {
   sendSuccess(res, {}, 'Mot de passe modifié avec succès');
 });
 
-// ── Admin : CRUD Users ────────────────────────────────────────────────────────
+// ── Admin : CRUD Users ─
 export const getUsers = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20, role, actif } = req.query;
   const offset = (page - 1) * limit;

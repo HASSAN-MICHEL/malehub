@@ -2,7 +2,7 @@ import { SalleModel, ReservationModel } from '../models/reservation.js';
 import { AppError, asyncHandler } from '../utils/Apperror.js';
 import { sendSuccess, sendCreated, sendPaginated, buildPagination } from '../utils/response.js';
 
-// ── Salles ────────────────────────────────────────────────────────────────────
+// ── Salles ────
 export const getAllSalles = asyncHandler(async (req, res) => {
   const { rows } = await SalleModel.findAll();
   sendSuccess(res, { salles: rows });
@@ -36,7 +36,7 @@ export const deleteSalle = asyncHandler(async (req, res) => {
   sendSuccess(res, {}, 'Salle supprimée');
 });
 
-// ── Réservations ──────────────────────────────────────────────────────────────
+// ── Réservations ───────
 export const getAllReservations = asyncHandler(async (req, res) => {
   const { page, limit, offset } = buildPagination(req.query);
   const filters = {

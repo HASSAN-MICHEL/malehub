@@ -42,7 +42,7 @@ export const getCandidatureStats = asyncHandler(async (req, res) => {
   sendSuccess(res, { total: +all.rows[0].count, byStatut: month.rows });
 });
 
-// ── Projets Incubés ───────────────────────────────────────────────────────────
+// ── Projets Incubés ────
 export const getAllProjetsIncubes = asyncHandler(async (req, res) => {
   const { page, limit, offset } = buildPagination(req.query);
   const filters = { statut: req.query.statut };

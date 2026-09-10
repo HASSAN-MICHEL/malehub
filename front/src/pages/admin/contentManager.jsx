@@ -108,7 +108,7 @@
 // //   { id: 'settings',      label: 'Paramètres',  icon: Settings },
 // // ];
 
-// // // ── Toast ─────────────────────────────────────────────────────────────────────
+// // // ── Toast ─────
 // // function Toast({ message, type, onClose }) {
 // //   useEffect(() => {
 // //     const t = setTimeout(onClose, 4500);
@@ -124,7 +124,7 @@
 // //   );
 // // }
 
-// // // ── Champs génériques ─────────────────────────────────────────────────────────
+// // // ── Champs génériques ──
 // // const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 // // const iCls   = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors';
 
@@ -1512,7 +1512,7 @@
 //   { id: 'settings',      label: 'Paramètres',  icon: Settings },
 // ];
 
-// // ── Toast ─────────────────────────────────────────────────────────────────────
+// // ── Toast ─────
 // function Toast({ message, type, onClose }) {
 //   useEffect(() => {
 //     const t = setTimeout(onClose, 4500);
@@ -1899,7 +1899,7 @@
 //   );
 // }
 
-// // ── Image Field ───────────────────────────────────────────────────
+// // ── Image Field ─────────
 // function ImageField({ value, onTextChange, onUpload, placeholder }) {
 //   const [uploading, setUploading] = useState(false);
 
@@ -2153,7 +2153,7 @@
 //   );
 // }
 
-// // ── SECTION : Gestion du thème ────────────────────────────────────────────────
+// // ── SECTION : Gestion du thème ──────
 // function ThemeTab({ selectedPage, onPageChange }) {
 //   const [theme, setTheme] = useState({});
 //   const [loading, setLoading] = useState(true);
@@ -2306,7 +2306,7 @@
 //   );
 // }
 
-// // ── SECTION : Annonces ────────────────────────────────────────────────────────
+// // ── SECTION : Annonces ─
 // function AnnouncementsTab() {
 //   const [announcements, setAnnouncements] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -2507,7 +2507,7 @@
 //   );
 // }
 
-// // ── SECTION : Équipe ──────────────────────────────────────────────────────────
+// // ── SECTION : Équipe ───
 // function TeamTab() {
 //   const [members, setMembers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -2694,7 +2694,7 @@
 //   );
 // }
 
-// // ── SECTION : Paramètres ──────────────────────────────────────────────────────
+// // ── SECTION : Paramètres ────────────
 // function SettingsTab() {
 //   const [settings, setSettings] = useState({});
 //   const [loading, setLoading] = useState(true);
@@ -2808,7 +2808,7 @@
 //   );
 // }
 
-// // ── SECTION : Newsletter ───────────────────────────────────────────────────────
+// // ── SECTION : Newsletter 
 // function NewsletterTab() {
 //   const [subscribers, setSubscribers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -2927,7 +2927,7 @@
 //   );
 // }
 
-// // ── Composant principal ────────────────────────────────────────────────────────
+// // ── Composant principal ─
 // export default function ContentManager() {
 //   const [activeTab, setActiveTab] = useState('content');
 //   const [selectedPage, setSelectedPage] = useState('home');
@@ -3381,7 +3381,7 @@ const PAGE_BLOCKS = {
   ],
 };
 
-// ── Composants UI améliorés ────────────────────────────────────────────────────
+// ── Composants UI améliorés ──────────
 
 const iStyle = { backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' };
 const iCls = 'w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 transition-colors text-sm md:text-base';
@@ -3541,7 +3541,7 @@ function SelectField({ value, onChange, options, placeholder }) {
   );
 }
 
-// ── JSON Field ──────────────────────────────────────────────────────────────────
+// ── JSON Field ──
 
 function JsonField({ value, onChange, schema, placeholder }) {
   const [isValid, setIsValid] = useState(true);
@@ -3711,7 +3711,7 @@ const examples = {
   );
 }
 
-// ── Image Field ──────────────────────────────────────────────────────────────────
+// ── Image Field ──
 
 function ImageField({ value, onTextChange, onUpload, placeholder }) {
   const [uploading, setUploading] = useState(false);
@@ -3783,7 +3783,7 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
   );
 }
 
-// ── Toast ──────────────────────────────────────────────────────────────────────
+// ── Toast ──────
 
 function Toast({ message, type, onClose }) {
   useEffect(() => {
@@ -3800,7 +3800,7 @@ function Toast({ message, type, onClose }) {
   );
 }
 
-// ── CONTENT TAB ─────────────────────────────────────────────────────────────────
+// ── CONTENT TAB ─
 
 function ContentTab({ selectedPage, onPageChange }) {
   const [contentBlocks, setContentBlocks] = useState({});
@@ -4119,7 +4119,7 @@ function ContentTab({ selectedPage, onPageChange }) {
 }
 
 // ── SECTION
-// ── THEME TAB ──────────────────────────────────────────────────────────────────
+// ── THEME TAB ──
 
 // >>>>>>> f1fd0f54b3ec8b049c35d7f50449e959cbc648a1
 function ThemeTab({ selectedPage, onPageChange }) {
@@ -4294,7 +4294,7 @@ function AnnouncementsTab() {
 // ... (gardez vos implémentations existantes pour ces tabs)
 // >>>>>>> f1fd0f54b3ec8b049c35d7f50449e959cbc648a1
 
-// ── COMPOSANT PRINCIPAL ────────────────────────────────────────────────────────
+// ── COMPOSANT PRINCIPAL ─
 
 // <<<<<<< HEAD
   const fetchAll = async () => {
@@ -4487,7 +4487,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── SECTION : Équipe ──────────────────────────────────────────────────────────
+// ── SECTION : Équipe ───
 function TeamTab() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -4674,7 +4674,7 @@ function TeamTab() {
   );
 }
 
-// ── SECTION : Paramètres ──────────────────────────────────────────────────────
+// ── SECTION : Paramètres ────────────
 function SettingsTab() {
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -4788,7 +4788,7 @@ function SettingsTab() {
   );
 }
 
-// ── SECTION : Newsletter ───────────────────────────────────────────────────────
+// ── SECTION : Newsletter 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -4907,7 +4907,7 @@ function NewsletterTab() {
   );
 }
 
-// ── Composant principal ────────────────────────────────────────────────────────
+// ── Composant principal ─
 // =======
 // >>>>>>> f1fd0f54b3ec8b049c35d7f50449e959cbc648a1
 export default function ContentManager() {

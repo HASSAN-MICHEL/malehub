@@ -153,7 +153,7 @@ export const adminAnnouncementsAPI = {
   delete:  (id)          => adminApi.delete(`/system/announcements/${id}`),
 };
 
-// ── Équipe (Team Members) ─────────────────────────────────────────────────────
+// ── Équipe (Team Members) ───────────
 // Réponse: { data: { members: [...] } }
 export const adminTeamAPI = {
   getAll:  ()            => adminApi.get('/system/team'),

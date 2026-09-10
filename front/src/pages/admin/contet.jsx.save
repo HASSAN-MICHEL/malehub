@@ -1193,7 +1193,7 @@
 //       </div>
 //     );
 //   }
-// // ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// // ── ANNOUNCEMENTS TAB ───
 // function AnnouncementsTab() {
 //   const [announcements, setAnnouncements] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -1400,7 +1400,7 @@
 //   );
 // }
 
-// // ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// // ── TEAM TAB ──
 // function TeamTab() {
 //   const [members, setMembers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -1591,7 +1591,7 @@
 //   );
 // }
 
-// // ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// // ── SETTINGS TAB ───────
 // function SettingsTab() {
 //   const [settings, setSettings] = useState({});
 //   const [loading, setLoading] = useState(true);
@@ -1705,7 +1705,7 @@
 //   );
 // }
 
-// // ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// // ── NEWSLETTER TAB ─────
 // function NewsletterTab() {
 //   const [subscribers, setSubscribers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -1980,10 +1980,10 @@ const PAGE_BLOCKS = {
   // ... autres pages
 };
 
-// ── COMPOSANTS UI (inchangés) ──────────────────────────────────────────────────
+// ── COMPOSANTS UI (inchangés) ────────
 // ... (gardez tous vos composants UI existants)
 
-// ── THEME TAB CORRIGÉ ──────────────────────────────────────────────────────────
+// ── THEME TAB CORRIGÉ ───
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
   const [loading, setLoading] = useState(true);
@@ -2535,7 +2535,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── COMPOSANTS UI MANQUANTS ─────────────────────────────────────────────────────
+// ── COMPOSANTS UI MANQUANTS ───────────
 
 function TextSizeField({ value, onChange, placeholder }) {
   const sizes = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '40px', '48px', '56px', '64px', '72px'];
@@ -2589,7 +2589,7 @@ function SpacingField({ value, onChange, placeholder }) {
   );
 }
 
-// ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
+// ── COMPOSANT PRINCIPAL ──
 
 <<<<<<< HEAD
   const previewSrc = value
@@ -2691,7 +2691,7 @@ export default function ContentManage() {
   );
 }
 
-// ── TOAST ──────────────────────────────────────────────────────────────────────
+// ── TOAST ──────
 function Toast({ message, type, onClose }) {
   useEffect(() => {
     const t = setTimeout(onClose, 4500);
@@ -3175,7 +3175,7 @@ function ContentTab({ selectedPage, onPageChange }) {
       </div>
     );
   }
-// ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// ── ANNOUNCEMENTS TAB ───
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -3382,7 +3382,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// ── TEAM TAB ──
 function TeamTab() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -3573,7 +3573,7 @@ function TeamTab() {
   );
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// ── SETTINGS TAB ───────
 function SettingsTab() {
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -3687,7 +3687,7 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// ── NEWSLETTER TAB ─────
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);

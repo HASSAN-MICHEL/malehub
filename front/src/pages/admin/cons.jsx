@@ -123,10 +123,12 @@ const PAGE_BLOCKS = {
     { key: 'jobsweek_included_items', label: 'Liste éléments inclus', type: 'json', schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]', translatable: true },
     { key: 'jobsweek_cta_button', label: 'Texte bouton principal', type: 'text', hint: 'Je m\'inscris', translatable: true },
     { key: 'jobsweek_reserve_button', label: 'Texte bouton réservation', type: 'text', hint: 'Réserver ma place', translatable: true },
+    // Jobs Week section — CONTRÔLES TECHNIQUES
+    { key: 'jobsweek_price', label: 'Prix Jobs Week', type: 'text', hint: 'Ex: 30000 (sans espaces)', translatable: false },
+    { key: 'jobsweek_quota', label: 'Nombre de places', type: 'text', hint: 'Ex: 10', translatable: false },
+    { key: 'jobsweek_open', label: 'Afficher la section', type: 'text', hint: 'true ou false', translatable: false },
     // Legacy
     { key: 'cta_incubator', label: 'Texte bouton incubateur (legacy)', type: 'text', hint: "Rejoindre l'incubateur", translatable: true },
-    { key: 'jobs_week_price', label: 'Prix Jobs Week (FCFA legacy)', type: 'text', hint: '30000', translatable: false },
-    { key: 'jobs_week_quota', label: 'Places Jobs Week (legacy)', type: 'text', hint: '10', translatable: false },
   ],
   coworking: [
     { key: 'hero_badge', label: 'Badge Hero', type: 'text', hint: 'Ex: Espace de travail', translatable: true },
@@ -974,7 +976,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   return (
     <div className="space-y-5">
 
-         {/*  SÉLECTEUR DE LANGUE GLOBAL */}
+         {/  SÉLECTEUR DE LANGUE GLOBAL /}
     <div className="flex items-center gap-3 p-3 rounded-lg border" 
          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
       <Languages className="h-4 w-4" style={{ color: 'var(--muted-foreground)' }} />
@@ -1005,7 +1007,7 @@ function ContentTab({ selectedPage, onPageChange }) {
         {selectedLang === 'fr' ? 'Saisissez le contenu en français' : 'Enter content in English'}
       </span>
     </div>
-      {/* Sélecteur de page */}
+      {/ Sélecteur de page /}
       <div className="relative">
         <div
           ref={scrollRef}
@@ -1065,7 +1067,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── THEME TAB ──────────────────────────────────────────────────────────────────
+// ── THEME TAB ──
 
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
@@ -1501,7 +1503,7 @@ function AnnouncementsTab() {
           </h3>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Titre *</label>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Titre </label>
               <TextField value={editing.titre} onChange={v => setEditing(p => ({ ...p, titre: v }))} />
             </div>
             <div>
@@ -1511,7 +1513,7 @@ function AnnouncementsTab() {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Description *</label>
+            <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Description </label>
             <TextareaField value={editing.description} onChange={v => setEditing(p => ({ ...p, description: v }))} />
           </div>
           <div>
@@ -1698,11 +1700,11 @@ function TeamTab() {
           </h3>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Nom *</label>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Nom </label>
               <TextField value={editing.nom} onChange={v => setEditing(p => ({ ...p, nom: v }))} />
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Rôle / Poste *</label>
+              <label className="block text-xs font-medium mb-1" style={{ color: 'var(--foreground)' }}>Rôle / Poste </label>
               <TextField value={editing.role} placeholder="Ex: Fondateur & CEO"
                 onChange={v => setEditing(p => ({ ...p, role: v }))} />
             </div>
@@ -1908,7 +1910,7 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// ── NEWSLETTER TAB ─────
 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
@@ -1975,14 +1977,14 @@ function NewsletterTab() {
         <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Envoyer une newsletter</h3>
         <form onSubmit={handleSendNewsletter} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet *</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet </label>
             <input type="text" value={emailForm.subject} onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
               placeholder="Ex: Nouveaux événements chez Malea Hub"
               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message *</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message </label>
             <textarea value={emailForm.content} onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
               rows={10} placeholder="Bonjour,..."
               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
@@ -2028,7 +2030,7 @@ function NewsletterTab() {
   );
 }
 
-// ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
+// ── COMPOSANT PRINCIPAL ──
 
 export default function ContentManage() {
   const [activeTab, setActiveTab] = useState('content');

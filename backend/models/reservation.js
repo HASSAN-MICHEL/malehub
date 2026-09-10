@@ -31,7 +31,7 @@ export const SalleModel = {
     query('DELETE FROM salles WHERE id = $1 RETURNING id', [id]),
 };
 
-// ── Réservations ──────────────────────────────────────────────────────────────
+// ── Réservations ───────
 export const ReservationModel = {
   findAll: ({ limit, offset, statut, salle_id, date_debut, date_fin } = {}) => {
     const conds = []; const vals = [];

@@ -45,7 +45,7 @@ export const deleteFormation = asyncHandler(async (req, res) => {
   sendSuccess(res, {}, 'Formation supprimée');
 });
 
-// ── Inscriptions ──────────────────────────────────────────────────────────────
+// ── Inscriptions ───────
 export const getInscriptionsByFormation = asyncHandler(async (req, res) => {
   const { page, limit, offset } = buildPagination(req.query);
   const { id: formation_id } = req.params;

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-// ── Salles ────────────────────────────────────────────────────────────────────
+// ── Salles ────
 export const createSalleSchema = Joi.object({
   numero:   Joi.string().max(50).required(),
   nom:      Joi.string().max(150).required(),
@@ -21,7 +21,7 @@ export const updateSalleSchema = Joi.object({
   statut:   Joi.string().valid('disponible', 'hors_service'),
 }).min(1);
 
-// ── Réservations ──────────────────────────────────────────────────────────────
+// ── Réservations ───────
 export const createReservationSchema = Joi.object({
   salle_id:   Joi.string().uuid().required().messages({ 'any.required': 'Salle requise' }),
   client_nom: Joi.string().min(2).max(150).required(),

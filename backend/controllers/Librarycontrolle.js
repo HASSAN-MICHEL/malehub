@@ -72,7 +72,7 @@ export const getCategories = async (req, res) => {
   }
 };
 
-// ── Routes admin ─────────────────────────────────────────────────────────────
+// ── Routes admin ──────
 
 // Créer un livre
 export const createBook = async (req, res) => {

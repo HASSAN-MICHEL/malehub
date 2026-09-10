@@ -21,7 +21,7 @@ router.post('/salles',         adminOnly, validate(createSalleSchema),  salleCtr
 router.patch('/salles/:id',    adminOnly, validate(updateSalleSchema),  salleCtrl.updateSalle);
 router.delete('/salles/:id',   adminOnly,                                salleCtrl.deleteSalle);
 
-// ── Réservations ──────────────────────────────────────────────────────────────
+// ── Réservations ───────
 router.get('/',                staffAndAbove, resCtrl.getAllReservations);
 router.get('/stats',           staffAndAbove, resCtrl.getReservationStats);
 router.get('/export/csv',      staffAndAbove, resCtrl.exportReservationsCSV);

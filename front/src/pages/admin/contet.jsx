@@ -1193,7 +1193,7 @@
 //       </div>
 //     );
 //   }
-// // ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// // ── ANNOUNCEMENTS TAB ───
 // function AnnouncementsTab() {
 //   const [announcements, setAnnouncements] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -1400,7 +1400,7 @@
 //   );
 // }
 
-// // ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// // ── TEAM TAB ──
 // function TeamTab() {
 //   const [members, setMembers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -1591,7 +1591,7 @@
 //   );
 // }
 
-// // ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// // ── SETTINGS TAB ───────
 // function SettingsTab() {
 //   const [settings, setSettings] = useState({});
 //   const [loading, setLoading] = useState(true);
@@ -1705,7 +1705,7 @@
 //   );
 // }
 
-// // ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// // ── NEWSLETTER TAB ─────
 // function NewsletterTab() {
 //   const [subscribers, setSubscribers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -2607,7 +2607,7 @@ function Toast({ message, type, onClose }) {
   );
 }
 
-// ── CONTENT TAB ────────────────────────────────────────────────────────────────
+// ── CONTENT TAB 
 
 function ContentTab({ selectedPage, onPageChange }) {
   const [contentBlocks, setContentBlocks] = useState({});
@@ -2826,7 +2826,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── THEME TAB ──────────────────────────────────────────────────────────────────
+// ── THEME TAB ──
 
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
@@ -3161,7 +3161,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// ── ANNOUNCEMENTS TAB ───
 
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
@@ -3363,7 +3363,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// ── TEAM TAB ──
 
 function TeamTab() {
   const [members, setMembers] = useState([]);
@@ -3551,7 +3551,7 @@ function TeamTab() {
   );
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// ── SETTINGS TAB ───────
 
 function SettingsTab() {
   const [settings, setSettings] = useState({});
@@ -3666,7 +3666,7 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// ── NEWSLETTER TAB ─────
 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
@@ -3786,7 +3786,7 @@ function NewsletterTab() {
   );
 }
 
-// ── COMPOSANT PRINCIPAL ─────────────────────────────────────────────────────────
+// ── COMPOSANT PRINCIPAL ──
 
    const previewSrc = value
       ? (value.startsWith('http') ? value : `${'/api'}${value}`)
@@ -3883,7 +3883,7 @@ return (
   );
 }
 
-// ── TOAST ──────────────────────────────────────────────────────────────────────
+// ── TOAST ──────
 function Toast({ message, type, onClose }) {
   useEffect(() => {
     const t = setTimeout(onClose, 4500);
@@ -4367,7 +4367,7 @@ function ContentTab({ selectedPage, onPageChange }) {
       </div>
     );
   }
-// ── ANNOUNCEMENTS TAB ──────────────────────────────────────────────────────────
+// ── ANNOUNCEMENTS TAB ───
 function AnnouncementsTab() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -4574,7 +4574,7 @@ function AnnouncementsTab() {
   );
 }
 
-// ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// ── TEAM TAB ──
 function TeamTab() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -4765,7 +4765,7 @@ function TeamTab() {
   );
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+// ── SETTINGS TAB ───────
 function SettingsTab() {
   const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -4879,7 +4879,7 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ────────────────────────────────────────────────────────────
+// ── NEWSLETTER TAB ─────
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);

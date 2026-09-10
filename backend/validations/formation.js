@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-// ── Formations ────────────────────────────────────────────────────────────────
+// ── Formations 
 export const createFormationSchema = Joi.object({
   titre:        Joi.string().min(2).max(200).required(),
   programme:    Joi.string().min(10).required(),
@@ -23,7 +23,7 @@ export const updateFormationSchema = Joi.object({
   formateur_id:  Joi.string().uuid().allow(null),
 }).min(1);
 
-// ── Inscriptions ──────────────────────────────────────────────────────────────
+// ── Inscriptions ───────
 export const createInscriptionSchema = Joi.object({
   formation_id: Joi.string().uuid().required(),
   nom:          Joi.string().min(2).max(150).required(),

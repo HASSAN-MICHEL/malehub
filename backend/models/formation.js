@@ -1,6 +1,6 @@
 import { query } from '../config/database.js';
 
-// ── Formations ────────────────────────────────────────────────────────────────
+// ── Formations 
 export const FormationModel = {
   findAll: ({ limit, offset, statut_ouvert } = {}) => {
     const conds = []; const vals = [];
@@ -60,7 +60,7 @@ export const FormationModel = {
     query('DELETE FROM formations WHERE id = $1 RETURNING id', [id]),
 };
 
-// ── Inscriptions ──────────────────────────────────────────────────────────────
+// ── Inscriptions ───────
 export const InscriptionModel = {
   findByFormation: (formation_id, { limit, offset, statut } = {}) => {
     const conds = [`formation_id = $1`]; const vals = [formation_id];
