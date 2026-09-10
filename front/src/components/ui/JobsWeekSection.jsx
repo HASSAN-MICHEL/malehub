@@ -101,7 +101,7 @@ export function JobsWeekSection() {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
                   <Users className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>{jobsWeekQuota} {spotsLabel}</span>
+                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>{spotsLabel}</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
                   <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />
