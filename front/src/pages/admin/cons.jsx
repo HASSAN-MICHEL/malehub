@@ -123,12 +123,10 @@ const PAGE_BLOCKS = {
     { key: 'jobsweek_included_items', label: 'Liste éléments inclus', type: 'json', schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]', translatable: true },
     { key: 'jobsweek_cta_button', label: 'Texte bouton principal', type: 'text', hint: 'Je m\'inscris', translatable: true },
     { key: 'jobsweek_reserve_button', label: 'Texte bouton réservation', type: 'text', hint: 'Réserver ma place', translatable: true },
-    // Jobs Week section — CONTRÔLES TECHNIQUES
-    { key: 'jobsweek_price', label: 'Prix Jobs Week', type: 'text', hint: 'Ex: 30000 (sans espaces)', translatable: false },
-    { key: 'jobsweek_quota', label: 'Nombre de places', type: 'text', hint: 'Ex: 10', translatable: false },
-    { key: 'jobsweek_open', label: 'Afficher la section', type: 'text', hint: 'true ou false', translatable: false },
     // Legacy
     { key: 'cta_incubator', label: 'Texte bouton incubateur (legacy)', type: 'text', hint: "Rejoindre l'incubateur", translatable: true },
+    { key: 'jobs_week_price', label: 'Prix Jobs Week (FCFA legacy)', type: 'text', hint: '30000', translatable: false },
+    { key: 'jobs_week_quota', label: 'Places Jobs Week (legacy)', type: 'text', hint: '10', translatable: false },
   ],
   coworking: [
     { key: 'hero_badge', label: 'Badge Hero', type: 'text', hint: 'Ex: Espace de travail', translatable: true },
