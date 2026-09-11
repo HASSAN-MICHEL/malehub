@@ -20,29 +20,37 @@ export function JobsWeekSection() {
   return String(val);
 };
 
+
+
 const asBool = (val, fallback = true) => {
-  if (val === null || val === undefined) return fallback;
+  // null/undefined/vide → fallback
+  if (val === null || val === undefined || val === '') return fallback;
+  // objet multilingue → prendre fr ou en
   if (typeof val === 'object' && !Array.isArray(val)) {
-    val = val.fr ?? val.en;
+    val = val.fr ?? val.en ?? fallback;
   }
-  return String(val).toLowerCase() === 'true';
+  
+  // booléen  retour direct
+  if (typeof val === 'boolean') return val;
+  
+  // Convertir en string et tester
+  const str = String(val).trim().toLowerCase();
+  
+  // Valeurs "vraies"
+  if (['true', '1', 'yes', 'oui', 'on', 'vrai'].includes(str)) return true;
+  // Valeurs "fausses"
+  if (['false', '0', 'no', 'non', 'off', 'faux'].includes(str)) return false;
+  
+  // Valeur inconnue → fallback (plus permissif)
+  return fallback;
 };
 
 const jobsWeekPrice = asString(get('jobsweek_price', undefined), setting('jobs_week_price', '30000'));
 const jobsWeekQuota = asString(get('jobsweek_quota', undefined), setting('jobs_week_quota', '10'));
 const jobsWeekOpen  = asBool(get('jobsweek_open', undefined), setting('jobs_week_open', 'true') === 'true');
 
-  // PRIORITÉ AU CMS (get) AVEC FALLBACK SUR SETTINGS
-  // const cmsPrice = get('jobsweek_price', null);
-  // const cmsQuota = get('jobsweek_quota', null);
   const cmsOpen = get('jobsweek_open', null);
 
-//   const jobsWeekPrice = get('jobsweek_price', setting('jobs_week_price', '30000'));
-
-// // Quota : CMS en priorité, sinon settings
-//   const jobsWeekQuota = get('jobsweek_quota', setting('jobs_week_quota', '10'));
-
-//   const jobsWeekOpen = cmsOpen !== null ? cmsOpen === 'true' || cmsOpen === true : setting('jobs_week_open', 'true') === 'true';
 
   const badge          = get('jobsweek_badge', t('jobsWeek.badge'));
   const title          = get('jobsweek_title', t('jobsWeek.title'));
@@ -117,7 +125,7 @@ const jobsWeekOpen  = asBool(get('jobsweek_open', undefined), setting('jobs_week
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 10%, transparent)' }}>
                   <Users className="h-5 w-5" style={{ color: 'var(--primary)' }} />
-                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>{spotsLabel}</span>
+                  <span className="font-medium" style={{ color: 'var(--foreground)' }}>  {jobsWeekQuota} {spotsLabel}</span>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ backgroundColor: 'var(--card)', borderColor: 'color-mix(in oklch, var(--border) 50%, transparent)' }}>
                   <Clock className="h-5 w-5" style={{ color: 'var(--primary)' }} />

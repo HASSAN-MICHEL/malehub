@@ -58,7 +58,7 @@
 // ];
 // required.forEach((key) => {
 //   if (!process.env[key]) {
-//     console.warn(`⚠️  Missing env variable: ${key}`);
+//     console.warn(`  Missing env variable: ${key}`);
 //   }
 // });
 
@@ -133,7 +133,7 @@ const required = [
 
 required.forEach((key) => {
   if (!process.env[key]) {
-    console.warn(`⚠️  Missing env variable: ${key}`);
+    console.warn(`  Missing env variable: ${key}`);
   }
 });
 

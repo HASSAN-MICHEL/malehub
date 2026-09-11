@@ -2,11 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { cmsAPI } from '../services/client';
 import { useTranslation } from 'react-i18next';
 
-/**
- * useContent(pageSlug)
- * Lit les blocs de contenu d'une page (textes, images, listes JSON, thème)
- * Supporte le multilingue : si la valeur est un objet {fr, en}, retourne la bonne langue
- */
+
 export function useContent(pageSlug) {
   const { i18n } = useTranslation();
   const [blocks, setBlocks] = useState({});
@@ -22,21 +18,17 @@ export function useContent(pageSlug) {
         if (b.actif === false) return;
         
         let textValue = b.valeur_texte ?? '';
-        
-        //  SI LA VALEUR EST UN JSON STRINGIFIÉ, LA PARSER
-        if (typeof textValue === 'string') {
-          try {
-            const parsed = JSON.parse(textValue);
-            // Si c'est un objet avec fr/en, on le garde comme objet
-            if (parsed && typeof parsed === 'object' && (parsed.fr !== undefined || parsed.en !== undefined)) {
-              textValue = parsed;
-            } else {
-              textValue = parsed;
-            }
-          } catch (e) {
-            // Ce n'est pas du JSON, garder comme chaîne
-          }
-        }
+
+
+if (typeof textValue === 'string' && /^\s*[\{\[]/.test(textValue)) {
+  try {
+    const parsed = JSON.parse(textValue);
+    textValue = parsed;
+  } catch (e) {
+    // JSON invalide → garder la string telle quelle
+    console.warn(`[useContent] JSON invalide pour "${b.bloc_key}":`, e.message);
+  }
+}
         
         map[b.bloc_key] = {
           text:  textValue,

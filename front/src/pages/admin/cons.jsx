@@ -130,10 +130,13 @@ const PAGE_BLOCKS = {
     { key: 'jobsweek_included_items', label: 'Liste éléments inclus', type: 'json', schema: 'list', hint: 'Ex: ["Certificat", "Coaching individuel"]', translatable: true },
     { key: 'jobsweek_cta_button', label: 'Texte bouton principal', type: 'text', hint: 'Je m\'inscris', translatable: true },
     { key: 'jobsweek_reserve_button', label: 'Texte bouton réservation', type: 'text', hint: 'Réserver ma place', translatable: true },
+    // Jobs Week — CONTRÔLES TECHNIQUES (CMS)
+    { key: 'jobsweek_price', label: 'Prix Jobs Week', type: 'text', hint: 'Ex: 30000 (sans espaces)', translatable: false },
+    { key: 'jobsweek_quota', label: 'Nombre de places', type: 'text', hint: 'Ex: 10', translatable: false },
+   
     // Legacy
     { key: 'cta_incubator', label: 'Texte bouton incubateur (legacy)', type: 'text', hint: "Rejoindre l'incubateur", translatable: true },
-    { key: 'jobs_week_price', label: 'Prix Jobs Week (FCFA legacy)', type: 'text', hint: '30000', translatable: false },
-    { key: 'jobs_week_quota', label: 'Places Jobs Week (legacy)', type: 'text', hint: '10', translatable: false },
+   
   ],
   coworking: [
     { key: 'hero_badge', label: 'Badge Hero', type: 'text', hint: 'Ex: Espace de travail', translatable: true },
@@ -579,7 +582,7 @@ function JsonField({ value, onChange, schema, placeholder }) {
         style={{ ...iStyle, borderColor: isValid ? undefined : '#dc2626' }}
       />
       {!isValid && (
-        <p className="text-xs text-red-500">⚠️ JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
+        <p className="text-xs text-red-500"> JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
       )}
       {schema && getExampleForSchema() && (
         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
@@ -652,7 +655,95 @@ function ImageField({ value, onTextChange, onUpload, placeholder }) {
     </div>
   );
 }
+//ici mon modale de confirmation utilisé au niveau du newsletter.
+function ConfirmModal({ open, title, message, confirmLabel = 'Confirmer', cancelLabel = 'Annuler', variant = 'danger', loading = false, onConfirm, onCancel }) {
+  // Fermeture avec la touche Échap
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape' && !loading) onCancel?.(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, loading, onCancel]);
 
+  if (!open) return null;
+
+  // Couleurs selon le variant
+  const palette = variant === 'danger'
+    ? { bg: '#dc2626', hover: '#b91c1c', icon: <AlertCircle className="h-6 w-6" /> }
+    : variant === 'warning'
+      ? { bg: '#f59e0b', hover: '#d97706', icon: <AlertCircle className="h-6 w-6" /> }
+      : { bg: 'var(--primary)', hover: 'var(--primary)', icon: <CheckCircle className="h-6 w-6" /> };
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fade-in"
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
+      onClick={(e) => { if (e.target === e.currentTarget && !loading) onCancel?.(); }}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl border shadow-2xl animate-scale-in"
+        style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-start gap-4 p-6 pb-4">
+          <div
+            className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white"
+            style={{ backgroundColor: palette.bg }}
+          >
+            {palette.icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-semibold" style={{ color: 'var(--foreground)' }}>
+              {title}
+            </h3>
+            {message && (
+              <p className="mt-2 text-sm whitespace-pre-line leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                {message}
+              </p>
+            )}
+          </div>
+          <button
+            onClick={onCancel}
+            disabled={loading}
+            className="flex-shrink-0 p-1.5 rounded-lg hover:bg-muted transition-colors disabled:opacity-50"
+            style={{ color: 'var(--muted-foreground)' }}
+            aria-label="Fermer"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3 justify-end px-6 pb-6 pt-2">
+          <button
+            onClick={onCancel}
+            disabled={loading}
+            className="px-4 py-2 rounded-lg text-sm font-medium border transition-opacity hover:opacity-80 disabled:opacity-50"
+            style={{ borderColor: 'var(--border)', color: 'var(--foreground)', backgroundColor: 'transparent' }}
+          >
+            {cancelLabel}
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: palette.bg }}
+          >
+            {loading ? (
+              <>
+                <RefreshCw className="h-4 w-4 animate-spin" />
+                En cours...
+              </>
+            ) : (
+              confirmLabel
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 function Toast({ message, type, onClose }) {
   useEffect(() => {
     const t = setTimeout(onClose, 4500);
@@ -667,106 +758,7 @@ function Toast({ message, type, onClose }) {
     </div>
   );
 }
-// pour mes champs multilignes
 
-// function MultilingualField({ value, onChange, type, placeholder, label, activeLang, onLangChange }) {
-//   // Utiliser la langue sélectionnée globalement
-//   const currentLang = activeLang || 'fr';
-
-//   // //  CORRECTION : Récupérer la valeur pour la langue courante
-//   // const getValue = () => {
-//   //   if (value && typeof value === 'object' && !Array.isArray(value)) {
-//   //     return value[currentLang] || '';
-//   //   }
-//   //   // Si c'est déjà une chaîne, la retourner
-//   //   if (typeof value === 'string') {
-//   //     return value;
-//   //   }
-//   //   return '';
-//   // };
-
-//   const getValue = () => {
-//   if (value && typeof value === 'object' && !Array.isArray(value)) {
-//     const v = value[currentLang] || value['fr'] || '';
-//     return typeof v === 'string' ? v : '';
-//   }
-//   if (typeof value === 'string') return value;
-//   return '';
-// };
-
-//   const handleChange = (newValue) => {
-//     // Si la valeur actuelle est un objet, on met à jour la langue
-//     if (value && typeof value === 'object' && !Array.isArray(value)) {
-//       const updated = { ...value };
-//       updated[currentLang] = newValue;
-//       onChange(updated);
-//     } else {
-//       // Sinon, on crée un nouvel objet
-//       const newObj = {};
-//       newObj[currentLang] = newValue;
-//       // Si on a une ancienne valeur string, on la garde comme fallback
-//       if (typeof value === 'string' && value) {
-//         newObj['fr'] = value;
-//         newObj['en'] = value;
-//       }
-//       onChange(newObj);
-//     }
-//   };
-
-//   const val = getValue();
-  
-//   const commonProps = {
-//     value: val,
-//     onChange: (e) => handleChange(e.target.value),
-//     placeholder: placeholder || `${label} (${currentLang === 'fr' ? 'Français' : 'English'})`,
-//     className: iCls,
-//     style: iStyle,
-//   };
-
-//   return (
-//     <div className="space-y-2">
-//       <div className="flex items-center gap-2">
-//         <div className="flex gap-1 border rounded-lg overflow-hidden">
-//           <button
-//             onClick={() => onLangChange && onLangChange('fr')}
-//             className={`px-2 py-0.5 text-xs font-medium transition-colors ${
-//               currentLang === 'fr' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
-//             }`}
-//             style={currentLang === 'fr' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
-//           >
-//             FR
-//           </button>
-//           <button
-//             onClick={() => onLangChange && onLangChange('en')}
-//             className={`px-2 py-0.5 text-xs font-medium transition-colors ${
-//               currentLang === 'en' ? 'bg-primary text-primary-foreground' : 'bg-transparent'
-//             }`}
-//             style={currentLang === 'en' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
-//           >
-//             EN
-//           </button>
-//         </div>
-//         <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-//           {currentLang === 'fr' ? '🇫🇷 Français' : '🇬🇧 English'}
-//         </span>
-//         {value && typeof value === 'object' && !Array.isArray(value) && (
-//           <span className="text-xs text-green-600">
-//             ✓ {Object.keys(value).filter(k => value[k] && value[k].trim()).length} langue(s)
-//           </span>
-//         )}
-//       </div>
-//       {type === 'textarea' ? (
-//         <textarea {...commonProps} rows={3} />
-//       ) : (
-//         <input {...commonProps} />
-//       )}
-//       {currentLang === 'fr' && (
-//         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-//           💡 Saisissez le contenu en français, puis passez en anglais pour la traduction
-//         </div>
-//       )}
-//     </div>
-//   );
 function MultilingualField({ value, onChange, type, placeholder, label, activeLang, onLangChange }) {
   // Langue d'édition courante
   const currentLang = activeLang || 'fr';
@@ -854,7 +846,7 @@ function MultilingualField({ value, onChange, type, placeholder, label, activeLa
           {currentLang === 'fr' ? '🇫🇷 Français' : '🇬🇧 English'}
         </span>
 
-        {/* ✅ CORRIGÉ : protection contre .trim() sur objet */}
+        {/*  CORRIGÉ : protection contre .trim() sur objet */}
         {filledLangCount > 0 && (
           <span className="text-xs text-green-600">
             ✓ {filledLangCount} langue(s)
@@ -889,40 +881,203 @@ function ContentTab({ selectedPage, onPageChange }) {
 
   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
 
-  const fetchBlocks = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await contentAPI.getBlocks(selectedPage);
-      const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
-      const map = {};
-      arr.forEach(b => {
-        let value = b.valeur_texte;
-        const blockDef = PAGE_BLOCKS[selectedPage]?.find(def => def.key === b.bloc_key);
-        
-        // Si le champ est multilingue, on parse le JSON
-        if (blockDef?.translatable && value && typeof value === 'string') {
-          try {
-            value = JSON.parse(value);
-          } catch (e) {
-            // Si ce n'est pas du JSON valide, on le convertit en objet multilingue
-            value = { fr: value, en: value };
-          }
-        } else if (blockDef?.type === 'json' && value && typeof value === 'string') {
-          try {
-            value = JSON.parse(value);
-          } catch (e) {
-            console.warn(`JSON invalide pour ${b.bloc_key}:`, e);
-          }
+
+const fetchBlocks = useCallback(async () => {
+  setLoading(true);
+
+  try {
+    const res = await contentAPI.getBlocks(selectedPage);
+
+    console.group('🚨 DEBUG FETCH BLOCKS');
+    console.log('📦 Réponse API complète :', res.data);
+
+    const arr = res.data?.data?.blocks ?? res.data?.blocks ?? [];
+
+    console.log('📊 Nombre de blocs :', arr.length);
+    console.log('📄 Page sélectionnée :', selectedPage);
+
+    const map = {};
+
+    arr.forEach((b, index) => {
+      console.group(`========== BLOC ${index} ==========`);
+
+      console.log('🔑 bloc_key :', b?.bloc_key);
+      console.log('🔑 bloc_key type :', typeof b?.bloc_key);
+      console.log(
+        '🔑 bloc_key constructor :',
+        b?.bloc_key?.constructor?.name
+      );
+
+      console.log('📝 valeur_texte :', b?.valeur_texte);
+      console.log('📝 valeur_texte type :', typeof b?.valeur_texte);
+      console.log(
+        '📝 valeur_texte constructor :',
+        b?.valeur_texte?.constructor?.name
+      );
+
+      console.log('🖼️ media_url :', b?.media_url);
+      console.log('🖼️ media_url type :', typeof b?.media_url);
+      console.log(
+        '🖼️ media_url constructor :',
+        b?.media_url?.constructor?.name
+      );
+
+      // 🚨 Détection REGEXP
+      if (b?.bloc_key instanceof RegExp) {
+        console.error(
+          ' REGEXP TROUVÉ DANS bloc_key !',
+          b.bloc_key
+        );
+      }
+
+      if (b?.valeur_texte instanceof RegExp) {
+        console.error(
+          ' REGEXP TROUVÉ DANS valeur_texte !',
+          b.valeur_texte
+        );
+      }
+
+      if (b?.media_url instanceof RegExp) {
+        console.error(
+          ' REGEXP TROUVÉ DANS media_url !',
+          b.media_url
+        );
+      }
+
+      const blockDef = PAGE_BLOCKS[selectedPage]?.find(
+        def => def.key === b.bloc_key
+      );
+
+      console.log('⚙️ blockDef :', blockDef);
+
+      if (blockDef) {
+        console.log('🏷️ label :', blockDef.label);
+        console.log('🏷️ label type :', typeof blockDef.label);
+
+        console.log('📐 type :', blockDef.type);
+        console.log('📐 type type :', typeof blockDef.type);
+
+        console.log('💡 hint :', blockDef.hint);
+        console.log('💡 hint type :', typeof blockDef.hint);
+
+        console.log('📋 schema :', blockDef.schema);
+        console.log('📋 schema type :', typeof blockDef.schema);
+
+        console.log('🌍 translatable :', blockDef.translatable);
+
+        //  Vérification de la définition statique
+        if (blockDef.label instanceof RegExp) {
+          console.error(
+            ' REGEXP TROUVÉ DANS blockDef.label !',
+            blockDef.label
+          );
         }
-        map[b.bloc_key] = { ...b, valeur_texte: value, dirty: false };
-      });
-      setContentBlocks(map);
-    } catch (err) {
-      showToast('Erreur de chargement', 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedPage]);
+
+        if (blockDef.hint instanceof RegExp) {
+          console.error(
+            ' REGEXP TROUVÉ DANS blockDef.hint !',
+            blockDef.hint
+          );
+        }
+
+        if (blockDef.type instanceof RegExp) {
+          console.error(
+            ' REGEXP TROUVÉ DANS blockDef.type !',
+            blockDef.type
+          );
+        }
+
+        if (blockDef.schema instanceof RegExp) {
+          console.error(
+            ' REGEXP TROUVÉ DANS blockDef.schema !',
+            blockDef.schema
+          );
+        }
+      } else {
+        console.warn(
+          ' Aucune définition PAGE_BLOCKS trouvée pour :',
+          b?.bloc_key
+        );
+      }
+
+      let value = b.valeur_texte;
+
+      // Si le champ est multilingue
+      if (
+        blockDef?.translatable &&
+        value &&
+        typeof value === 'string'
+      ) {
+        try {
+          value = JSON.parse(value);
+
+          console.log('🌍 Valeur multilingue parsée :', value);
+        } catch (e) {
+          console.warn(
+            ` JSON multilingue invalide pour ${b.bloc_key}`,
+            e
+          );
+
+          value = {
+            fr: value,
+            en: value
+          };
+        }
+      }
+
+      // Si le champ est de type JSON
+      else if (
+        blockDef?.type === 'json' &&
+        value &&
+        typeof value === 'string'
+      ) {
+        try {
+          value = JSON.parse(value);
+
+        } catch (e) {
+          console.warn(
+            `JSON invalide pour ${b.bloc_key}:`,
+            e
+          );
+        }
+      }
+
+      // 🚨 Vérification APRÈS transformation
+      if (value instanceof RegExp) {
+        console.error(
+          ' REGEXP APRÈS TRANSFORMATION !',
+          {
+            bloc_key: b?.bloc_key,
+            value,
+            valueType: typeof value,
+            constructor: value?.constructor?.name
+          }
+        );
+      }
+
+      map[b.bloc_key] = {
+        ...b,
+        valeur_texte: value,
+        dirty: false
+      };
+
+     
+
+  
+    });
+
+  
+
+    setContentBlocks(map);
+
+  } catch (err) {
+
+    showToast('Erreur de chargement', 'error');
+
+  } finally {
+    setLoading(false);
+  }
+}, [selectedPage]);
 
   useEffect(() => { fetchBlocks(); }, [fetchBlocks]);
 
@@ -1001,100 +1156,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   const hasDirty = Object.values(contentBlocks).some(b => b.dirty);
   const currentBlocks = PAGE_BLOCKS[selectedPage] ?? [];
 
-//   const renderBlock = (blockDef) => {
-//   const { key, label, type, schema, hint, translatable } = blockDef;
-//   const block = contentBlocks[key];
-//   const textVal = block?.valeur_texte ?? '';
-//   const mediaVal = block?.media_url ?? '';
-  
-//   //  Pour l'affichage, on prend la bonne langue
-//   let displayValue = textVal;
-//   if (translatable && typeof textVal === 'object' && textVal !== null) {
-//     displayValue = textVal[selectedLang] || textVal['fr'] || '';
-//   }
-  
-//   const dispVal = type === 'image' ? (mediaVal || textVal) :
-//                  type === 'json' ? (typeof textVal === 'object' ? textVal : null) : displayValue;
 
-//   return (
-//     <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
-//       style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
-//       <div className="flex items-start justify-between gap-2">
-//         <div>
-//           <div className="flex items-center gap-2">
-//             <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
-//               {label}
-//               {translatable && (
-//                 <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
-//                    {selectedLang === 'fr' ? 'FR' : 'EN'}
-//                 </span>
-//               )}
-//               {block?.dirty && (
-//                 <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
-//                   style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
-//                   modifié
-//                 </span>
-//               )}
-//             </label>
-//           </div>
-//           {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
-//         </div>
-//         <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
-//       </div>
-
-//       {type === 'text' && (
-//         translatable ? (
-//           //  PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
-//           <MultilingualField
-//             value={textVal}  // ← ici on passe l'objet complet, pas dispVal
-//             onChange={v => handleTextChange(key, v)}
-//             type="text"
-//             placeholder={hint}
-//             label={label}
-//             activeLang={selectedLang}
-//             onLangChange={setSelectedLang}
-//           />
-//         ) : (
-//           <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
-//         )
-//       )}
-      
-//       {type === 'textarea' && (
-//         translatable ? (
-//           <MultilingualField
-//             value={textVal}  // ← ici on passe l'objet complet, pas dispVal
-//             onChange={v => handleTextChange(key, v)}
-//             type="textarea"
-//             placeholder={hint}
-//             label={label}
-//             activeLang={selectedLang}
-//             onLangChange={setSelectedLang}
-//           />
-//         ) : (
-//           <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
-//         )
-//       )}
-      
-//       {type === 'image' && (
-//         <ImageField
-//           value={dispVal}
-//           onTextChange={v => handleTextChange(key, v)}
-//           onUpload={url => handleMediaChange(key, url)}
-//           placeholder={hint}
-//         />
-//       )}
-      
-//       {type === 'json' && (
-//         <JsonField
-//           value={textVal}
-//           onChange={v => handleTextChange(key, v)}
-//           schema={schema}
-//           placeholder={hint}
-//         />
-//       )}
-//     </div>
-//   );
-// };
 
 const renderBlock = (blockDef) => {
   const { key, label, type, schema, hint, translatable } = blockDef;
@@ -1201,7 +1263,7 @@ const renderBlock = (blockDef) => {
   return (
     <div className="space-y-5">
 
-         {/  SÉLECTEUR DE LANGUE GLOBAL /}
+    {/*  SÉLECTEUR DE LANGUE GLOBAL */}
     <div className="flex items-center gap-3 p-3 rounded-lg border" 
          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
       <Languages className="h-4 w-4" style={{ color: 'var(--muted-foreground)' }} />
@@ -1216,7 +1278,7 @@ const renderBlock = (blockDef) => {
           }`}
           style={selectedLang === 'fr' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
         >
-          🇫🇷 Français
+          Français
         </button>
         <button
           onClick={() => setSelectedLang('en')}
@@ -1225,14 +1287,14 @@ const renderBlock = (blockDef) => {
           }`}
           style={selectedLang === 'en' ? { backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' } : {}}
         >
-          🇬🇧 English
+          English
         </button>
       </div>
       <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
         {selectedLang === 'fr' ? 'Saisissez le contenu en français' : 'Enter content in English'}
       </span>
     </div>
-      {/ Sélecteur de page /}
+      
       <div className="relative">
         <div
           ref={scrollRef}
@@ -1399,7 +1461,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
     setSaving(true);
     try {
       const result = await contentAPI.resetTheme();
-      console.log('🗑️ Tous les thèmes supprimés:', result.data);
+      console.log(' Tous les thèmes supprimés:', result.data);
 
       const defaultValues = {};
       THEME_CONFIG.forEach(cfg => { defaultValues[cfg.key] = cfg.default; });
@@ -1492,7 +1554,7 @@ function ThemeTab({ selectedPage, onPageChange }) {
             Personnalisation visuelle
           </h2>
           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-            {isGlobal ? ' Thème global (appliqué à toutes les pages)' : `📄 Thème spécifique à ${PAGES.find(p => p.slug === selectedPage)?.name}`}
+            {isGlobal ? ' Thème global (appliqué à toutes les pages)' : `Thème spécifique à ${PAGES.find(p => p.slug === selectedPage)?.name}`}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -2137,6 +2199,9 @@ function SettingsTab() {
 
 // //  NEWSLETTER gestion
 
+
+
+
 // function NewsletterTab() {
 //   const [subscribers, setSubscribers] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -2144,9 +2209,11 @@ function SettingsTab() {
 //   const [total, setTotal] = useState(0);
 //   const [sending, setSending] = useState(false);
 //   const [emailForm, setEmailForm] = useState({ subject: '', content: '' });
+//   const [deletingId, setDeletingId] = useState(null);   // 🆕 état pour bloquer le bouton pendant l'appel
 
 //   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
 
+//   // ── Charger abonnés + count
 //   const fetchSubscribers = async () => {
 //     setLoading(true);
 //     try {
@@ -2154,14 +2221,21 @@ function SettingsTab() {
 //       setSubscribers(res.data?.data?.subscribers || []);
 //       const countRes = await adminApi.get('/system/newsletter/count');
 //       setTotal(countRes.data?.data?.total || 0);
-//     } catch { showToast('Erreur chargement', 'error'); }
-//     finally { setLoading(false); }
+//     } catch {
+//       showToast('Erreur chargement', 'error');
+//     } finally {
+//       setLoading(false);
+//     }
 //   };
 
 //   useEffect(() => { fetchSubscribers(); }, []);
 
+//   // ── Export CSV
 //   const exportSubscribers = () => {
-//     const csv = [['Email', "Date d'inscription"], ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])].map(row => row.join(',')).join('\n');
+//     const csv = [
+//       ['Email', "Date d'inscription"],
+//       ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])
+//     ].map(row => row.join(',')).join('\n');
 //     const blob = new Blob([csv], { type: 'text/csv' });
 //     const url = URL.createObjectURL(blob);
 //     const a = document.createElement('a');
@@ -2171,62 +2245,124 @@ function SettingsTab() {
 //     URL.revokeObjectURL(url);
 //   };
 
+//   // ── Envoi newsletter
 //   const handleSendNewsletter = async (e) => {
 //     e.preventDefault();
-//     if (!emailForm.subject || !emailForm.content) { showToast('Veuillez remplir le sujet et le contenu', 'error'); return; }
+//     if (!emailForm.subject || !emailForm.content) {
+//       showToast('Veuillez remplir le sujet et le contenu', 'error');
+//       return;
+//     }
 //     if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
 //     setSending(true);
 //     try {
-//       const res = await adminApi.post('/system/newsletter/send', { subject: emailForm.subject, content: emailForm.content, isHtml: false });
+//       const res = await adminApi.post('/system/newsletter/send', {
+//         subject: emailForm.subject,
+//         content: emailForm.content,
+//         isHtml: false,
+//       });
 //       showToast(res.data?.message || 'Newsletter envoyée avec succès !');
 //       setEmailForm({ subject: '', content: '' });
-//     } catch (error) { showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error'); }
-//     finally { setSending(false); }
+//     } catch (error) {
+//       showToast(error.response?.data?.message || "Erreur lors de l'envoi", 'error');
+//     } finally {
+//       setSending(false);
+//     }
+//   };
+
+//   // 🆕 Désinscrire (soft delete : actif = FALSE)
+//   const handleUnsubscribe = async (id, email) => {
+//     if (!confirm(`Désinscrire "${email}" de la newsletter ?\n\nL'abonné sera masqué mais conservé en base.`)) return;
+//     setDeletingId(id);
+//     try {
+//       await adminApi.patch(`/system/newsletter/subscribers/${id}/unsubscribe`);
+//       showToast('Abonné désinscrit ✓');
+//       fetchSubscribers();
+//     } catch (error) {
+//       showToast(error.response?.data?.message || 'Erreur lors de la désinscription', 'error');
+//     } finally {
+//       setDeletingId(null);
+//     }
+//   };
+
+//   // 🆕 Supprimer définitivement (hard delete)
+//   const handleDeleteSubscriber = async (id, email) => {
+//     if (!confirm(`Supprimer DÉFINITIVEMENT "${email}" ?\n\nCette action est irréversible.`)) return;
+//     setDeletingId(id);
+//     try {
+//       await adminApi.delete(`/system/newsletter/subscribers/${id}`);
+//       showToast('Abonné supprimé ✓');
+//       fetchSubscribers();
+//     } catch (error) {
+//       showToast(error.response?.data?.message || 'Erreur lors de la suppression', 'error');
+//     } finally {
+//       setDeletingId(null);
+//     }
 //   };
 
 //   return (
 //     <div className="space-y-5">
+//       {/* Header */}
 //       <div className="flex items-center justify-between">
 //         <div>
 //           <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Newsletter</h2>
 //           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{total} abonné(s) actif(s)</p>
 //         </div>
-//         <button onClick={exportSubscribers} disabled={subscribers.length === 0}
+//         <button
+//           onClick={exportSubscribers}
+//           disabled={subscribers.length === 0}
 //           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
-//           style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//           style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+//         >
 //           Exporter CSV
 //         </button>
 //       </div>
 
+//       {/* Formulaire d'envoi */}
 //       <div className="rounded-xl border p-6 space-y-4" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
 //         <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Envoyer une newsletter</h3>
 //         <form onSubmit={handleSendNewsletter} className="space-y-4">
 //           <div>
 //             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet </label>
-//             <input type="text" value={emailForm.subject} onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+//             <input
+//               type="text"
+//               value={emailForm.subject}
+//               onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
 //               placeholder="Ex: Nouveaux événements chez Malea Hub"
 //               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
-//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+//               required
+//             />
 //           </div>
 //           <div>
 //             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message </label>
-//             <textarea value={emailForm.content} onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
-//               rows={10} placeholder="Bonjour,..."
+//             <textarea
+//               value={emailForm.content}
+//               onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
+//               rows={10}
+//               placeholder="Bonjour,..."
 //               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
-//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+//               required
+//             />
 //           </div>
 //           <div className="flex gap-3 pt-2">
-//             <button type="submit" disabled={sending || total === 0}
+//             <button
+//               type="submit"
+//               disabled={sending || total === 0}
 //               className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
-//               style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//               style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+//             >
 //               {sending ? <>Envoi en cours...</> : <>Envoyer à {total} abonné(s)</>}
 //             </button>
 //           </div>
 //         </form>
 //       </div>
 
+//       {/* Liste des abonnés */}
 //       {loading ? (
-//         <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
+//         <div className="flex justify-center py-12">
+//           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+//         </div>
 //       ) : subscribers.length === 0 ? (
 //         <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
 //           <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
@@ -2236,13 +2372,45 @@ function SettingsTab() {
 //         <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
 //           <table className="w-full text-sm">
 //             <thead style={{ backgroundColor: 'var(--muted)' }}>
-//               <tr><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th></tr>
+//               <tr>
+//                 <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th>
+//                 <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th>
+//                 <th className="text-right p-3" style={{ color: 'var(--foreground)' }}>Actions</th>
+//               </tr>
 //             </thead>
 //             <tbody>
 //               {subscribers.map((sub) => (
 //                 <tr key={sub.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
 //                   <td className="p-3" style={{ color: 'var(--foreground)' }}>{sub.email}</td>
-//                   <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>{new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}</td>
+//                   <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>
+//                     {new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}
+//                   </td>
+//                   <td className="p-3">
+//                     <div className="flex items-center justify-end gap-2">
+//                       {/* 🆕 Bouton Désinscrire (soft) */}
+//                       <button
+//                         onClick={() => handleUnsubscribe(sub.id, sub.email)}
+//                         disabled={deletingId === sub.id}
+//                         className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-medium disabled:opacity-50"
+//                         style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
+//                         title="Désinscrire (l'abonné reste en base mais inactif)"
+//                       >
+//                         <EyeOff className="h-3.5 w-3.5" />
+//                         Désinscrire
+//                       </button>
+
+//                       {/* 🆕 Bouton Supprimer (hard) */}
+//                       <button
+//                         onClick={() => handleDeleteSubscriber(sub.id, sub.email)}
+//                         disabled={deletingId === sub.id}
+//                         className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 text-xs font-medium disabled:opacity-50"
+//                         title="Supprimer définitivement"
+//                       >
+//                         <Trash2 className="h-3.5 w-3.5" />
+//                         Supprimer
+//                       </button>
+//                     </div>
+//                   </td>
 //                 </tr>
 //               ))}
 //             </tbody>
@@ -2255,8 +2423,6 @@ function SettingsTab() {
 //   );
 // }
 
-// ── NEWSLETTER gestion
-
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -2264,7 +2430,11 @@ function NewsletterTab() {
   const [total, setTotal] = useState(0);
   const [sending, setSending] = useState(false);
   const [emailForm, setEmailForm] = useState({ subject: '', content: '' });
-  const [deletingId, setDeletingId] = useState(null);   // 🆕 état pour bloquer le bouton pendant l'appel
+  const [deletingId, setDeletingId] = useState(null);
+
+  // 🆕 État pour la modale de confirmation
+  const [confirmDialog, setConfirmDialog] = useState(null);
+  // Structure : { title, message, confirmLabel, variant, onConfirm }
 
   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
 
@@ -2300,58 +2470,84 @@ function NewsletterTab() {
     URL.revokeObjectURL(url);
   };
 
-  // ── Envoi newsletter
+  // ── Envoi newsletter (avec modale)
   const handleSendNewsletter = async (e) => {
     e.preventDefault();
     if (!emailForm.subject || !emailForm.content) {
       showToast('Veuillez remplir le sujet et le contenu', 'error');
       return;
     }
-    if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
-    setSending(true);
-    try {
-      const res = await adminApi.post('/system/newsletter/send', {
-        subject: emailForm.subject,
-        content: emailForm.content,
-        isHtml: false,
-      });
-      showToast(res.data?.message || 'Newsletter envoyée avec succès !');
-      setEmailForm({ subject: '', content: '' });
-    } catch (error) {
-      showToast(error.response?.data?.message || "Erreur lors de l'envoi", 'error');
-    } finally {
-      setSending(false);
-    }
+
+    // 🆕 Ouvre la modale
+    setConfirmDialog({
+      title: 'Envoyer la newsletter',
+      message: `Vous êtes sur le point d'envoyer cette newsletter à ${total} abonné(s).\n\nCette action est irréversible.`,
+      confirmLabel: 'Envoyer',
+      variant: 'warning',
+      onConfirm: async () => {
+        setConfirmDialog(null);
+        setSending(true);
+        try {
+          const res = await adminApi.post('/system/newsletter/send', {
+            subject: emailForm.subject,
+            content: emailForm.content,
+            isHtml: false,
+          });
+          showToast(res.data?.message || 'Newsletter envoyée avec succès !');
+          setEmailForm({ subject: '', content: '' });
+        } catch (error) {
+          showToast(error.response?.data?.message || "Erreur lors de l'envoi", 'error');
+        } finally {
+          setSending(false);
+        }
+      },
+    });
   };
 
-  // 🆕 Désinscrire (soft delete : actif = FALSE)
-  const handleUnsubscribe = async (id, email) => {
-    if (!confirm(`Désinscrire "${email}" de la newsletter ?\n\nL'abonné sera masqué mais conservé en base.`)) return;
-    setDeletingId(id);
-    try {
-      await adminApi.patch(`/system/newsletter/subscribers/${id}/unsubscribe`);
-      showToast('Abonné désinscrit ✓');
-      fetchSubscribers();
-    } catch (error) {
-      showToast(error.response?.data?.message || 'Erreur lors de la désinscription', 'error');
-    } finally {
-      setDeletingId(null);
-    }
+  // ── Désinscrire (soft) avec modale
+  const handleUnsubscribe = (id, email) => {
+    setConfirmDialog({
+      title: 'Désinscrire cet abonné',
+      message: `Désinscrire "${email}" de la newsletter ?\n\nL'abonné sera masqué mais conservé en base.`,
+      confirmLabel: 'Désinscrire',
+      variant: 'warning',
+      onConfirm: async () => {
+        setConfirmDialog(null);
+        setDeletingId(id);
+        try {
+          await adminApi.patch(`/system/newsletter/subscribers/${id}/unsubscribe`);
+          showToast('Abonné désinscrit ✓');
+          fetchSubscribers();
+        } catch (error) {
+          showToast(error.response?.data?.message || 'Erreur lors de la désinscription', 'error');
+        } finally {
+          setDeletingId(null);
+        }
+      },
+    });
   };
 
-  // 🆕 Supprimer définitivement (hard delete)
-  const handleDeleteSubscriber = async (id, email) => {
-    if (!confirm(`Supprimer DÉFINITIVEMENT "${email}" ?\n\nCette action est irréversible.`)) return;
-    setDeletingId(id);
-    try {
-      await adminApi.delete(`/system/newsletter/subscribers/${id}`);
-      showToast('Abonné supprimé ✓');
-      fetchSubscribers();
-    } catch (error) {
-      showToast(error.response?.data?.message || 'Erreur lors de la suppression', 'error');
-    } finally {
-      setDeletingId(null);
-    }
+  // ── Supprimer (hard) avec modale
+  const handleDeleteSubscriber = (id, email) => {
+    setConfirmDialog({
+      title: 'Supprimer définitivement',
+      message: `Supprimer "${email}" ?\n\nCette action est IRRÉVERSIBLE. L'abonné ne pourra pas être restauré.`,
+      confirmLabel: 'Supprimer',
+      variant: 'danger',
+      onConfirm: async () => {
+        setConfirmDialog(null);
+        setDeletingId(id);
+        try {
+          await adminApi.delete(`/system/newsletter/subscribers/${id}`);
+          showToast('Abonné supprimé ✓');
+          fetchSubscribers();
+        } catch (error) {
+          showToast(error.response?.data?.message || 'Erreur lors de la suppression', 'error');
+        } finally {
+          setDeletingId(null);
+        }
+      },
+    });
   };
 
   return (
@@ -2442,7 +2638,6 @@ function NewsletterTab() {
                   </td>
                   <td className="p-3">
                     <div className="flex items-center justify-end gap-2">
-                      {/* 🆕 Bouton Désinscrire (soft) */}
                       <button
                         onClick={() => handleUnsubscribe(sub.id, sub.email)}
                         disabled={deletingId === sub.id}
@@ -2454,7 +2649,6 @@ function NewsletterTab() {
                         Désinscrire
                       </button>
 
-                      {/* 🆕 Bouton Supprimer (hard) */}
                       <button
                         onClick={() => handleDeleteSubscriber(sub.id, sub.email)}
                         disabled={deletingId === sub.id}
@@ -2473,11 +2667,21 @@ function NewsletterTab() {
         </div>
       )}
 
+      {/* 🆕 Modale de confirmation */}
+      <ConfirmModal
+        open={!!confirmDialog}
+        title={confirmDialog?.title}
+        message={confirmDialog?.message}
+        confirmLabel={confirmDialog?.confirmLabel}
+        variant={confirmDialog?.variant}
+        onConfirm={confirmDialog?.onConfirm}
+        onCancel={() => setConfirmDialog(null)}
+      />
+
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
-
 // COMPOSANT PRINCIPAL
 
 export default function ContentManage() {

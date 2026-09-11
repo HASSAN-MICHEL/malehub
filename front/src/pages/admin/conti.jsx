@@ -590,7 +590,7 @@ function JsonField({ value, onChange, schema, placeholder }) {
         style={{ ...iStyle, borderColor: isValid ? undefined : '#dc2626' }}
       />
       {!isValid && (
-        <p className="text-xs text-red-500">⚠️ JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
+        <p className="text-xs text-red-500"> JSON invalide. Vérifiez la syntaxe (guillemets, virgules).</p>
       )}
       {schema && getExampleForSchema() && (
         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
