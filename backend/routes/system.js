@@ -100,7 +100,7 @@ router.post('/theme/reset', protect, adminOnly, async (req, res) => {
    
     console.log(`🗑️ ${result.rows.length} thèmes supprimés:`, result.rows);
 
-// >>>>>>> 6d38489b49ac9927d6eea35fb0a1aa43d62bb4dc
+
     res.json({
       status: 'success',
       message: `${result.rows.length} thèmes supprimés`,
@@ -155,7 +155,6 @@ router.post('/announcements',         protect, adminOnly, miscCtrl.createAnnounc
 router.patch('/announcements/:id',    protect, adminOnly, miscCtrl.updateAnnouncement);
 router.delete('/announcements/:id',   protect, adminOnly, miscCtrl.deleteAnnouncement);
 
-// equipes
 
 //  lu par TeamSection/EventsPage côté client
 router.get('/team/public', miscCtrl.getPublicTeamMembers);
@@ -171,7 +170,8 @@ router.delete('/team/:id',   protect, adminOnly, miscCtrl.deleteTeamMember);
 
 // Newsletter (public)
 router.post('/newsletter/subscribe', miscCtrl.subscribeToNewsletter);
-
+router.delete('/newsletter/subscribers/:id', protect, adminOnly, miscCtrl.deleteNewsletterSubscriber);
+router.patch('/newsletter/subscribers/:id/unsubscribe', protect, staffAndAbove, miscCtrl.unsubscribeNewsletter);
 // Admin routes
 router.get('/newsletter/subscribers', protect, staffAndAbove, miscCtrl.getAllNewsletterSubscribers);
 router.get('/newsletter/count', protect, staffAndAbove, miscCtrl.getNewsletterCount);

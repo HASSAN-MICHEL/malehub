@@ -51,7 +51,14 @@ const THEME_CONFIG = [
   { key: 'borderRadius', label: 'Arrondi des bordures', type: 'spacing', default: '8px', hint: 'Arrondi des cartes et boutons', category: 'shapes' },
 ];
 
-// ── Configuration des blocs de contenu
+function safeText(value) {
+  if (typeof value === 'string') return value;
+  if (value == null) return '';
+  // objet/array inattendu -> on évite de le rendre tel quel
+  return '';
+}
+
+// Configuration des blocs de contenu
 const PAGE_BLOCKS = {
   home: [
     // Hero section
@@ -666,17 +673,26 @@ function MultilingualField({ value, onChange, type, placeholder, label, activeLa
   // Utiliser la langue sélectionnée globalement
   const currentLang = activeLang || 'fr';
 
-  //  CORRECTION : Récupérer la valeur pour la langue courante
+  // //  CORRECTION : Récupérer la valeur pour la langue courante
+  // const getValue = () => {
+  //   if (value && typeof value === 'object' && !Array.isArray(value)) {
+  //     return value[currentLang] || '';
+  //   }
+  //   // Si c'est déjà une chaîne, la retourner
+  //   if (typeof value === 'string') {
+  //     return value;
+  //   }
+  //   return '';
+  // };
+
   const getValue = () => {
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      return value[currentLang] || '';
-    }
-    // Si c'est déjà une chaîne, la retourner
-    if (typeof value === 'string') {
-      return value;
-    }
-    return '';
-  };
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    const v = value[currentLang] || value['fr'] || '';
+    return typeof v === 'string' ? v : '';
+  }
+  if (typeof value === 'string') return value;
+  return '';
+};
 
   const handleChange = (newValue) => {
     // Si la valeur actuelle est un objet, on met à jour la langue
@@ -876,20 +892,116 @@ function ContentTab({ selectedPage, onPageChange }) {
   const hasDirty = Object.values(contentBlocks).some(b => b.dirty);
   const currentBlocks = PAGE_BLOCKS[selectedPage] ?? [];
 
-  const renderBlock = (blockDef) => {
+//   const renderBlock = (blockDef) => {
+//   const { key, label, type, schema, hint, translatable } = blockDef;
+//   const block = contentBlocks[key];
+//   const textVal = block?.valeur_texte ?? '';
+//   const mediaVal = block?.media_url ?? '';
+  
+//   //  Pour l'affichage, on prend la bonne langue
+//   let displayValue = textVal;
+//   if (translatable && typeof textVal === 'object' && textVal !== null) {
+//     displayValue = textVal[selectedLang] || textVal['fr'] || '';
+//   }
+  
+//   const dispVal = type === 'image' ? (mediaVal || textVal) :
+//                  type === 'json' ? (typeof textVal === 'object' ? textVal : null) : displayValue;
+
+//   return (
+//     <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
+//       style={{ backgroundColor: 'var(--card)', borderColor: block?.dirty ? 'color-mix(in oklch, var(--primary) 60%, transparent)' : 'var(--border)' }}>
+//       <div className="flex items-start justify-between gap-2">
+//         <div>
+//           <div className="flex items-center gap-2">
+//             <label className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
+//               {label}
+//               {translatable && (
+//                 <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
+//                    {selectedLang === 'fr' ? 'FR' : 'EN'}
+//                 </span>
+//               )}
+//               {block?.dirty && (
+//                 <span className="ml-2 text-xs font-normal px-1.5 py-0.5 rounded"
+//                   style={{ backgroundColor: 'color-mix(in oklch, var(--primary) 15%, transparent)', color: 'var(--primary)' }}>
+//                   modifié
+//                 </span>
+//               )}
+//             </label>
+//           </div>
+//           {hint && <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{hint}</p>}
+//         </div>
+//         <code className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--muted)', color: 'var(--muted-foreground)' }}>{key}</code>
+//       </div>
+
+//       {type === 'text' && (
+//         translatable ? (
+//           //  PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
+//           <MultilingualField
+//             value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+//             onChange={v => handleTextChange(key, v)}
+//             type="text"
+//             placeholder={hint}
+//             label={label}
+//             activeLang={selectedLang}
+//             onLangChange={setSelectedLang}
+//           />
+//         ) : (
+//           <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+//         )
+//       )}
+      
+//       {type === 'textarea' && (
+//         translatable ? (
+//           <MultilingualField
+//             value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+//             onChange={v => handleTextChange(key, v)}
+//             type="textarea"
+//             placeholder={hint}
+//             label={label}
+//             activeLang={selectedLang}
+//             onLangChange={setSelectedLang}
+//           />
+//         ) : (
+//           <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+//         )
+//       )}
+      
+//       {type === 'image' && (
+//         <ImageField
+//           value={dispVal}
+//           onTextChange={v => handleTextChange(key, v)}
+//           onUpload={url => handleMediaChange(key, url)}
+//           placeholder={hint}
+//         />
+//       )}
+      
+//       {type === 'json' && (
+//         <JsonField
+//           value={textVal}
+//           onChange={v => handleTextChange(key, v)}
+//           schema={schema}
+//           placeholder={hint}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+const renderBlock = (blockDef) => {
   const { key, label, type, schema, hint, translatable } = blockDef;
   const block = contentBlocks[key];
   const textVal = block?.valeur_texte ?? '';
   const mediaVal = block?.media_url ?? '';
-  
-  //  Pour l'affichage, on prend la bonne langue
+
+  // Pour l'affichage multilingue
   let displayValue = textVal;
   if (translatable && typeof textVal === 'object' && textVal !== null) {
     displayValue = textVal[selectedLang] || textVal['fr'] || '';
   }
-  
-  const dispVal = type === 'image' ? (mediaVal || textVal) :
-                 type === 'json' ? (typeof textVal === 'object' ? textVal : null) : displayValue;
+
+  const dispVal = type === 'image' ? (mediaVal || safeText(textVal)) :
+                 type === 'json' ? (typeof textVal === 'object' ? textVal : null) :
+                 displayValue;
 
   return (
     <div key={key} className="rounded-xl p-5 border space-y-3 transition-all"
@@ -901,7 +1013,7 @@ function ContentTab({ selectedPage, onPageChange }) {
               {label}
               {translatable && (
                 <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">
-                   {selectedLang === 'fr' ? 'FR' : 'EN'}
+                  {selectedLang === 'fr' ? 'FR' : 'EN'}
                 </span>
               )}
               {block?.dirty && (
@@ -919,9 +1031,8 @@ function ContentTab({ selectedPage, onPageChange }) {
 
       {type === 'text' && (
         translatable ? (
-          //  PASSER LA VALEUR BRUTE (OBJET) À MultilingualField
           <MultilingualField
-            value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+            value={textVal}
             onChange={v => handleTextChange(key, v)}
             type="text"
             placeholder={hint}
@@ -930,14 +1041,18 @@ function ContentTab({ selectedPage, onPageChange }) {
             onLangChange={setSelectedLang}
           />
         ) : (
-          <TextField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+          <TextField
+            value={safeText(textVal)}
+            onChange={v => handleTextChange(key, v)}
+            placeholder={hint}
+          />
         )
       )}
-      
+
       {type === 'textarea' && (
         translatable ? (
           <MultilingualField
-            value={textVal}  // ← ici on passe l'objet complet, pas dispVal
+            value={textVal}
             onChange={v => handleTextChange(key, v)}
             type="textarea"
             placeholder={hint}
@@ -946,10 +1061,14 @@ function ContentTab({ selectedPage, onPageChange }) {
             onLangChange={setSelectedLang}
           />
         ) : (
-          <TextareaField value={textVal} onChange={v => handleTextChange(key, v)} placeholder={hint} />
+          <TextareaField
+            value={safeText(textVal)}
+            onChange={v => handleTextChange(key, v)}
+            placeholder={hint}
+          />
         )
       )}
-      
+
       {type === 'image' && (
         <ImageField
           value={dispVal}
@@ -958,7 +1077,7 @@ function ContentTab({ selectedPage, onPageChange }) {
           placeholder={hint}
         />
       )}
-      
+
       {type === 'json' && (
         <JsonField
           value={textVal}
@@ -970,7 +1089,6 @@ function ContentTab({ selectedPage, onPageChange }) {
     </div>
   );
 };
-
   return (
     <div className="space-y-5">
 
@@ -1065,7 +1183,7 @@ function ContentTab({ selectedPage, onPageChange }) {
   );
 }
 
-// ── THEME TAB ──
+// THEME gestion
 
 function ThemeTab({ selectedPage, onPageChange }) {
   const [theme, setTheme] = useState({});
@@ -1908,7 +2026,127 @@ function SettingsTab() {
   );
 }
 
-// ── NEWSLETTER TAB ─────
+// //  NEWSLETTER gestion
+
+// function NewsletterTab() {
+//   const [subscribers, setSubscribers] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [toast, setToast] = useState(null);
+//   const [total, setTotal] = useState(0);
+//   const [sending, setSending] = useState(false);
+//   const [emailForm, setEmailForm] = useState({ subject: '', content: '' });
+
+//   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
+
+//   const fetchSubscribers = async () => {
+//     setLoading(true);
+//     try {
+//       const res = await adminApi.get('/system/newsletter/subscribers');
+//       setSubscribers(res.data?.data?.subscribers || []);
+//       const countRes = await adminApi.get('/system/newsletter/count');
+//       setTotal(countRes.data?.data?.total || 0);
+//     } catch { showToast('Erreur chargement', 'error'); }
+//     finally { setLoading(false); }
+//   };
+
+//   useEffect(() => { fetchSubscribers(); }, []);
+
+//   const exportSubscribers = () => {
+//     const csv = [['Email', "Date d'inscription"], ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])].map(row => row.join(',')).join('\n');
+//     const blob = new Blob([csv], { type: 'text/csv' });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement('a');
+//     a.href = url;
+//     a.download = `newsletter-subscribers-${Date.now()}.csv`;
+//     a.click();
+//     URL.revokeObjectURL(url);
+//   };
+
+//   const handleSendNewsletter = async (e) => {
+//     e.preventDefault();
+//     if (!emailForm.subject || !emailForm.content) { showToast('Veuillez remplir le sujet et le contenu', 'error'); return; }
+//     if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
+//     setSending(true);
+//     try {
+//       const res = await adminApi.post('/system/newsletter/send', { subject: emailForm.subject, content: emailForm.content, isHtml: false });
+//       showToast(res.data?.message || 'Newsletter envoyée avec succès !');
+//       setEmailForm({ subject: '', content: '' });
+//     } catch (error) { showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error'); }
+//     finally { setSending(false); }
+//   };
+
+//   return (
+//     <div className="space-y-5">
+//       <div className="flex items-center justify-between">
+//         <div>
+//           <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Newsletter</h2>
+//           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{total} abonné(s) actif(s)</p>
+//         </div>
+//         <button onClick={exportSubscribers} disabled={subscribers.length === 0}
+//           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+//           style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//           Exporter CSV
+//         </button>
+//       </div>
+
+//       <div className="rounded-xl border p-6 space-y-4" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+//         <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Envoyer une newsletter</h3>
+//         <form onSubmit={handleSendNewsletter} className="space-y-4">
+//           <div>
+//             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet </label>
+//             <input type="text" value={emailForm.subject} onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+//               placeholder="Ex: Nouveaux événements chez Malea Hub"
+//               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
+//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+//           </div>
+//           <div>
+//             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message </label>
+//             <textarea value={emailForm.content} onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
+//               rows={10} placeholder="Bonjour,..."
+//               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
+//               style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+//           </div>
+//           <div className="flex gap-3 pt-2">
+//             <button type="submit" disabled={sending || total === 0}
+//               className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+//               style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+//               {sending ? <>Envoi en cours...</> : <>Envoyer à {total} abonné(s)</>}
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+
+//       {loading ? (
+//         <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
+//       ) : subscribers.length === 0 ? (
+//         <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+//           <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
+//           <p style={{ color: 'var(--muted-foreground)' }}>Aucun abonné pour le moment.</p>
+//         </div>
+//       ) : (
+//         <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
+//           <table className="w-full text-sm">
+//             <thead style={{ backgroundColor: 'var(--muted)' }}>
+//               <tr><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th></tr>
+//             </thead>
+//             <tbody>
+//               {subscribers.map((sub) => (
+//                 <tr key={sub.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
+//                   <td className="p-3" style={{ color: 'var(--foreground)' }}>{sub.email}</td>
+//                   <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>{new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}</td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       )}
+
+//       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+//     </div>
+//   );
+// }
+
+// ── NEWSLETTER gestion
 
 function NewsletterTab() {
   const [subscribers, setSubscribers] = useState([]);
@@ -1917,9 +2155,11 @@ function NewsletterTab() {
   const [total, setTotal] = useState(0);
   const [sending, setSending] = useState(false);
   const [emailForm, setEmailForm] = useState({ subject: '', content: '' });
+  const [deletingId, setDeletingId] = useState(null);   // 🆕 état pour bloquer le bouton pendant l'appel
 
   const showToast = (msg, type = 'success') => setToast({ message: msg, type });
 
+  // ── Charger abonnés + count
   const fetchSubscribers = async () => {
     setLoading(true);
     try {
@@ -1927,14 +2167,21 @@ function NewsletterTab() {
       setSubscribers(res.data?.data?.subscribers || []);
       const countRes = await adminApi.get('/system/newsletter/count');
       setTotal(countRes.data?.data?.total || 0);
-    } catch { showToast('Erreur chargement', 'error'); }
-    finally { setLoading(false); }
+    } catch {
+      showToast('Erreur chargement', 'error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { fetchSubscribers(); }, []);
 
+  // ── Export CSV
   const exportSubscribers = () => {
-    const csv = [['Email', "Date d'inscription"], ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])].map(row => row.join(',')).join('\n');
+    const csv = [
+      ['Email', "Date d'inscription"],
+      ...subscribers.map(s => [s.email, new Date(s.subscribed_at).toLocaleDateString('fr-FR')])
+    ].map(row => row.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1944,62 +2191,124 @@ function NewsletterTab() {
     URL.revokeObjectURL(url);
   };
 
+  // ── Envoi newsletter
   const handleSendNewsletter = async (e) => {
     e.preventDefault();
-    if (!emailForm.subject || !emailForm.content) { showToast('Veuillez remplir le sujet et le contenu', 'error'); return; }
+    if (!emailForm.subject || !emailForm.content) {
+      showToast('Veuillez remplir le sujet et le contenu', 'error');
+      return;
+    }
     if (!confirm(`Envoyer cette newsletter à ${total} abonné(s) ?`)) return;
     setSending(true);
     try {
-      const res = await adminApi.post('/system/newsletter/send', { subject: emailForm.subject, content: emailForm.content, isHtml: false });
+      const res = await adminApi.post('/system/newsletter/send', {
+        subject: emailForm.subject,
+        content: emailForm.content,
+        isHtml: false,
+      });
       showToast(res.data?.message || 'Newsletter envoyée avec succès !');
       setEmailForm({ subject: '', content: '' });
-    } catch (error) { showToast(error.response?.data?.message || 'Erreur lors de l\'envoi', 'error'); }
-    finally { setSending(false); }
+    } catch (error) {
+      showToast(error.response?.data?.message || "Erreur lors de l'envoi", 'error');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // 🆕 Désinscrire (soft delete : actif = FALSE)
+  const handleUnsubscribe = async (id, email) => {
+    if (!confirm(`Désinscrire "${email}" de la newsletter ?\n\nL'abonné sera masqué mais conservé en base.`)) return;
+    setDeletingId(id);
+    try {
+      await adminApi.patch(`/system/newsletter/subscribers/${id}/unsubscribe`);
+      showToast('Abonné désinscrit ✓');
+      fetchSubscribers();
+    } catch (error) {
+      showToast(error.response?.data?.message || 'Erreur lors de la désinscription', 'error');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  // 🆕 Supprimer définitivement (hard delete)
+  const handleDeleteSubscriber = async (id, email) => {
+    if (!confirm(`Supprimer DÉFINITIVEMENT "${email}" ?\n\nCette action est irréversible.`)) return;
+    setDeletingId(id);
+    try {
+      await adminApi.delete(`/system/newsletter/subscribers/${id}`);
+      showToast('Abonné supprimé ✓');
+      fetchSubscribers();
+    } catch (error) {
+      showToast(error.response?.data?.message || 'Erreur lors de la suppression', 'error');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   return (
     <div className="space-y-5">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>Newsletter</h2>
           <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>{total} abonné(s) actif(s)</p>
         </div>
-        <button onClick={exportSubscribers} disabled={subscribers.length === 0}
+        <button
+          onClick={exportSubscribers}
+          disabled={subscribers.length === 0}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
-          style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+          style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+        >
           Exporter CSV
         </button>
       </div>
 
+      {/* Formulaire d'envoi */}
       <div className="rounded-xl border p-6 space-y-4" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
         <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>Envoyer une newsletter</h3>
         <form onSubmit={handleSendNewsletter} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Sujet </label>
-            <input type="text" value={emailForm.subject} onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
+            <input
+              type="text"
+              value={emailForm.subject}
+              onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
               placeholder="Ex: Nouveaux événements chez Malea Hub"
               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
-              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+              required
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1" style={{ color: 'var(--foreground)' }}>Message </label>
-            <textarea value={emailForm.content} onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
-              rows={10} placeholder="Bonjour,..."
+            <textarea
+              value={emailForm.content}
+              onChange={(e) => setEmailForm({ ...emailForm, content: e.target.value })}
+              rows={10}
+              placeholder="Bonjour,..."
               className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2"
-              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }} required />
+              style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
+              required
+            />
           </div>
           <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={sending || total === 0}
+            <button
+              type="submit"
+              disabled={sending || total === 0}
               className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
-              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>
+              style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+            >
               {sending ? <>Envoi en cours...</> : <>Envoyer à {total} abonné(s)</>}
             </button>
           </div>
         </form>
       </div>
 
+      {/* Liste des abonnés */}
       {loading ? (
-        <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+        </div>
       ) : subscribers.length === 0 ? (
         <div className="text-center py-12 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
           <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--muted-foreground)' }} />
@@ -2009,13 +2318,45 @@ function NewsletterTab() {
         <div className="rounded-xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
           <table className="w-full text-sm">
             <thead style={{ backgroundColor: 'var(--muted)' }}>
-              <tr><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th><th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th></tr>
+              <tr>
+                <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Email</th>
+                <th className="text-left p-3" style={{ color: 'var(--foreground)' }}>Date d'inscription</th>
+                <th className="text-right p-3" style={{ color: 'var(--foreground)' }}>Actions</th>
+              </tr>
             </thead>
             <tbody>
               {subscribers.map((sub) => (
                 <tr key={sub.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
                   <td className="p-3" style={{ color: 'var(--foreground)' }}>{sub.email}</td>
-                  <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>{new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}</td>
+                  <td className="p-3" style={{ color: 'var(--muted-foreground)' }}>
+                    {new Date(sub.subscribed_at).toLocaleDateString('fr-FR')}
+                  </td>
+                  <td className="p-3">
+                    <div className="flex items-center justify-end gap-2">
+                      {/* 🆕 Bouton Désinscrire (soft) */}
+                      <button
+                        onClick={() => handleUnsubscribe(sub.id, sub.email)}
+                        disabled={deletingId === sub.id}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-medium disabled:opacity-50"
+                        style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
+                        title="Désinscrire (l'abonné reste en base mais inactif)"
+                      >
+                        <EyeOff className="h-3.5 w-3.5" />
+                        Désinscrire
+                      </button>
+
+                      {/* 🆕 Bouton Supprimer (hard) */}
+                      <button
+                        onClick={() => handleDeleteSubscriber(sub.id, sub.email)}
+                        disabled={deletingId === sub.id}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 text-xs font-medium disabled:opacity-50"
+                        title="Supprimer définitivement"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        Supprimer
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -2028,7 +2369,7 @@ function NewsletterTab() {
   );
 }
 
-// ── COMPOSANT PRINCIPAL ──
+// COMPOSANT PRINCIPAL
 
 export default function ContentManage() {
   const [activeTab, setActiveTab] = useState('content');

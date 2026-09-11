@@ -10,23 +10,39 @@ export function JobsWeekSection() {
   const { get, getJSON } = useContent('home');
 
 
-//  const jobsWeekPrice    = setting('jobs_week_price', '30000' );
-//const jobsWeekQuota    = setting('jobs_week_quota', '10');
-//  const jobsWeekOpen     = setting('jobs_week_open', 'true') === 'true';
-//  const waGeneral        = setting('whatsapp_general', '237678111022');
   const waGeneral = setting('whatsapp_general', '237678111022');
 
+  const asString = (val, fallback = '') => {
+  if (val === null || val === undefined) return fallback;
+  if (typeof val === 'object' && !Array.isArray(val)) {
+    return val.fr ?? val.en ?? fallback;
+  }
+  return String(val);
+};
+
+const asBool = (val, fallback = true) => {
+  if (val === null || val === undefined) return fallback;
+  if (typeof val === 'object' && !Array.isArray(val)) {
+    val = val.fr ?? val.en;
+  }
+  return String(val).toLowerCase() === 'true';
+};
+
+const jobsWeekPrice = asString(get('jobsweek_price', undefined), setting('jobs_week_price', '30000'));
+const jobsWeekQuota = asString(get('jobsweek_quota', undefined), setting('jobs_week_quota', '10'));
+const jobsWeekOpen  = asBool(get('jobsweek_open', undefined), setting('jobs_week_open', 'true') === 'true');
+
   // PRIORITÉ AU CMS (get) AVEC FALLBACK SUR SETTINGS
-  const cmsPrice = get('jobsweek_price', null);
-  const cmsQuota = get('jobsweek_quota', null);
+  // const cmsPrice = get('jobsweek_price', null);
+  // const cmsQuota = get('jobsweek_quota', null);
   const cmsOpen = get('jobsweek_open', null);
 
-  const jobsWeekPrice = get('jobsweek_price', setting('jobs_week_price', '30000'));
+//   const jobsWeekPrice = get('jobsweek_price', setting('jobs_week_price', '30000'));
 
-// Quota : CMS en priorité, sinon settings
-  const jobsWeekQuota = get('jobsweek_quota', setting('jobs_week_quota', '10'));
+// // Quota : CMS en priorité, sinon settings
+//   const jobsWeekQuota = get('jobsweek_quota', setting('jobs_week_quota', '10'));
 
-  const jobsWeekOpen = cmsOpen !== null ? cmsOpen === 'true' || cmsOpen === true : setting('jobs_week_open', 'true') === 'true';
+//   const jobsWeekOpen = cmsOpen !== null ? cmsOpen === 'true' || cmsOpen === true : setting('jobs_week_open', 'true') === 'true';
 
   const badge          = get('jobsweek_badge', t('jobsWeek.badge'));
   const title          = get('jobsweek_title', t('jobsWeek.title'));
